@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <nav class="navbar">
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 fs-3 h1">YETA</span>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <h1 class="text-center">Registrate</h1>
+      <form class="row justify-content-center">
+        <div class="col-md-5">
+          <div class="mb-3 text-center">
+            <input type="file" class="form-control-file" id="imagen" name="imagen" style="display: none;"
+              onchange="mostrarImagen(event)">
+            <div onclick="document.getElementById('imagen').click()"
+              class="form-group rounded-circle overflow-hidden m-auto" style="width: 100px; height: 100px;">
+              <img id="vista-previa" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="Vista previa de la imagen" style="max-width: 100px; cursor: pointer;">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="usuario" class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="usuario">
+          </div>
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre">
+          </div>
+          <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+          <div class="mb-3">
+            <label for="repetir-password" class="form-label">Repetir Password</label>
+            <input type="password" class="form-control" id="repetir-password">
+          </div>
+          <div class="mb-3">
+            <label for="nacimiento" class="form-label">Nacimiento</label>
+            <input type="date" id="nacimiento" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="sexo" class="form-label">Sexo</label>
+            <select class="form-select" name="sexo" id="sexo">
+              <option selected>-----</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="sin cargar">Prefiero no cargarlo</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <div class="form-group">
+              <label for="pais">País:</label>
+              <input type="text" class="form-control" id="pais" placeholder="Selecciona un país">
+              <label for="provincia">Provincia:</label>
+              <input type="text" class="form-control" id="provincia" placeholder="Selecciona una provincia">
+              <div id="map" style="height: 180px;"></div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <p class="mb-3">¿Ya tenes una cuenta? <a class="link-success " href="index.php">Login</a></p>
+        </div>
+      </form>
+    </main>
+
+  </div>
+  <!--Input imagen usuario-->
+  <script>
+    function mostrarImagen(event) {
+      let archivo = event.target.files[0];
+      let vistaPrevia = document.getElementById("vista-previa")
+
+      let lector = new FileReader()
+      lector.onload = function (e) {
+        vistaPrevia.src = e.target.result
+      };
+
+      lector.readAsDataURL(archivo)
+    }
+  </script>
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+
+  <script>
+    let paisInput = document.getElementById('pais');
+    let provinciaInput = document.getElementById('provincia');
+    let map = L.map('map').setView([51.505, -0.09], 13)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map)
+
+
+  
+    function onMapClick(e) {
+      var lat = e.latlng.lat
+      var lng = e.latlng.lng
+      
+      // Realizar solicitud de geocodificación inversa a la API de Nominatim
+      let url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng
+      
+      fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        var country = data.address.country
+        var province = data.address.state
+        
+        paisInput.value = country
+        provinciaInput.value = province
+
+        
+      })
+      .catch(error => {
+        console.log('Error al obtener la información del país y provincia:', error)
+      })
+    }
+    map.on('click', onMapClick)
+  </script>
+</body>
+
+</html>
