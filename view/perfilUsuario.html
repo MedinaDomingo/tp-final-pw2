@@ -16,7 +16,9 @@
 </head>
 
 <body>
-    <svg width="1900" height="245" viewBox="0 0 1900 245" fill="none" xmlns="http://www.w3.org/2000/svg" class="bg-svg">
+
+    <svg width="100vw" height="245" viewBox="0 0 1900 245" fill="none" xmlns="http://www.w3.org/2000/svg"
+        class="bg-svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
             d="M1899.9 155.29C1899.9 196.288 1861.51 226.466 1821.67 216.787C1743.45 197.784 1586.99 164.527 1422.72 178.78C1266.27 188.282 1109.81 245.293 953.361 240.542C789.086 235.791 632.633 164.527 476.181 159.776C319.728 155.025 163.275 212.036 77.2264 240.542C39.2144 254.394 -0.999996 226.247 -0.99987 185.789L-0.99986 78.2261C-0.999856 35.0229 34.0233 -0.000301832 77.2266 -0.000298376C163.276 -0.000291494 319.728 -0.00027898 476.181 -0.000266466C632.633 -0.000253952 789.086 -0.000241438 953.361 -0.000228298C1109.81 -0.000215784 1266.27 -0.00020327 1422.72 -0.000190756C1586.99 -0.000177616 1743.45 -0.000165102 1821.67 -0.000158845C1864.88 -0.000155389 1899.9 35.0229 1899.9 78.2262L1899.9 155.29Z"
             fill="url(#paint0_linear_18_59)" style="mix-blend-mode:soft-light" />
@@ -28,7 +30,6 @@
             </linearGradient>
         </defs>
     </svg>
-
 
     <header>
         <nav class="navbar">
@@ -76,6 +77,45 @@
                 </button>
             </div>
 
+        </div>
+
+        <div class="user-stats row justify-content-around gap-2 mt-4">
+
+            <div class="stats-container col-auto">
+                <div class="stats-container-header">
+                    <h3 class="text-center text-white">Desempeno por categoria</h3>
+                </div>
+
+                <div class="user-stats-categories d-flex flex-column gap-2">
+
+                    <div class="category row py-2">
+                        <i class="fa-solid fa-flask col-auto stat-icon text-green"></i>
+                        <p class="col-2 mb-0">Ciencia</p>
+                        <p class="col-2 mb-0">50%</p>
+                        <p class="col-auto mb-0">Preguntas Totales: {{total_science}}</p>
+                    </div>
+
+                    <div class="category row py-2">
+                        <i class="fa-solid fa-shield-halved col-auto stat-icon mb-0 text-orange"></i>
+                        <p class="col-2 mb-0">Historia</p>
+                        <p class="col-2 mb-0">50%</p>
+                        <p class="col-auto mb-0">Preguntas Totales: {{total_history}}</p>
+                    </div>
+                    
+                    <div class="category row mb-2 py-2">
+                        <i class="fa-solid fa-earth-americas col-auto stat-icon mb-0 text-blue"></i>
+                        <p class="col-2 mb-0">Geografia</p>
+                        <p class="col-2 mb-0">50%</p>
+                        <p class="col-auto mb-0">Preguntas Totales: {{total_geo}}</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <iframe class="col-auto w-50"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5518.566872908628!2d-58.56185866592053!3d-34.67087531908827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sar!4v1684970273576!5m2!1ses!2sar"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
     </main>
