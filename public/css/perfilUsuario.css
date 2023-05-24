@@ -1,0 +1,53 @@
+body {
+    background-color: #DE48B4;
+}
+
+.bg-svg {
+    position: absolute;
+}
+
+.user-data {
+    padding: 1rem;
+    background-color: #756be8;
+    width: 90vw;
+    margin: auto;
+    border-radius: 65px;
+}
+
+.user-data img {
+    width: 15rem;
+    height: 13rem;
+    border: 0.3rem solid black;
+    border-radius: 65px;
+    z-index: 2;
+}
+
+.user-data p,
+.user-data h3 {
+    color: white;
+}
+
+.btn-custom-profile {
+    position: relative;
+    width: 9em;
+    height: 9em;
+    background-color: rgba(255, 255, 255, 0.808);
+    font-weight: bold;
+    border-radius: 50px;
+    border: 0.3rem solid rgba(31, 31, 31, 0.808);
+}
+
+.btn-custom-profile p,
+.btn-custom-profile i {
+    color: #00B9AE;
+}
+
+.btn-custom-profile i{
+    font-size: 4.5rem;
+}
+
+.btn-custom-profile:hover {
+    background-color: rgba(219, 219, 219, 0.808);
+    border: 0.3rem solid rgba(31, 31, 31, 0.808);
+    cursor: pointer;
+}
