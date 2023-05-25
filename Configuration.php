@@ -6,6 +6,8 @@ include_once('helpers/Router.php');
 include_once ('controller/LoginController.php');
 include_once ('controller/RegistroController.php');
 
+include_once ('model/RegistroModel.php');
+
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
 
@@ -18,7 +20,7 @@ class Configuration {
         return new LoginController($this->getRenderer());
     }
     public function getRegistroController() {
-        return new RegistroController($this->getRenderer());
+        return new RegistroController(new RegistroModel($this->getDatabase()),$this->getRenderer());
     }
 
     private function getArrayConfig() {

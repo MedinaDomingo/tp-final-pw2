@@ -1,12 +1,10 @@
 <?php
 
-class EmailException
+class EmailException extends Exception
 {
 
-    /**
-     * @param string $string
-     */
-    public function __construct(string $string)
+    public function __construct($mensaje)
     {
+        parent::__construct($mensaje);
     }
 }

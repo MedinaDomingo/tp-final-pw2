@@ -275,8 +275,13 @@ class Mustache_Parser
      */
     private function checkIfTokenIsAllowedInParent($parent, array $token)
     {
-        if ($parent[Mustache_Tokenizer::TYPE] === Mustache_Tokenizer::T_PARENT) {
+        /*Original
+         * if ($parent[Mustache_Tokenizer::TYPE] === Mustache_Tokenizer::T_PARENT) {
             throw new Mustache_Exception_SyntaxException('Illegal content in < parent tag', $token);
+        }*/
+        if ($parent && $parent[Mustache_Tokenizer::TYPE] === Mustache_Tokenizer::T_PARENT){
+            throw new Mustache_Exception_SyntaxException('Illegal content in < parent tag', $token);
+
         }
     }
 

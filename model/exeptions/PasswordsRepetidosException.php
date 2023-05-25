@@ -1,6 +1,9 @@
 <?php
 
-class PasswordsRepetidosException
+class PasswordsRepetidosException extends Exception
 {
-
+    public function __construct($mensaje)
+    {
+        parent::__construct($mensaje);
+    }
 }

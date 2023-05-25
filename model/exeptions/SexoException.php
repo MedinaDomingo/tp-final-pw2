@@ -1,6 +1,6 @@
 <?php
 
-class SexoExeption extends Exception
+class SexoException extends Exception
 {
 
     public function __construct($mensaje)

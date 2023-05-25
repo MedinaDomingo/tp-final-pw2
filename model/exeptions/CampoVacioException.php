@@ -1,6 +1,6 @@
 <?php
 
-class CampoVacioExeption extends Exception
+class CampoVacioException extends Exception
 {
     private $campo;
     public function __construct($mensaje, $campo)
