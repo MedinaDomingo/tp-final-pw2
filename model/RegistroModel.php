@@ -29,14 +29,10 @@ class RegistroModel
         $provincia = $_POST['provincia'];
         $sexo = $_POST['sexo'];
         $nacimiento = $_POST['nacimiento'];
-        $imagen = $_POST['imagen'];
+        $imagen = $_FILES['imagen'];
 
-       try {
-            $this->validarCampoVacio($imagen, 'Imagen');
-            $validos['imagen'] = $imagen;
-        }catch(CampoVacioException $e){
-            $errores[$e->getCampo()] = $e->getMessage();
-        }
+        $validos["imagen"] = $imagen;
+
         try {
             $this->validarCampoVacio($usuario, 'Usuario');
             $validos['usuario'] = $usuario;
@@ -81,6 +77,7 @@ class RegistroModel
         }
         try {
             $this->validarPassword($password);
+            $validos['password'] = $password;
         }catch(PasswordException $e){
             $errores['password'] = $e->getMessage();
         }
@@ -91,20 +88,24 @@ class RegistroModel
         }
         try {
             $this->validarSexo($sexo);
+            $validos['sexo'] = $sexo;
         }catch(SexoException $e){
             $errores['sexo'] = $e->getMessage();
         }
         try {
             $this->validarNacimiento($nacimiento);
+            $validos['nacimiento'] = $nacimiento;
         }catch(NacimientoException $e){
             $errores['nacimiento-rango'] = $e->getMessage();
         }
 
-        if(!empty($errores)) {
+        if(empty($errores)) {
+            $this->persistirDatos($validos);
             return ['errores' => $errores, 'valido' => $validos];
         }
-
-        return 0;
+        $validos['codigo'] = $this->generarCdigo();
+        $this->mandarCdigo($validos['codigo']);
+        return "login";
 
     }
 
@@ -148,5 +149,50 @@ class RegistroModel
         if ($nacimiento > $hoy) {
             throw new NacimientoException("La fecha de nacimiento no puede ser mayor a la fecha actual");
         }
+    }
+
+    private function persistirDatos($validos)
+    {
+        $passHash = $this->hashearPassword($validos['password']);
+
+        $sql = "INSERT INTO usuario (`foto_perfil`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $sentencia = $this->database->getConnection()->prepare($sql);
+
+        $sentencia->bind_param("sssssssss",
+            $validos['imagen'],
+            $validos['nombre'],
+            $validos['apellido'],
+            $validos['email'],
+            $passHash,
+            $validos['nacimiento'],
+            $validos['sexo'],
+            $validos['pais'],
+            $validos['provincia']
+        );
+
+
+        if ($sentencia->execute()) {
+            echo "Datos insertados correctament";
+        } else {
+            echo "Error al insertar datos: " . $sentencia->error;
+        }
+
+    }
+
+    public function hashearPassword($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);;
+    }
+
+    private function generarCdigo()
+    {
+        $codigo = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
+        return $codigo;
+    }
+
+    private function mandarCdigo(string $codigo)
+    {
+
     }
 }
