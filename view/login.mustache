@@ -25,19 +25,19 @@
 
     <main>
       <h1 class="text-center">Iniciar Sesión</h1>
-      <form class="row justify-content-center" action="login/iniciarSesion" method="post">
+      <form class="row justify-content-center" action="/login/iniciarSesion" method="post">
         <div class="col-md-5">
           <div class="mb-3 text-center">
 
           </div>
           <div class="mb-3">
             <label for="usuario" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="usuario" name="usuario">
+            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="alf">
           </div>
 
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control" id="password" name="password" placeholder="aA1!">
           </div>
             <p class="text-danger fs-6 text">{{mensaje}}</p>
           <input type="submit" class="btn btn-primary">

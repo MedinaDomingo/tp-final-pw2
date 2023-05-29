@@ -21,8 +21,6 @@ class loginModel
 
         $usuarioQuey = $this->database->query($sql);
 
-
-
         if (password_verify($password, $usuarioQuey[0]['password'])) {
             return $this->validarActivo($usuarioQuey[0]);
         } else {

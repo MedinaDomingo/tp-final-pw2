@@ -31,8 +31,13 @@ class RegistroModel
         $nacimiento = $_POST['nacimiento'];
         $imagen = $_FILES['imagen']['tmp_name'];
 
-        $validos["imagen"] = $imagen;
 
+        try {
+            $this->validarCampoVacio($imagen, 'Imagen');
+            $validos["imagen"] = $imagen;
+        }catch(CampoVacioException $e){
+            $errores[$e->getCampo()] = $e->getMessage();
+        }
         try {
             $this->validarCampoVacio($usuario, 'Usuario');
             $validos['usuario'] = $usuario;
