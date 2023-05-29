@@ -18,29 +18,29 @@
       <nav class="navbar">
         
         <div class="container-fluid">
-          <span class="navbar-brand mb-0 fs-3 h1">YETA</span>
+          <a href="/" class="navbar-brand mb-0 fs-3 h1">YETA</a>
         </div>
       </nav>
     </header>
 
     <main>
       <h1 class="text-center">Iniciar Sesión</h1>
-      <form class="row justify-content-center">
+      <form class="row justify-content-center" action="login/iniciarSesion" method="post">
         <div class="col-md-5">
           <div class="mb-3 text-center">
 
           </div>
           <div class="mb-3">
             <label for="usuario" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="usuario">
+            <input type="text" class="form-control" id="usuario" name="usuario">
           </div>
 
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password">
+            <input type="password" class="form-control" id="password" name="password">
           </div>
-
-          <button type="submit" class="btn btn-primary">Submit</button>
+            <p class="text-danger fs-6 text">{{mensaje}}</p>
+          <input type="submit" class="btn btn-primary">
           <a href="/registro/mostrarRegistro" class="btn btn-success">Resgistrate</a>
         </div>
       </form>

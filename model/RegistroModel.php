@@ -29,7 +29,7 @@ class RegistroModel
         $provincia = $_POST['provincia'];
         $sexo = $_POST['sexo'];
         $nacimiento = $_POST['nacimiento'];
-        $imagen = $_FILES['imagen'];
+        $imagen = $_FILES['imagen']['tmp_name'];
 
         $validos["imagen"] = $imagen;
 
@@ -100,12 +100,13 @@ class RegistroModel
         }
 
         if(empty($errores)) {
+
             $this->persistirDatos($validos);
             return ['errores' => $errores, 'valido' => $validos];
         }
         $validos['codigo'] = $this->generarCdigo();
         $this->mandarCdigo($validos['codigo']);
-        return "login";
+        return ['errores' => $errores, 'valido' => $validos];
 
     }
 
@@ -125,7 +126,7 @@ class RegistroModel
     {
         $regexPass = '/^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$)(?=.*[;:\.,!¡\?¿@#\$%\^&\-_+=\(\)\[\]\{\}])).{4,20}$/';
         if(!preg_match($regexPass, $password)){
-            throw new PasswordException("La contraseña debe contener al menos un dígito, una letra minúscula, una letra mayúscula, no contener espacios en blanco, al menos un carácter especial, y tener una longitud entre 8 y 20 caracteres");
+            throw new PasswordException("La contraseña debe contener al menos un dígito, una letra minúscula, una letra mayúscula, no contener espacios en blanco, al menos un carácter especial, y tener una longitud entre 4 y 20 caracteres");
         }
     }
     private function validarPasswordsRepetidos($password, $passwordRepetido)
@@ -154,13 +155,14 @@ class RegistroModel
     private function persistirDatos($validos)
     {
         $passHash = $this->hashearPassword($validos['password']);
-
-        $sql = "INSERT INTO usuario (`foto_perfil`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $imagen = file_get_contents($validos['imagen']);
+        $sql = "INSERT INTO usuario (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $sentencia = $this->database->getConnection()->prepare($sql);
 
-        $sentencia->bind_param("sssssssss",
-            $validos['imagen'],
+        $sentencia->bind_param("ssssssssss",
+            $imagen,
+            $validos['usuario'],
             $validos['nombre'],
             $validos['apellido'],
             $validos['email'],
@@ -172,19 +174,15 @@ class RegistroModel
         );
 
 
-        if ($sentencia->execute()) {
-            echo "Datos insertados correctament";
-        } else {
-            echo "Error al insertar datos: " . $sentencia->error;
-        }
+        $sentencia->execute();
 
     }
 
     public function hashearPassword($password)
     {
-        return password_hash($password, PASSWORD_DEFAULT);;
+        return password_hash($password, PASSWORD_DEFAULT);
+        //return md5($password);
     }
-
     private function generarCdigo()
     {
         $codigo = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);

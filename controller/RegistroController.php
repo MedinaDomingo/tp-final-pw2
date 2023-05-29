@@ -17,7 +17,7 @@ class RegistroController
     public function validarRegistro(){
         $errores = $this->registroModel->validarCampos();
 
-        $this->renderer->render('registro');
+        $this->renderer->render('registro', $errores);
 
 
 

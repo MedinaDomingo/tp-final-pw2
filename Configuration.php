@@ -7,6 +7,7 @@ include_once ('controller/LoginController.php');
 include_once ('controller/RegistroController.php');
 
 include_once ('model/RegistroModel.php');
+include_once('model/LoginModel.php');
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
 
@@ -17,7 +18,7 @@ class Configuration {
     public function __construct() {
     }
     public function getLoginController() {
-        return new LoginController($this->getRenderer());
+        return new LoginController(new loginModel($this->getDatabase()), $this->getRenderer());
     }
     public function getRegistroController() {
         return new RegistroController(new RegistroModel($this->getDatabase()),$this->getRenderer());
