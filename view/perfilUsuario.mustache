@@ -31,20 +31,13 @@
         </defs>
     </svg>
 
-    <header>
-        <nav class="navbar">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 fs-3 h1">YETA</span>
-                <i class="fa-solid fa-bars" id="h-menu"></i>
-            </div>
-        </nav>
-    </header>
+    {{> nav}}
 
     <main>
 
         <div class="user-data row justify-content-center gap-2">
             <div class="col-auto d-flex flex-column justify-content-center text-center">
-                <img src="/public/img/testProfilePicture.jpg" alt="profilePic">
+                <img src="{{foto_perfil}}" alt="profilePic">
                 <div class="">
                     <p class="m-0">120 Puntos</p>
                     <p class="m-0">50 Partidas</p>
@@ -52,7 +45,7 @@
             </div>
 
             <div class="col-auto pt-4">
-                <h3>Batman Casero</h3>
+                <h3>{{nombre_u}}</h3>
                 <p class="m-0">45 Ganadas</p>
                 <p class="m-0">5 Perdidas</p>
                 <p class="m-0">0 Empatadas</p>
@@ -101,7 +94,7 @@
                         <p class="col-2 mb-0">50%</p>
                         <p class="col-auto mb-0">Preguntas Totales: {{total_history}}</p>
                     </div>
-                    
+
                     <div class="category row mb-2 py-2">
                         <i class="fa-solid fa-earth-americas col-auto stat-icon mb-0 text-blue"></i>
                         <p class="col-2 mb-0">Geografia</p>

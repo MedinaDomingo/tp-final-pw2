@@ -14,34 +14,28 @@
 <body>
   <div class="container">
 
-    <header>
-      <nav class="navbar">
-        
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 fs-3 h1">YETA</span>
-        </div>
-      </nav>
-    </header>
+    {{> nav}}
 
     <main>
       <h1 class="text-center">Iniciar Sesión</h1>
-      <form class="row justify-content-center">
+      <form class="row justify-content-center" action="/login/iniciarSesion" method="post">
         <div class="col-md-5">
           <div class="mb-3 text-center">
 
           </div>
           <div class="mb-3">
             <label for="usuario" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="usuario">
+            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="alf">
           </div>
 
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password">
+            <input type="password" class="form-control" id="password" name="password" placeholder="aA1!">
           </div>
-
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <a href="index.php?module=registro&method=mostrarRegistro" class="btn btn-success">Resgistrate</a>
+          <p class="text-danger fs-6 text">{{mensaje}}</p>
+          <input type="submit" class="btn btn-primary">
+          <a href="/registro/mostrarRegistro" class="btn btn-success">Resgistrate</a>
+          <a href="/registro/mostrarActivarCuenta" class="btn btn-warning">Validate</a>
         </div>
       </form>
     </main>
