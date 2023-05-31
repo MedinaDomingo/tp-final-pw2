@@ -5,12 +5,16 @@ include_once("exeptions/PasswordException.php");
 include_once("exeptions/PasswordsRepetidosException.php");
 include_once("exeptions/SexoException.php");
 include_once("exeptions/NacimientoException.php");
+
 class RegistroModel
 {
-    private $database;
 
-    public function __construct($database)
+    private $database;
+    private $phpMailer;
+
+    public function __construct($database, $phpMailer)
     {
+        $this->phpMailer = $phpMailer;
         $this->database = $database;
     }
 
@@ -159,30 +163,36 @@ class RegistroModel
 
     private function persistirDatos($validos)
     {
-        $activation_code = $this->generarCdigo();
-        $passHash = $this->hashearPassword($validos['password']);
-        $imagen = file_get_contents($validos['imagen']);
-        $sql = "INSERT INTO usuario (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            $activation_code = $this->generarCdigo();
+            $passHash = $this->hashearPassword($validos['password']);
+            $imagen = file_get_contents($validos['imagen']);
+            $sql = "INSERT INTO `usuario` (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $sentencia = $this->database->getConnection()->prepare($sql);
+            $sentencia = $this->database->getConnection()->prepare($sql);
 
-        $sentencia->bind_param(
-            "sssssssssss",
-            $imagen,
-            $validos['usuario'],
-            $validos['nombre'],
-            $validos['apellido'],
-            $validos['email'],
-            $passHash,
-            $validos['nacimiento'],
-            $validos['sexo'],
-            $validos['pais'],
-            $validos['provincia'],
-            $activation_code
-        );
+            $sentencia->bind_param(
+                "sssssssssss",
+                $imagen,
+                $validos['usuario'],
+                $validos['nombre'],
+                $validos['apellido'],
+                $validos['email'],
+                $passHash,
+                $validos['nacimiento'],
+                $validos['sexo'],
+                $validos['pais'],
+                $validos['provincia'],
+                $activation_code
+            );
 
 
-        $sentencia->execute();
+            $sentencia->execute();
+        }catch (Exception $e){
+            echo $e;
+        }
+        $url = "http://localhost:8080/registro/mostrarActivarCuenta";
+        $this->phpMailer->enviarCodigoValidacion($validos['email'], $validos['nombre'], $activation_code, $url);
 
     }
 
@@ -204,11 +214,11 @@ class RegistroModel
         $hash = $_POST['hash_code'];
 
         $sql = "SELECT * FROM usuario WHERE nombre_u = '$usuario'";
-        $usuarioQuey = $this->database->query($sql);
+        $sentencia = $this->database->query($sql);
 
-        if ($hash == $usuarioQuey[0]['activation_hash']) {
+        if ($hash == $sentencia[0]['activation_hash']) {
 
-            $sql = "UPDATE usuario SET isActivo = 1 WHERE nombre_u = ?;";
+            $sql = "UPDATE usuario SET is_active = 1 WHERE nombre_u = ?;";
             $sentencia = $this->database->getConnection()->prepare($sql);
             $sentencia->bind_param("s", $usuario);
             $sentencia->execute();
@@ -217,5 +227,6 @@ class RegistroModel
         } else {
             return ["validarCuenta", ["mensaje" => "Credenciales No Validas"]];
         }
+
     }
 }
