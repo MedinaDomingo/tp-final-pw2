@@ -18,12 +18,14 @@ class LoginController
         $aDondeVamosMono = $this->loginModel->validarUsuario();
 
         if(is_array($aDondeVamosMono)){
+
             $this->renderer->render($aDondeVamosMono[0], $aDondeVamosMono[1]);
         }else{
             session_start();
             $_SESSION["validado"] = 1;
             $_SESSION["usuario"] = $aDondeVamosMono[1];
             $this->renderer->render("$aDondeVamosMono", $aDondeVamosMono[1]);
+
         }
 
 

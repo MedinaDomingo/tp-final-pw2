@@ -1,0 +1,14 @@
+body{
+    background-image: url("/public/img/fondo.jpg");
+    background-size: cover;
+}
+.bg-card{
+    background: #DE48B4;
+    border-radius: 27px;
+}
+.bg-violeta{
+    background: #766BE8;
+}
+.profile-image{
+    width: 200px;
+}
