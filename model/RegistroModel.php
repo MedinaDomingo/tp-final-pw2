@@ -218,7 +218,7 @@ class RegistroModel
 
         if ($hash == $sentencia[0]['activation_hash']) {
 
-            $sql = "UPDATE usuario SET is_active = 1 WHERE nombre_u = ?;";
+            $sql = "UPDATE usuario SET isActivo = 1 WHERE nombre_u = ?;";
             $sentencia = $this->database->getConnection()->prepare($sql);
             $sentencia->bind_param("s", $usuario);
             $sentencia->execute();
