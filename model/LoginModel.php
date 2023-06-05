@@ -16,7 +16,7 @@ class loginModel
 
             return ["login", ["mensaje" => "Usuario o contraseña incorrecta"]];
         }
-        
+
         $sql = "SELECT * FROM usuario WHERE nombre_u = '$usuario'";
 
         $usuarioQuery = $this->database->query($sql);

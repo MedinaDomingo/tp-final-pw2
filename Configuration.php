@@ -6,10 +6,13 @@ include_once('helpers/Router.php');
 
 include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
+include_once('controller/PerfilUsuarioController.php');
 
 include_once('model/RegistroModel.php');
 include_once('model/LoginModel.php');
 include_once('model/EmailModel.php');
+include_once('model/PerfilUsuarioModel.php');
+
 
 
 include_once('third-party/mustache/src/Mustache/Autoloader.php');
@@ -35,6 +38,15 @@ class Configuration
 
         return new RegistroController(new RegistroModel($this->getDatabase(), new Email(
         $config['name'], $config['username'], $config['password'], $config['host'], $config['port'])),
+            $this->getRenderer());
+    }
+
+    //get *NombreDeClase* ()
+    //retorna un nuevo objeto de esa clase, el controllador necesita un modelo y el renderer,
+    //el modelo es a necesidad el renderer para que se renderice la pagina
+    public function getPerfilUsuarioController(){
+        return new PerfilUsuarioController(new PerfilUsuarioModel(
+            $this->getDatabase()),
             $this->getRenderer());
     }
 
