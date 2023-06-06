@@ -36,8 +36,8 @@ class LoginModel
 
         //*** Criteria for rol goes here ***//
 
-        return $usuario['isActivo'] == 1 && $usuario['rol'] == 1 ?
-            ["perfilUsuario", $usuario] : ($usuario['isActivo'] == 1 && $usuario['rol'] == 2 ?
+        return $usuario['is_active'] == 1 && $usuario['rol'] == 1 ?
+            ["perfilUsuario", $usuario] : ($usuario['is_active'] == 1 && $usuario['rol'] == 2 ?
                 "perfiladm" : ["login", ["mensaje" => "No te pases de gil tenes que validar la cuenta"]]);
     }
 }

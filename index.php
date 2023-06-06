@@ -1,14 +1,14 @@
 <?php
-session_start();
+/*session_start();*/
 
 include_once('Configuration.php');
 
-if (isset($_GET['controller']) && $_GET['controller'] == "logout") {
+/*if (isset($_GET['controller']) && $_GET['controller'] == "logout") {
     session_unset();
     session_destroy();
     header("Location: /");
     exit;
-}
+}*/
 
 
 $configuration = new Configuration();

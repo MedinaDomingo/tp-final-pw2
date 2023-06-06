@@ -174,7 +174,7 @@ class RegistroModel
 
             move_uploaded_file($rutaTemporal, $rutaDestino);
 
-            $sql = "INSERT INTO `usuario` (`foto`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO `usuario` (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $sentencia = $this->database->getConnection()->prepare($sql);
 
