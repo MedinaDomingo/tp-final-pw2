@@ -20,7 +20,7 @@
 {{> nav}}
 
 <main class="container text-center">
-    <h3 class="text-center fw-semibold">¡¡Hola Spock!!<span><img src="/public/img/hand.png" class="inline"></span></h3>
+    <h3 class="text-center fw-semibold">¡¡Hola {{nombre_u}}!!<span><img src="/public/img/hand.png" class="inline"></span></h3>
 
 
     <section class="profile-section card col-xl-6 col-sm-10 m-auto bg-card">
@@ -29,9 +29,9 @@
             <div class="profile-container  d-flex flex-row p-3">
                 <div class=""><img class="profile-image rounded-circle overflow-hidden m-auto " src="/public/img/perfil.jpg" alt=""></div>
                 <div class="user-details text-center m-auto">
-                    <h2 class="username fs-1 text-white fw-bold">Nombre de Usuario</h2>
-                    <p class="puntos fs-3 text-white fw-semibold">124 Puntos</p>
-                    <p class="tanking fs-1 text-white fw-bold"><span class="bg-violeta rounded-circle p-3">53</span><i class="em em-medal" aria-role="presentation" aria-label=""></i></p>
+                    <h2 class="username fs-1 text-white fw-bold">{{nombre_u}}</h2>
+                    <p class="puntos fs-3 text-white fw-semibold">{{puntos}} Puntos</p>
+                    <p class="tanking fs-1 text-white fw-bold"><span class="bg-violeta rounded-circle p-3">{{rank}}</span><i class="em em-medal" aria-role="presentation" aria-label=""></i></p>
                 </div>
             </div>
 
@@ -46,6 +46,8 @@
                 <button class="btn fs-3 text-white fw-semibold col-5 rounded-4 " style="background:#54BEB8">Ranking</button><br>
                 <button class="btn fs-3 text-white fw-semibold col-5 rounded-4 " style="background:#F39D00">Partidas jugadas</button>
             </div>
+
+            <a class="btn fs-3 text-white fw-semibold col-5 rounded-4 " style="background:#F39D00" href="/perfilUsuario/cerrarSesion">Cerrar Sesion</a>
         </div>
     </section>
 </main>

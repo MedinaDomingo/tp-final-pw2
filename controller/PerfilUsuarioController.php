@@ -19,4 +19,9 @@ class PerfilUsuarioController
 
         $this->renderer->render($data[0], $data[1]);
     }
+
+    public function cerrarSesion(){
+        unset($_SESSION['valid']);
+        header("Location:/");
+    }
 }
