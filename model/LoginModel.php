@@ -1,6 +1,6 @@
 <?php
 
-class loginModel
+class LoginModel
 {
     private $database;
     public function __construct($database)
@@ -32,7 +32,7 @@ class loginModel
     private function validarActivo($usuario)
     {
         return $usuario['is_active'] == 1 && $usuario['id_rol'] == 1 ?
-            ["perfilUsuario", $usuario] : ($usuario['is_active'] == 1 && $usuario['id_rol'] == 2 ?
+            ["lobby", $usuario] : ($usuario['is_active'] == 1 && $usuario['id_rol'] == 2 ?
                 "perfiladm" : ["login", ["mensaje" => "No te pases de gil tenes que validar la cuenta"]]);
     }
 }

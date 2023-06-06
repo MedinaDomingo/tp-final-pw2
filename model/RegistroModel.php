@@ -166,14 +166,21 @@ class RegistroModel
         try {
             $activation_code = $this->generarCdigo();
             $passHash = $this->hashearPassword($validos['password']);
-            $imagen = file_get_contents($validos['imagen']);
-            $sql = "INSERT INTO `usuario` (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $nombreArchivo = $_FILES['imagen']['name'];
+            $rutaTemporal = $_FILES['imagen']['tmp_name'];
+
+            // Ruta de destino donde se guardará la imagen en el servidor
+            $rutaDestino = 'public/' . $nombreArchivo;
+
+            move_uploaded_file($rutaTemporal, $rutaDestino);
+
+            $sql = "INSERT INTO `usuario` (`foto`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $sentencia = $this->database->getConnection()->prepare($sql);
 
             $sentencia->bind_param(
                 "sssssssssss",
-                $imagen,
+                $rutaDestino,
                 $validos['usuario'],
                 $validos['nombre'],
                 $validos['apellido'],
