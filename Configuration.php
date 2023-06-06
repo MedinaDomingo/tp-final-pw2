@@ -7,11 +7,15 @@ include_once('helpers/Router.php');
 include_once('controller/LoginController.php');
 include_once('controller/RegistroController.php');
 include_once('controller/PerfilUsuarioController.php');
+include_once ('controller/LobbyController.php');
+include_once ('controller/PartidaController.php');
 
 include_once('model/RegistroModel.php');
 include_once('model/LoginModel.php');
 include_once('model/EmailModel.php');
 include_once('model/PerfilUsuarioModel.php');
+include_once('model/PartidaModel.php');
+include_once('model/LobbyModel.php');
 
 
 
@@ -50,6 +54,17 @@ class Configuration
             $this->getRenderer());
     }
 
+    public function getPartidaController(){
+        return new PartidaController(new PartidaModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
+
+    public function getLobbyController(){
+        return new LobbyController(new LobbyModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
     private function getArrayConfig($ruta)
     {
         return parse_ini_file($ruta);
