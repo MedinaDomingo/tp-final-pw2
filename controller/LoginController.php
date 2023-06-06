@@ -11,19 +11,27 @@ class LoginController
     }
 
     public function mostrarLogin() {
+        if(isset($_SESSION['valid'])){
+            header('Location: /Lobby/lobby');
+            exit();
+        }
+
         $this->renderer->render('login');
     }
 
     public function iniciarSesion(){
         $aDondeVamosMono = $this->loginModel->validarUsuario();
 
-        if($aDondeVamosMono[0]!=="login"){
-            $_SESSION["login"] = true;
-            $_SESSION["usuario"] = $aDondeVamosMono[1];
-            header("location: /lobby/mostrarLobby");
-        }else{
-            $this->renderer->render($aDondeVamosMono[0], $aDondeVamosMono[1]);
-        }
 
+        if($aDondeVamosMono[0] != 'login'){
+            $_SESSION["valid"] = 1;
+            $_SESSION["user_data"] = $aDondeVamosMono[1];
+            header('Location: /Lobby/lobby');
+            exit();
+        }else{
+            $this->renderer->render($aDondeVamosMono[0]);
+        }
     }
+
+
 }
