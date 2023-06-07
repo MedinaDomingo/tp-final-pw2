@@ -14,7 +14,7 @@ class RankingController
         if(!$_SESSION['valid']){
             header('Location:/');
         }
-
-        $this->renderer->render('ranking');
+        $users_ranking = $this->model->obtenerRankingDeUsuarios();
+        $this->renderer->render('ranking', $users_ranking);
     }
 }
