@@ -14,7 +14,9 @@ class RankingController
         if(!$_SESSION['valid']){
             header('Location:/');
         }
-        $users_ranking = $this->model->obtenerRankingDeUsuarios();
+        $currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
+
+        $users_ranking = $this->model->obtenerRankingDeUsuarios($currentPage);
         $this->renderer->render('ranking', $users_ranking);
     }
 }

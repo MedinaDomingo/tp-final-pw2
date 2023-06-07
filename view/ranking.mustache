@@ -60,6 +60,20 @@
                     </div>
                 </div>
             {{/ users}}
+            <div class="pagination mt-2">
+                {{#paginator}}
+                    <span class="current-pag fw-semibold my-auto">Página {{currentPage}} de {{totalPages}} </span>
+
+                    {{#hasPreviousPage}}
+                        <a href="?page={{previousPage}}" class="next-page btn fs-5 text-white fw-semibold rounded-4 " style="background:#F39D00">Anterior</a>
+                    {{/hasPreviousPage}}
+
+                    {{#hasNextPage}}
+                        <a href="?page={{nextPage}}" class="next-page btn fs-5 text-white fw-semibold rounded-4 " style="background:#F39D00"> Siguiente</a>
+                    {{/hasNextPage}}
+                {{/paginator}}
+            </div>
+
 
         </div>
     </section>
