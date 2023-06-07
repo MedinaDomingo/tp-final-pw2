@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking</title>
+    <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <link rel="stylesheet" href="/public/css/lobby.css">
+    <link rel="stylesheet" href="/public/css/nav.css">
+    <link rel="stylesheet" href="/public/fontawesome/css/all.min.css">
+</head>
+
+<body>
+<style>
+
+
+
+</style>
+
+{{> nav}}
+
+<main class="container text-center">
+    <h3 class="text-center fw-bold">Ranking <img src="copa.png" alt="" width="80px"></h3>
+
+
+    <section class="profile-section  col-xl-6 col-sm-10 m-auto ">
+
+        <div class="container">
+
+
+            <div class="profile-container  d-flex flex-wrap p-3 position-relative mt-5 bg-card">
+
+                <div class="">
+                    <img class="profile-image rounded-circle overflow-hidden m-auto col-1" src="perfil.jpg" alt=""
+                         height="90" width="90">
+                </div>
+                <div class="user-details text-center m-auto">
+                    <h2 class="username fs-1 text-white fw-bold">Nombre de Usuario</h2>
+                    <p class="puntos fs-3 text-white fw-semibold">124 Puntos</p>
+                    <div class="position-absolute  bg-violeta rounded-circle p-2" style="left: -10px; top: -30px">
+                        <span class="text-white fs-2 fw-bold">53</span>
+                    </div>
+                </div>
+
+                <div class="m-auto d-flex justify-content-between text-white fs-5 fw-semibold detalles visually-hidden">
+                    <div class="text-start p-2">
+                        <p>Edad: 30</p>
+                        <p>Argentina Provincia, Entre rios</p>
+                        <a  class="btn fs-3 text-white fw-semibold rounded-4 " style="background:#F39D00"href="">Ver perfil</a>
+                    </div>
+
+                    <div class="qr bg-white p-2">
+                        <img src="qr.png" alt="" width="200px">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<script>
+    let profileContainers = document.querySelectorAll('.profile-container')
+
+    profileContainers.forEach(function(profileContainer) {
+        const detalles = profileContainer.querySelector('.detalles')
+
+        profileContainer.addEventListener('click', function() {
+            detalles.classList.toggle('visually-hidden');
+        });
+    });
+</script>
+
+</body>
+
+</html>

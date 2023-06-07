@@ -9,6 +9,7 @@ include_once('controller/RegistroController.php');
 include_once('controller/PerfilUsuarioController.php');
 include_once ('controller/LobbyController.php');
 include_once ('controller/PartidaController.php');
+include_once ('controller/RankingController.php');
 
 include_once('model/RegistroModel.php');
 include_once('model/LoginModel.php');
@@ -16,6 +17,7 @@ include_once('model/EmailModel.php');
 include_once('model/PerfilUsuarioModel.php');
 include_once('model/PartidaModel.php');
 include_once('model/LobbyModel.php');
+include_once('model/RankingModel.php');
 
 
 
@@ -62,6 +64,12 @@ class Configuration
 
     public function getLobbyController(){
         return new LobbyController(new LobbyModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
+
+    public function getRankingController(){
+        return new RankingController(new RankingModel(
             $this->getDatabase()),
             $this->getRenderer());
     }
