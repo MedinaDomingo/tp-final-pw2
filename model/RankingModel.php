@@ -10,30 +10,28 @@ class RankingModel
         $this->database = $database;
         $this->paginator = new Paginator(3); // El número 10 representa la cantidad de usuarios por página.
     }
-    public function obtenerRankingDeUsuarios($currentPage = 1){
-        $this->paginator->setCurrentPage($currentPage);
-        $sql = "SELECT u.* FROM usuario u JOIN rol r ON u.id_rol = r.id_rol WHERE r.descripción = 'cliente' ORDER BY puntaje DESC";
-        $result = $this->database->query($sql);
-        $totalItems = count($result);
+    public function obtenerRankingDeUsuarios($currentPage = 1,  $perPage = 3){
+        $sqlCount = "SELECT COUNT(*) AS total FROM usuario u JOIN rol r ON u.id_rol = r.id_rol WHERE r.descripción = 'cliente'";
+        $countResult = $this->database->query($sqlCount);
+        $totalItems = $countResult[0]['total'];
 
-        $this->paginator->setTotalItems($totalItems);
+        $totalPages = ceil($totalItems / $perPage);
 
-        $offset = $this->paginator->getOffset();
-        $limit = $this->paginator->perPage;
+        $offset = ($currentPage - 1) * $perPage;
 
-        $sql .= " LIMIT $limit OFFSET $offset";
-
+        $sql = "SELECT u.* FROM usuario u JOIN rol r ON u.id_rol = r.id_rol WHERE r.descripción = 'cliente' ORDER BY puntaje DESC LIMIT $offset, $perPage";
         $result = $this->database->query($sql);
         $result = $this->calcularEdades($result);
-        $result = $this->designarRankingUsuario($result);
+        $result = $this->designarRankingUsuario($result, $currentPage, $offset);
+
         return [
             'users' => $result,
             'paginator' => [
                 'currentPage' => $currentPage,
-                'totalPages' => $this->paginator->getTotalPages(),
+                'totalPages' => $totalPages,
                 'hasPreviousPage' => $currentPage > 1,
                 'previousPage' => $currentPage - 1,
-                'hasNextPage' => $currentPage < $this->paginator->getTotalPages(),
+                'hasNextPage' => $currentPage < $totalPages,
                 'nextPage' => $currentPage + 1,
             ],
         ];
@@ -55,16 +53,18 @@ class RankingModel
         return $result;
     }
 
-    private function designarRankingUsuario($result)
+    private function designarRankingUsuario($result, $currentPage, $offset)
     {
-        $ranking = 0;
+        $startRanking = $offset + 1;
         $prev_puntaje = null;
-        foreach ($result as &$row) {
+        $ranking = $startRanking;
 
-            if ($prev_puntaje !== null && $row['puntaje'] != $prev_puntaje) {
-                $ranking += 1;
+        foreach ($result as &$row) {
+            if ($row['puntaje'] !== $prev_puntaje) {
+                $ranking = $startRanking;
             }
             $row['ranking'] = $ranking;
+            $ranking++;
             $prev_puntaje = $row['puntaje'];
         }
 
