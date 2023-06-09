@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Lilita+One&display=swap');
+
 body {
     background-image: url("/public/img/fondo.jpg");
     background-size: cover;
-    font-family: Arial, sans-serif;
+    font-family: 'Lilita One', cursive;
     margin: 0;
     padding: 0;
 }
