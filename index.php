@@ -1,7 +1,6 @@
 <?php
-/*session_start();*/
-
 include_once('Configuration.php');
+
 
 /*if (isset($_GET['controller']) && $_GET['controller'] == "logout") {
     session_unset();

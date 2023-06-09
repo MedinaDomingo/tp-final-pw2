@@ -48,19 +48,14 @@ CREATE TABLE `usuario` (
   `pais` text NOT NULL,
   `provincia` text NOT NULL,
   `password` text NOT NULL,
-  `rol` int(11) NOT NULL DEFAULT 1
+  `rol` int(11) NOT NULL DEFAULT 1,
+  `qr` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_u`, `cod_verif`, `email`, `nombre`, `sexo`, `puntaje`, `fecha_nac`, `id_rol`, `id_resultado`, `id_partida`, `id_nivel`, `id_trampa`, `is_active`, `activation_hash`, `apellido`, `foto_perfil`, `pais`, `provincia`, `password`, `rol`) VALUES
-(5, 'a', 0, 'biez591@gmail.com', 'a', 'Masculino', 1, '2000-05-31', 1, NULL, NULL, NULL, NULL, b'1', '40468', 'a', 'public/perfil.jpg', 'argentina', 'Inglaterra', '$2y$10$QM/Z2hnNuq0JaSg1xURsC.iv2Lh1g7PrI7.bKUYJ7YLGhG/RBt8xq', 1),
-(6, 'b', 0, 'biez591@gmail.com', 'a', 'Masculino', 12, '2011-05-31', 1, NULL, NULL, NULL, NULL, b'1', '40468', 'a', 'public/perfil.jpg', 'argentina', 'Inglaterra', '$2y$10$QM/Z2hnNuq0JaSg1xURsC.iv2Lh1g7PrI7.bKUYJ7YLGhG/RBt8xq', 1),
-(7, 'c', 0, 'biez591@gmail.com', 'a', 'Masculino', 5, '2003-05-31', 1, NULL, NULL, NULL, NULL, b'1', '40468', 'a', 'public/perfil.jpg', 'argentina', 'Inglaterra', '$2y$10$QM/Z2hnNuq0JaSg1xURsC.iv2Lh1g7PrI7.bKUYJ7YLGhG/RBt8xq', 1),
-(8, 'd', 0, 'biez591@gmail.com', 'a', 'Masculino', 122, '2000-05-31', 1, NULL, NULL, NULL, NULL, b'1', '40468', 'a', 'public/perfil.jpg', 'argentina', 'Inglaterra', '$2y$10$QM/Z2hnNuq0JaSg1xURsC.iv2Lh1g7PrI7.bKUYJ7YLGhG/RBt8xq', 1),
-(9, 'e', 0, 'biez591@gmail.com', 'a', 'Masculino', 5, '1993-05-31', 1, NULL, NULL, NULL, NULL, b'1', '40468', 'a', 'public/perfil.jpg', 'argentina', 'Inglaterra', '$2y$10$QM/Z2hnNuq0JaSg1xURsC.iv2Lh1g7PrI7.bKUYJ7YLGhG/RBt8xq', 1);
 
 --
 -- Índices para tablas volcadas

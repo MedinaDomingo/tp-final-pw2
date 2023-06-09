@@ -15,7 +15,6 @@ class LobbyController
             header('Location:/');
         }
 
-
         $id = $_SESSION['user_data']['id_usuario'];
         $rank = $this->model->obtenerRankingUsuario($id)[0]['ranking'];
         $_SESSION['user_data']['rank'] = $rank;

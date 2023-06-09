@@ -12,6 +12,10 @@ class PerfilUsuarioController
     }
 
     public function mostrarPerfil() {
+        if(!$_SESSION['valid']){
+            header('Location:/');
+            exit();
+        }
         $data = $this->model->getData($_GET['user']);
 
         $view = $data[0]; //Esto es la vista, perfilUsuario.mustache

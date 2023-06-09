@@ -17,11 +17,7 @@
 </head>
 
 <body>
-<style>
 
-
-
-</style>
 
 {{> nav}}
 
@@ -36,7 +32,7 @@
                 <div class="profile-container  d-flex flex-wrap p-3 position-relative mt-5 bg-card">
 
                     <div class="">
-                        <img class="profile-image rounded-circle overflow-hidden m-auto col-1" src="/{{foto_perfil}}" alt=""
+                        <img class="profile-image rounded-circle overflow-hidden m-auto col-1" src="{{foto_perfil}}" alt=""
                              style="max-width: 100px">
                     </div>
                     <div class="user-details text-center m-auto">
@@ -51,29 +47,15 @@
                         <div class="text-start p-2">
                             <p>{{edad}} años</p>
                             <p>{{pais}}, {{provincia}}</p>
-                            <a  class="btn fs-3 text-white fw-semibold rounded-4 " style="background:#F39D00"href="{{nombre_u}}">Ver perfil</a>
+                            <a  class="btn fs-3 text-white fw-semibold rounded-4 " style="background:#F39D00"href="/PerfilUsuario/mostrarPerfil?user={{nombre_u}}">Ver perfil</a>
                         </div>
 
                         <div class="qr bg-white p-2">
-                            <img src="/{{foto_perfil}}" alt="" width="200px">
+                            <img src="/public/qr/{{qr}}" alt="" width="200px">
                         </div>
                     </div>
                 </div>
             {{/ users}}
-            <div class="pagination mt-2">
-                {{#paginator}}
-                    <span class="current-pag fw-semibold my-auto">Página {{currentPage}} de {{totalPages}} </span>
-
-                    {{#hasPreviousPage}}
-                        <a href="?page={{previousPage}}" class="next-page btn fs-5 text-white fw-semibold rounded-4 " style="background:#F39D00">Anterior</a>
-                    {{/hasPreviousPage}}
-
-                    {{#hasNextPage}}
-                        <a href="?page={{nextPage}}" class="next-page btn fs-5 text-white fw-semibold rounded-4 " style="background:#F39D00"> Siguiente</a>
-                    {{/hasNextPage}}
-                {{/paginator}}
-            </div>
-
 
         </div>
     </section>
