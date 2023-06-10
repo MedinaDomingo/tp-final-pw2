@@ -13,5 +13,3 @@ if(!isset($_SESSION['valid'])){
 
 $router->route($module, $method);
 
-
-
