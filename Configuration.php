@@ -9,11 +9,10 @@ include_once('controller/RegistroController.php');
 include_once('controller/PerfilUsuarioController.php');
 include_once ('controller/LobbyController.php');
 include_once ('controller/PartidaController.php');
-<<<<<<< HEAD
-include_once ('controller/UsersProfileController.php');
-=======
+
+
 include_once ('controller/RankingController.php');
->>>>>>> 2c3170c14d372b4d3479ef0b6d6ac1f631dca056
+
 
 include_once('model/RegistroModel.php');
 include_once('model/LoginModel.php');
@@ -21,11 +20,10 @@ include_once('model/EmailModel.php');
 include_once('model/PerfilUsuarioModel.php');
 include_once('model/PartidaModel.php');
 include_once('model/LobbyModel.php');
-<<<<<<< HEAD
-include_once ('model/UsersProfileModel.php');
-=======
+
+
 include_once('model/RankingModel.php');
->>>>>>> 2c3170c14d372b4d3479ef0b6d6ac1f631dca056
+
 
 
 
@@ -64,11 +62,6 @@ class Configuration
             $this->getRenderer());
     }
 
-    public function getUsersProfileController(){
-        return new UsersProfileController(new UsersProfileModel(
-            $this->getDatabase()),
-            $this->getRenderer());
-    }
 
     public function getPartidaController(){
         return new PartidaController(new PartidaModel(

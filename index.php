@@ -16,6 +16,8 @@ $router = $configuration->getRouter();
 $module = $_GET['module'] ?? 'login';
 $method = $_GET['method'] ?? 'mostrarLogin';
 
+
+
 if(!isset($_SESSION['valid'])){
     session_abort();
 }
