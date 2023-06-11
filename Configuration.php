@@ -9,6 +9,7 @@ include_once('controller/RegistroController.php');
 include_once('controller/PerfilUsuarioController.php');
 include_once ('controller/LobbyController.php');
 include_once ('controller/PartidaController.php');
+include_once ('controller/UsersProfileController.php');
 
 include_once('model/RegistroModel.php');
 include_once('model/LoginModel.php');
@@ -16,6 +17,7 @@ include_once('model/EmailModel.php');
 include_once('model/PerfilUsuarioModel.php');
 include_once('model/PartidaModel.php');
 include_once('model/LobbyModel.php');
+include_once ('model/UsersProfileModel.php');
 
 
 
@@ -50,6 +52,12 @@ class Configuration
     //el modelo es a necesidad el renderer para que se renderice la pagina
     public function getPerfilUsuarioController(){
         return new PerfilUsuarioController(new PerfilUsuarioModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
+
+    public function getUsersProfileController(){
+        return new UsersProfileController(new UsersProfileModel(
             $this->getDatabase()),
             $this->getRenderer());
     }
