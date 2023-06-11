@@ -21,6 +21,9 @@ class MySqlDatabase {
 
     public function query($sql) {
         $result = mysqli_query($this->connection, $sql);
+        if (!$result) {
+            die('Error en la consulta: ' . mysqli_error($this->connection));
+        }
         return mysqli_fetch_all($result, MYSQLI_BOTH);
     }
 

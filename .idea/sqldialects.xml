@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+<<<<<<< HEAD
+=======
+    <file url="file://$PROJECT_DIR$/model/LoginModel.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/model/RegistroModel.php" dialect="GenericSQL" />
+>>>>>>> d6a49ea08151b0272da06a01b132ee77d02bdfd7
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>

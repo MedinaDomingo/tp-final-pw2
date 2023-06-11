@@ -9,7 +9,11 @@ include_once('controller/RegistroController.php');
 include_once('controller/PerfilUsuarioController.php');
 include_once ('controller/LobbyController.php');
 include_once ('controller/PartidaController.php');
+<<<<<<< HEAD
 include_once ('controller/UsersProfileController.php');
+=======
+include_once ('controller/RankingController.php');
+>>>>>>> 2c3170c14d372b4d3479ef0b6d6ac1f631dca056
 
 include_once('model/RegistroModel.php');
 include_once('model/LoginModel.php');
@@ -17,7 +21,11 @@ include_once('model/EmailModel.php');
 include_once('model/PerfilUsuarioModel.php');
 include_once('model/PartidaModel.php');
 include_once('model/LobbyModel.php');
+<<<<<<< HEAD
 include_once ('model/UsersProfileModel.php');
+=======
+include_once('model/RankingModel.php');
+>>>>>>> 2c3170c14d372b4d3479ef0b6d6ac1f631dca056
 
 
 
@@ -43,7 +51,7 @@ class Configuration
         $config = $this->getArrayConfig($this->configEmail);
 
         return new RegistroController(new RegistroModel($this->getDatabase(), new Email(
-        $config['name'], $config['username'], $config['password'], $config['host'], $config['port'])),
+            $config['name'], $config['username'], $config['password'], $config['host'], $config['port'])),
             $this->getRenderer());
     }
 
@@ -70,6 +78,12 @@ class Configuration
 
     public function getLobbyController(){
         return new LobbyController(new LobbyModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
+
+    public function getRankingController(){
+        return new RankingController(new RankingModel(
             $this->getDatabase()),
             $this->getRenderer());
     }

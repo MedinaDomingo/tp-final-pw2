@@ -12,10 +12,6 @@ class UsersProfileModel
 
     public function getUserData($user)
     {
-//        $data = array(
-//            'nombre_u' => $user
-//        );
-
         $sql = "SELECT nombre_u FROM usuario WHERE nombre_u = ?;";
         $sentencia = $this->database->getConnection()->prepare($sql);
         $sentencia->bind_param('s', $user);

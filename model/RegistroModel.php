@@ -6,6 +6,8 @@ include_once("exeptions/PasswordsRepetidosException.php");
 include_once("exeptions/SexoException.php");
 include_once("exeptions/NacimientoException.php");
 
+include_once("./phpqrcode/qrlib.php");
+
 class RegistroModel
 {
 
@@ -38,7 +40,11 @@ class RegistroModel
 
         try {
             $this->validarCampoVacio($imagen, 'Imagen');
-            $validos["imagen"] = $imagen;
+            $nombreArchivo = $_FILES['imagen']['name'];
+            $archivoTemporal = $imagen;
+            $rutaDestino = 'public/profilePictures/' . $nombreArchivo;
+            move_uploaded_file($archivoTemporal, $rutaDestino);
+            $validos["imagen"] = "/$rutaDestino";
         } catch (CampoVacioException $e) {
             $errores[$e->getCampo()] = $e->getMessage();
         }
@@ -166,14 +172,21 @@ class RegistroModel
         try {
             $activation_code = $this->generarCdigo();
             $passHash = $this->hashearPassword($validos['password']);
-            $imagen = file_get_contents($validos['imagen']);
-            $sql = "INSERT INTO `usuario` (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+            $contenido = "localhost:8080/PerfilUsuario/mostrarPerfil?user=".$validos['usuario'];
+            $nombreArchivoQr = $validos['usuario']."_qr.png";
+            $directorioDestino = "public/qr/"; // ruta completa del directorio de destino
+
+            $this->generarQR($contenido, $nombreArchivoQr, $directorioDestino);
+
+            $sql = "INSERT INTO `usuario` (`foto_perfil`, `nombre_u`, `nombre`, `apellido`, `email`, `password`, `fecha_nac`, `sexo`, `pais`, `provincia`, `activation_hash`, `qr`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $sentencia = $this->database->getConnection()->prepare($sql);
 
             $sentencia->bind_param(
-                "sssssssssss",
-                $imagen,
+                "ssssssssssss",
+                $validos['imagen'],
                 $validos['usuario'],
                 $validos['nombre'],
                 $validos['apellido'],
@@ -183,7 +196,8 @@ class RegistroModel
                 $validos['sexo'],
                 $validos['pais'],
                 $validos['provincia'],
-                $activation_code
+                $activation_code,
+                $nombreArchivoQr
             );
 
 
@@ -218,7 +232,7 @@ class RegistroModel
 
         if ($hash == $sentencia[0]['activation_hash']) {
 
-            $sql = "UPDATE usuario SET isActivo = 1 WHERE nombre_u = ?;";
+            $sql = "UPDATE usuario SET is_active = 1 WHERE nombre_u = ?;";
             $sentencia = $this->database->getConnection()->prepare($sql);
             $sentencia->bind_param("s", $usuario);
             $sentencia->execute();
@@ -228,5 +242,18 @@ class RegistroModel
             return ["validarCuenta", ["mensaje" => "Credenciales No Validas"]];
         }
 
+    }
+
+
+    function generarQR($contenido, $nombreArchivo, $directorio){
+
+        $rutaArchivo = $directorio . $nombreArchivo;
+
+
+        $tamanio = 10;
+        $nivelCorreccion = 'L'; //capacidad del código QR para recuperarse de posibles errores o daños que puedan ocurrir durante la lectura
+
+
+        QRcode::png($contenido, $rutaArchivo, $nivelCorreccion, $tamanio);
     }
 }
