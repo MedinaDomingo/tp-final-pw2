@@ -22,6 +22,7 @@ class LoginController
     public function iniciarSesion(){
         $aDondeVamosMono = $this->loginModel->validarUsuario();
 
+
         if($aDondeVamosMono[0] != 'login'){
             $_SESSION["valid"] = 1;
             $_SESSION["user_data"] = $aDondeVamosMono[1];
@@ -30,11 +31,6 @@ class LoginController
         }else{
             $this->renderer->render($aDondeVamosMono[0]);
         }
-
-
-
-
-
     }
 
 

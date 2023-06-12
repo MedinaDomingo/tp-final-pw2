@@ -9,8 +9,6 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="/public/css/validar.css">
-    <link rel="stylesheet" href="/public/css/nav.css">
 </head>
 
 <body>
@@ -19,9 +17,7 @@
         {{> nav}}
 
         <main>
-            <h1 class="text-center">Validar usuario</h1>
-            <p>Por favor, revisa tu casilla de mail.</p>
-            <p>Hemos enviado un código</p>
+            <h1 class="text-center">Validar Usuario</h1>
 
             <form class="row justify-content-center" action="/registro/activarCuenta" method="post">
                 <div class="col-md-5">
@@ -29,15 +25,17 @@
 
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingrese usuario" required>
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="alf" required>
                     </div>
 
-                    <div class="hash">
+                    <div class="mb-3">
+                        <label for="hash_code" class="form-label">Codigo</label>
                         <input type="hash_code" class="form-control" id="hash_code" name="hash_code"
-                            placeholder="Ingrese código recibido" required>
+                            placeholder="01234" required>
                     </div>
                     <p class="text-danger fs-6 text">{{mensaje}}</p>
-                    <input type="submit" class="btn btn-primary" value="Enviar codigo">
+                    <input type="submit" class="btn btn-primary">
                 </div>
             </form>
         </main>

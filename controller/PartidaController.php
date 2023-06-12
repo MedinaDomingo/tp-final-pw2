@@ -4,24 +4,13 @@ class PartidaController
 {
     private $model;
     private $renderer;
-    public function __construct($renderer)
+    public function __construct($model, $renderer)
     {
         $this->renderer = $renderer;
-        $this->model = new PartidaModel();
+        $this->model = $model;
     }
 
     public function partida(){
-        $preguntas = $this->model->obtenerPregunta();
-        $this->renderer->render('partida', ['preguntas' => $preguntas]);
+        $this->renderer->render('partida');
     }
-
-    public function obtenerPreguntaAjax()
-    {
-        // Obtener la próxima pregunta
-        $pregunta = $this->model->obtenerPregunta();
-
-        // Devolver la pregunta en formato JSON
-        echo json_encode($pregunta);
-    }
-
 }
