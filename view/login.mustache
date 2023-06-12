@@ -9,38 +9,43 @@
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="/public/css/nav.css">
 </head>
 
 <body>
-  <div class="container">
-
-    {{> nav}}
 
     <main>
-      <h1 class="text-center">Iniciar Sesión</h1>
-      <form class="row justify-content-center" action="/login/iniciarSesion" method="post">
-        <div class="col-md-5">
-          <div class="mb-3 text-center">
+    <div class="container">  
 
-          </div>
-          <div class="mb-3">
-            <label for="usuario" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="alf">
-          </div>
+      <div class="background">
+          <form class="row justify-content-center" action="/login/iniciarSesion" method="post">
+          <h3>Iniciar Sesión</h3>
+            <div class="col-md-5">
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="aA1!">
-          </div>
-          <p class="text-danger fs-6 text">{{mensaje}}</p>
-          <input type="submit" class="btn btn-primary">
-          <a href="/registro/mostrarRegistro" class="btn btn-success">Resgistrate</a>
-          <a href="/registro/mostrarActivarCuenta" class="btn btn-warning">Validate</a>
-        </div>
-      </form>
+              <div>
+                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required>
+              </div>
+
+                <div>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                </div>
+
+                <p class="text-danger fs-6 text">{{mensaje}}</p>
+
+                <input type="submit" class="btn btn-primary" value="Iniciar sesion">
+
+                <div class="button-container">
+
+                  <a href="/registro/mostrarRegistro" class="button">Registrarse</a>
+                  <a href="/registro/mostrarActivarCuenta" class="button2">Validar usuario</a>
+
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>  
     </main>
-
-  </div>
 
   <!-- Make sure you put this AFTER Leaflet's CSS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

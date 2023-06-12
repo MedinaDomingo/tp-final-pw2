@@ -10,20 +10,21 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  <link rel="stylesheet" href="/public/css/registrar.css">
+  <link rel="stylesheet" href="/public/css/nav.css">
 </head>
 
 <body>
   <div class="container">
     {{> nav}}
     <main>
-      <h1 class="text-center">Registrate</h1>
+      <h2 class="text-center">Registrate</h2>
       <form enctype="multipart/form-data" class="row justify-content-center" method="POST"
         action="/registro/validarRegistro">
         <div class="col-md-5">
           <div class="mb-3 text-center">
             <input type="file" class="form-control-file" id="imagen" name="imagen" style="display: none;"
-              onchange="mostrarImagen(event)" value="{{# valido}}{{imagen}}{{/ valido}}">
+              onchange="mostrarImagen(event)" value="{{# valido}}{{imagen}}{{/ valido}}" placeholder="Ingrese imagen">
             <div onclick="document.getElementById('imagen').click()"
               class="form-group rounded-circle overflow-hidden m-auto" style="width: 100px; height: 100px;">
               <img id="vista-previa" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -33,48 +34,41 @@
 
           </div>
           <div class="mb-3">
-            <label for="usuario" class="form-label">Usuario</label>
             <input type="text" class="form-control" id="usuario" name="usuario"
-              value="{{# valido}}{{usuario}}{{/ valido}}">
+              value="{{# valido}}{{usuario}}{{/ valido}}" placeholder="Ingrese nombre usuario">
             {{# errores}}<span class="text-danger fs-6 text">{{Usuario}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="nombre" name="nombre"
-              value="{{# valido}}{{nombre}}{{/ valido}}">
+              value="{{# valido}}{{nombre}}{{/ valido}}" placeholder="Ingrese nombre">
             {{# errores}}<span class="text-danger">{{Nombre}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
             <input type="text" class="form-control" id="apellido" name="apellido"
-              value="{{# valido}}{{apellido}}{{/ valido}}">
+              value="{{# valido}}{{apellido}}{{/ valido}}" placeholder="Ingrese apellido">
             {{# errores}}<span class="text-danger">{{Apellido}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{# valido}}{{email}}{{/ valido}}">
+            <input type="email" class="form-control" id="email" name="email" value="{{# valido}}{{email}}{{/ valido}}" placeholder="Ingrese email">
             {{# errores}}<span class="text-danger">{{email}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese contraseña">
             {{# errores}}<span class="text-danger">{{password}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="repetir-password" class="form-label">Repetir Password</label>
-            <input type="password" class="form-control" id="repetir-password" name="repetir-password">
+            <input type="password" class="form-control" id="repetir-password" name="repetir-password" placeholder="Repita su contraseña">
             {{# errores}}<span class="text-danger">{{passwordDistinto}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="nacimiento" class="form-label">Nacimiento</label>
             <input type="date" id="nacimiento" class="form-control" name="nacimiento"
-              value="{{# valido}}{{nacimiento}}{{/ valido}}">
+              value="{{# valido}}{{nacimiento}}{{/ valido}}" placeholder="Ingrese su fecha de nacimiento">
             {{# errores}}<span class="text-danger">{{Nacimiento}}</span>{{/ errores}}
             {{# errores}}<span class="text-danger">{{nacimiento-rango}}</span>{{/ errores}}
           </div>
           <div class="mb-3">
-            <label for="sexo" class="form-label">Sexo</label>
             <select class="form-select" name="sexo" id="sexo">
+              <option>Ingrese su sexo</option>
               <option value="Masculino">Masculino</option>
               <option value="Femenino">Femenino</option>
               <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
@@ -83,19 +77,18 @@
           </div>
           <div class="mb-3">
             <div class="form-group">
-              <label for="pais">País:</label>
               <input type="text" class="form-control" id="pais" name="pais" placeholder="Selecciona un país"
                 value="{{# valido}}{{pais}}{{/ valido}}">
-              {{# errores}}<span class="text-danger">{{País}}</span>{{/ errores}}<br>
-              <label for="provincia">Provincia:</label>
+              {{# errores}}<span class="text-danger">{{País}}</span>{{/ errores}}<br><br>
               <input type="text" class="form-control" id="provincia" name="provincia"
                 placeholder="Selecciona una provincia" value="{{# valido}}{{provincia}}{{/ valido}}">
-              {{# errores}}<span class="text-danger">{{Provincia}}</span>{{/ errores}}<br>
-              <div id="map" style="height: 180px;"></div>
+              {{# errores}}<span class="text-danger">{{Provincia}}</span>{{/ errores}}<br><br>
+              <div id="map" style="height: 100px;"></div>
             </div>
           </div>
           <input type="submit" class="btn btn-primary" value="Registrarse">
-          <p class="mb-3">¿Ya tenes una cuenta? <a class="link-success " href="/">Login</a></p>
+          <p class="mb-3">¿Ya tenes una cuenta?</p>
+          <a class="button" href="/">Ir a inicio de sesion</a>
         </div>
       </form>
     </main>
