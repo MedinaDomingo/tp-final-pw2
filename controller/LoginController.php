@@ -12,8 +12,17 @@ class LoginController
 
     public function mostrarLogin() {
         if(isset($_SESSION['valid'])){
-            header('Location: /Lobby/lobby');
-            exit();
+            switch ($_SESSION['user_data']['descripción']){
+                case 'editor':
+                    header('Location: /Editor/editor');
+                    exit();
+                case 'administrador':
+                    header('Location: /Administrador/administrador');
+                    exit();
+                case 'cliente':
+                    header('Location: /Lobby/lobby');
+                    exit();
+            }
         }
 
         $this->renderer->render('login');
