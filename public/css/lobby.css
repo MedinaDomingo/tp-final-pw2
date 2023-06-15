@@ -6,6 +6,10 @@ body{
     background: #DE48B4;
     border-radius: 27px;
 }
+.bg-card-2{
+    background: linear-gradient(2.8deg, rgba(255, 255, 255, 0) 0.80%, #DE48B4 50%);
+    border-radius: 27px;
+}
 .bg-violeta{
     background: #766BE8;
 }

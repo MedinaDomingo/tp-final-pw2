@@ -19,7 +19,7 @@ class LoginModel
             return ["login", ["mensaje" => "Usuario o contraseña incorrecta"]];
         }
 
-        $sql = "SELECT * FROM usuario WHERE nombre_u = '$usuario'";
+        $sql = "SELECT * FROM usuario u JOIN rol r ON u.id_rol = r.id_rol WHERE nombre_u = '$usuario'";
 
         $usuarioQuery = $this->database->query($sql);
 
@@ -38,9 +38,10 @@ class LoginModel
 
         //*** Criteria for rol goes here ***//
 
-        return $usuario['is_active'] == 1 && $usuario['rol'] == 1 ?
-            ["perfilUsuario", $usuario] : ($usuario['is_active'] == 1 && $usuario['rol'] == 2 ?
-                "perfiladm" : ["login", ["mensaje" => "No te pases de gil tenes que validar la cuenta"]]);
+        return $usuario['is_active'] == 1 && $usuario['descripción'] == "cliente" ?
+            ["lobby", $usuario] : ($usuario['is_active'] == 1 && $usuario['descripción'] == "editor" ?
+                ["editor", $usuario]  : ["login", ["mensaje" => "No te pases de gil tenes que validar la cuenta"]]);
+
     }
 
 }
