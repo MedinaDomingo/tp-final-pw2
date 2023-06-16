@@ -11,7 +11,7 @@ class LobbyController
     }
 
     public function lobby(){
-        if(!$_SESSION['valid']){
+        if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción'] =='cliente'){
             header('Location:/');
         }
 

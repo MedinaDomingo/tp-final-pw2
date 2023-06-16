@@ -11,7 +11,8 @@ class EditorController
         $this->model = $model;
     }
 
-    public function editor(){
+    public function editor()
+    {
         if(!$_SESSION['valid']){
             header('Location:/');
         }
