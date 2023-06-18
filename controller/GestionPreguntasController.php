@@ -39,12 +39,14 @@ class GestionPreguntasController
         }
 
         $result =$this->model->guardarPregunta(
-            $_POST['pregunta'],
-            $_POST['categoria'],
-            $_POST['respuesta-correcta'],
-            $_POST['respuesta-incorrecta-a'],
-            $_POST['respuesta-incorrecta-b'],
-            $_POST['respuesta-incorrecta-c']);
+            $_POST['pregunta']??"",
+            $_POST['categoria']??"",
+            $_POST['otra_categoria']??"",
+            $_POST['check-otra-categoria']??"",
+            $_POST['respuesta-correcta']??"",
+            $_POST['respuesta-incorrecta-a']??"",
+            $_POST['respuesta-incorrecta-b']??"",
+            $_POST['respuesta-incorrecta-c']??"");
 
         echo json_encode($result);
         /*if(!array_key_exists("categoria", $result)){
@@ -53,5 +55,27 @@ class GestionPreguntasController
         }*/
 
 
+    }
+
+    public function listarPreguntas()
+    {
+        if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción'] =='editor'){
+            header('Location:/');
+        }
+
+        $result = $this->model->traerTodasLasPreguntas();
+
+        echo json_encode($result);
+    }
+
+    public function listarCategorias()
+    {
+        if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción'] =='editor'){
+            header('Location:/');
+        }
+
+        $result = $this->model->traerTodasLasCategorias();
+
+        echo json_encode($result);
     }
 }
