@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2023 a las 22:15:16
+-- Tiempo de generación: 31-05-2023 a las 20:03:22
 -- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -86,11 +86,8 @@ CREATE TABLE `pais` (
 
 CREATE TABLE `partida` (
   `id_partida` int(11) NOT NULL,
-  `id_user1` int(11) NOT NULL,
-  `id_user2` int(11) DEFAULT NULL,
-  `result_user1` int(11) NOT NULL,
-  `result_user2` int(11) NOT NULL,
-  `result_final` int(11) NOT NULL
+  `id_usuario` int(11) DEFAULT NULL,
+  `id_pregunta` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -104,11 +101,30 @@ CREATE TABLE `pregunta` (
   `descripción` varchar(50) NOT NULL,
   `id_categoria` smallint(6) DEFAULT NULL,
   `id_estado` smallint(6) DEFAULT NULL,
-  `opcion_a` varchar(32) NOT NULL,
-  `opcion_b` varchar(32) NOT NULL,
-  `opcion_c` varchar(32) NOT NULL,
-  `opcion_d` varchar(32) NOT NULL,
-  `opcion_correcta` varchar(4) NOT NULL
+  `id_respuesta` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuesta`
+--
+
+CREATE TABLE `respuesta` (
+  `id_respuesta` int(11) NOT NULL,
+  `descripción` varchar(50) NOT NULL,
+  `es_valida` tinyint(1) NOT NULL,
+  `id_pregunta` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `resultado`
+--
+
+CREATE TABLE `resultado` (
+  `id_resultado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -170,21 +186,12 @@ CREATE TABLE `usuario` (
   `provincia` text NOT NULL,
   `password` text NOT NULL,
   `qr` text NOT NULL,
-  `rol` int(11) NOT NULL DEFAULT 1
+  `rol` int(11) NOT NULL DEFAULT 1 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuario`
---
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_u`, `cod_verif`, `email`, `nombre`, `sexo`, `puntaje`, `fecha_nac`, `id_rol`, `id_resultado`, `id_partida`, `id_nivel`, `id_trampa`, `is_active`, `activation_hash`, `apellido`, `foto_perfil`, `pais`, `provincia`, `password`, `qr`, `rol`) VALUES
-(5, 'alf', 0, 'alanaumente@gmail.com', 'gordon', 'Masculino', 175, '2023-06-01', 1, NULL, NULL, NULL, NULL, b'1', '09050', 'alf', '/public/profilePictures/693633d4e21e801929d731c1608fd5ef (1).png', 'Argentina', 'Buenos Aires', '$2y$10$7U8wP2kOhuOyR9oKr9XSJeWEXPbvPXQBFcDNcliBMjVw2WgKDjdB2', 'alf_qr.png', 1),
-(6, 'Genti', 0, 'alanaumente@gmail.com', 'Genti', 'Masculino', 666, '2023-06-07', 1, NULL, NULL, NULL, NULL, b'1', '21667', 'Genti', '/public/profilePictures/693633d4e21e801929d731c1608fd5ef (1).png', 'Argentina', 'Buenos Aires', '$2y$10$/2wJBZ62jYS5aIrumi9ll.tqC/A1pWYQ5OJStuYdwOgnPK.IlG/M6', 'Genti_qr.png', 1),
-(7, 'Charmander', 0, 'asd@asd.com', 'Charmander', 'Masculino', 1300, '1997-11-13', 1, NULL, NULL, NULL, NULL, b'0', '90751', 'Char Char', '/public/profilePictures/pokemon-6895600_1280.webp', 'Argentina', 'Buenos Aires', '$2y$10$O8Eps7sPuekP4Lt2ux5eZ.8yq/1tOvtY/c5AJxs7hiLlUCSbVedjm', 'Charmander_qr.png', 1),
-(8, 'Bulbasaur', 0, 'asd@asd.com', 'Bulbasaur', 'Masculino', 900, '1998-12-03', 1, NULL, NULL, NULL, NULL, b'0', '07041', 'Bulbasaur', '/public/profilePictures/images.png', 'Argentina', 'Buenos Aires', '$2y$10$SKuvpQz0ni.4HvuXTE5AWuzQwB4Drez26yARgmfqyaYUc.RKF6CoK', 'Bulbasaur_qr.png', 1),
-(9, 'Squirtle', 0, 'asd@asd.com', 'Squirtle', 'Masculino', 1500, '1999-11-11', 1, NULL, NULL, NULL, NULL, b'0', '91680', 'Squirtle', '/public/profilePictures/afb9abe634d79fc11a43f909164006e8.jpg', 'Argentina', 'Buenos Aires', '$2y$10$.YaNnE9E7B6m3RUZckg7vOVPoX0xvrgyBt63EsqCHqSkJMXAiBB2u', 'Squirtle_qr.png', 1);
 
---
 -- Índices para tablas volcadas
 --
 
@@ -198,8 +205,7 @@ ALTER TABLE `categoria`
 -- Indices de la tabla `ciudad`
 --
 ALTER TABLE `ciudad`
-  ADD PRIMARY KEY (`id_ciudad`),
-  ADD KEY `FK_ciudad_pais` (`id_pais`);
+  ADD PRIMARY KEY (`id_ciudad`);
 
 --
 -- Indices de la tabla `estado`
@@ -224,8 +230,8 @@ ALTER TABLE `pais`
 --
 ALTER TABLE `partida`
   ADD PRIMARY KEY (`id_partida`),
-  ADD KEY `FK_partida_usuario` (`id_user1`),
-  ADD KEY `FK_partida_usuario2` (`id_user2`) USING BTREE;
+  ADD KEY `FK_partida_usuario` (`id_usuario`),
+  ADD KEY `FK_partida_pregunta` (`id_pregunta`);
 
 --
 -- Indices de la tabla `pregunta`
@@ -233,7 +239,21 @@ ALTER TABLE `partida`
 ALTER TABLE `pregunta`
   ADD PRIMARY KEY (`id_pregunta`),
   ADD KEY `FK_pregunta_categoria` (`id_categoria`),
+  ADD KEY `FK_pregunta_respuesta` (`id_respuesta`),
   ADD KEY `FK_pregunta_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  ADD PRIMARY KEY (`id_respuesta`),
+  ADD KEY `FK_respuesta_pregunta` (`id_pregunta`);
+
+--
+-- Indices de la tabla `resultado`
+--
+ALTER TABLE `resultado`
+  ADD PRIMARY KEY (`id_resultado`);
 
 --
 -- Indices de la tabla `rol`
@@ -303,6 +323,18 @@ ALTER TABLE `pregunta`
   MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `resultado`
+--
+ALTER TABLE `resultado`
+  MODIFY `id_resultado` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -318,7 +350,7 @@ ALTER TABLE `trampa`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -334,15 +366,22 @@ ALTER TABLE `ciudad`
 -- Filtros para la tabla `partida`
 --
 ALTER TABLE `partida`
-  ADD CONSTRAINT `FK_partida_usuario` FOREIGN KEY (`id_user1`) REFERENCES `usuario` (`id_usuario`),
-  ADD CONSTRAINT `partida_ibfk_1` FOREIGN KEY (`id_user2`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `FK_partida_pregunta` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`),
+  ADD CONSTRAINT `FK_partida_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
 -- Filtros para la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
   ADD CONSTRAINT `FK_pregunta_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`),
-  ADD CONSTRAINT `FK_pregunta_estado` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
+  ADD CONSTRAINT `FK_pregunta_estado` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
+  ADD CONSTRAINT `FK_pregunta_respuesta` FOREIGN KEY (`id_respuesta`) REFERENCES `respuesta` (`id_respuesta`);
+
+--
+-- Filtros para la tabla `respuesta`
+--
+ALTER TABLE `respuesta`
+  ADD CONSTRAINT `FK_respuesta_pregunta` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`);
 
 --
 -- Filtros para la tabla `usuario`

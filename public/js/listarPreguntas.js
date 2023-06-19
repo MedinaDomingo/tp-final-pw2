@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $.ajax({
-        url: 'http://localhost:8080/GestionPreguntas/listarPreguntas',
+        url: '/GestionPreguntas/listarPreguntas',
         type: 'POST',
         dataType: 'text',
         success: function (response) {

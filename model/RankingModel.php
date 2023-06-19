@@ -11,6 +11,7 @@ class RankingModel
     public function obtenerRankingDeUsuarios()
     {
         $sql = "SELECT u.* FROM usuario u JOIN rol r ON u.id_rol = r.id_rol WHERE r.descripción = 'cliente' ORDER BY puntaje DESC";
+
         $result = $this->database->query($sql);
         $result = $this->calcularEdades($result);
         $result = $this->designarRankingUsuario($result);
