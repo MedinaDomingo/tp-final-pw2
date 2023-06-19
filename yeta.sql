@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-06-2023 a las 22:15:16
+-- Tiempo de generación: 19-06-2023 a las 22:59:43
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -32,6 +32,15 @@ CREATE TABLE `categoria` (
   `descripción` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`id_categoria`, `descripción`) VALUES
+(4, 'Geografia'),
+(6, 'Deporte'),
+(10, 'Ciencia');
+
 -- --------------------------------------------------------
 
 --
@@ -54,6 +63,15 @@ CREATE TABLE `estado` (
   `id_estado` smallint(6) NOT NULL,
   `descripción` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `estado`
+--
+
+INSERT INTO `estado` (`id_estado`, `descripción`) VALUES
+(1, 'en_revision'),
+(2, 'aprobada'),
+(3, 'pendiente_aprobacion');
 
 -- --------------------------------------------------------
 
@@ -128,7 +146,7 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`id_rol`, `descripción`) VALUES
 (1, 'cliente'),
-(2, 'administrador'),
+(2, 'editor'),
 (3, 'don ramon');
 
 -- --------------------------------------------------------
@@ -264,7 +282,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` smallint(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_categoria` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ciudad`
@@ -276,7 +294,7 @@ ALTER TABLE `ciudad`
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `id_estado` smallint(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_estado` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `nivel`
