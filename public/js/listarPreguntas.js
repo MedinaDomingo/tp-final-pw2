@@ -22,6 +22,15 @@ $(document).ready(function () {
                 row.append($('<td>').text(pregunta.incorrecta_a));
                 row.append($('<td>').text(pregunta.incorrecta_b));
                 row.append($('<td>').text(pregunta.incorrecta_c));
+
+                if(pregunta.estado == "Alta"){
+                    row.append($('<td>').append('<span class="status text-success fs-1">&bull;</span>'));
+                }else{
+                    row.append($('<td>').append('<span class="status text-danger fs-1">&bull;</span>'));
+                }
+
+                row.append(`<td><a id="btn-modificar" href="/GestionPreguntas/modificar" class="settings" title="Modificar" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a> 
+                                <a id="btn-eliminar" class="delete" title="Eliminar" data-toggle="tooltip"><i class="material-icons text-danger">&#xE5C9;</i></a> </td>`)
                 table.append(row);
             }
         },

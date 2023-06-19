@@ -1,0 +1,79 @@
+
+    <section class="profile-section card col-xl-6 col-sm-10 m-auto mb-3 bg-card pb-2 mt-4" id="modificar-form">
+        <h3 class="text-white fw-medium m-2 ">Modificar </h3>
+
+        <div class="container">
+            <div class="profile-container ">
+                <form action="/GestionPreguntas/modificarPregunta" method="post" class="p-3 ocultar-mostrar">
+
+                        <input type="text" class="form-control col-12" hidden id="id_pregunta" name="pregunta" value="{{id_pregunta}}">
+
+                    <div class="mb-3 text-start" id="pregunta-div">
+                        <label for="pregunta" class="form-label text-white">Pregunta</label>
+                        <input type="text" class="form-control col-12" id="pregunta" name="pregunta" value="{{pregunta}}">
+                    </div>
+                    <div class="mb-3 text-start text-white" id="otra-categoria-div">
+                        <label class="form-label">Estado</label><br>
+                            <input type="radio" name="estado" value="alta"  {{#alta}}checked{{/alta}}> Alta
+                            <input type="radio" name="estado" value="baja" {{#baja}}checked{{/baja}}> Baja
+                    </div>
+                    <div class="mb-3 text-start" id="categoria-div">
+                        <label for="categoria" class="form-label text-white">Categoria</label>
+                        <select type="text" class="form-control col-12" id="categoria-modificar" name="categoria">
+                            <option value="{{categoria}}">{{categoria}}</option>
+                        </select>
+
+
+                    </div>
+                    <div class="mb-3 text-start text-white" id="otra-categoria-div">
+                        <label for="otra_categoria" class="form-label">Otra Categoría</label>
+                        <input type="checkbox" name="check-otra-categoria" id="habilitar-otra-categoria-modificar">
+                        <input type="text" class="form-control col-12" name="otra_categoria" id="otra_categoria_modificar" disabled>
+                    </div>
+                    <div class="mb-3 text-start" id="respuestaCorrecta-div">
+                        <label for="respuesta-correcta" class="form-label text-white">Respuesta Correcta</label>
+                        <input type="text" class="form-control col-12" id="respuesta-correcta" name="respuesta-correcta" value="{{correcta}}">
+                    </div>
+                    <div class="mb-3 text-start" id="respuestaIncorrectaA-div">
+                        <label for="respuesta-incorrecta-a" class="form-label text-white">Respuesta incorrecta A</label>
+                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-a" name="respuesta-incorrecta-a" value="{{incorrecta_a}}">
+                    </div>
+                    <div class="mb-3 text-start" id="respuestaIncorrectaB-div">
+                        <label for="respuesta-incorrecta-b" class="form-label text-white">Respuesta incorrecta B</label>
+                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-b" name="respuesta-incorrecta-b" value="{{incorrecta_b}}">
+                    </div>
+                    <div class="mb-3 text-start" id="respuestaIncorrectaC-div">
+                        <label for="respuesta-incorrecta-c" class="form-label text-white">Respuesta incorrecta C</label>
+                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-c" name="respuesta-incorrecta-c" value="{{incorrecta_c}}">
+                    </div>
+                    <input type="submit" value="Modificar" id="modificar" class="btn fs-4 text-white fw-semibold col-5 rounded-4 m-3" style="background:#F39D00">
+                    <input type="button" value="Cancelar" id="cancelar" class="btn fs-4 text-white fw-semibold col-5 rounded-4 m-3" style="background:#5bd958">
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function() {
+            $('#categoria-modificar').change(function() {
+                if ($(this).val() === 'otra_categoria') {
+                    $('#otra_categoria_modificar').prop('disabled', false);
+                } else {
+                    $('#otra_categoria_modificar').prop('disabled', true);
+                }
+            });
+
+            $('#habilitar-otra-categoria-modificar').click(function() {
+                if ($(this).is(':checked')) {
+                    $('#otra_categoria_modificar').prop('disabled', false);
+                    $('#categoria-modificar').prop('disabled', true);
+                } else {
+                    $('#otra_categoria_modificar').prop('disabled', true);
+                    $('#categoria-modificar').prop('disabled', false);
+                }
+            });
+            $('#cancelar').click(function() {
+                $('#modificar-form').remove();
+            });
+        });
+    </script>
+    <script src="../public/js/listarCategorias-modificar.js"></script>
