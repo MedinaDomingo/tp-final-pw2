@@ -14,11 +14,11 @@ class PartidaModel
         $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
         $result = $this->database->query($query);
 
-        if ($result) {
-            return $result->fetch_assoc();
-        }
+//        if ($result) {
+//            return $result->fetch_assoc();
+//        }
 
-        return null;
+        return $result;
     }
 
     public function verificarRespuesta($idPregunta, $opcionSeleccionada) {

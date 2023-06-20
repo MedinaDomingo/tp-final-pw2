@@ -12,19 +12,24 @@ class PartidaController
 
     public function partida(){
         // Obtener una pregunta aleatoria de la base de datos
-        $pregunta = $this->partidaModel->obtenerPreguntaAleatoria();
+        $pregunta = $this->model->obtenerPreguntaAleatoria();
 
         // Mostrar la vista de partida con la pregunta y opciones de respuesta
         $data = [
-            'pregunta' => $pregunta['descripción'],
-            'categoria' => $pregunta['id_categoria'],
-            'opciones' => [
-                $pregunta['opcion_a'],
-                $pregunta['opcion_b'],
-                $pregunta['opcion_c'],
-                $pregunta['opcion_d']
-            ]
+            'pregunta' => $pregunta[0]['descripción'],
+            'categoria' => $pregunta[0]['id_categoria'],
+            'opcion_a' =>  $pregunta[0]['opcion_a'],
+            'opcion_b' =>  $pregunta[0]['opcion_b'],
+            'opcion_c' =>  $pregunta[0]['opcion_c'],
+            'opcion_d' =>  $pregunta[0]['opcion_d']
+//            'opciones' => [
+//                $pregunta[0]['opcion_a'],
+//                $pregunta[0]['opcion_b'],
+//                $pregunta[0]['opcion_c'],
+//                $pregunta[0]['opcion_d']
+//            ]
         ];
+
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $idPregunta = $_POST['id_pregunta'];
