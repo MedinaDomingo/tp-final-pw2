@@ -66,15 +66,12 @@ class GestionPreguntasModel
 
     public function idCategoria($categoria)
     {
-
         $sql = "SELECT id_categoria FROM categoria WHERE descripción = '$categoria'";
         $result = $this->database->query($sql);
         if (!$result) {
             throw new CategoriaNoExisteExeptions("La categoria no existe");
         }
         return $result[0]['id_categoria'];
-
-
     }
 
     private function crearPregunta($pregunta, $idCategoria, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC)
@@ -188,9 +185,9 @@ class GestionPreguntasModel
             if (!empty($check) && !empty($otraCategoria)) {
                 $idCategoria = $this->guardarCategoria($otraCategoria);
             }
-            var_dump($estado);
+
             $this->modificarPreguntaExistente($idPregunta,$pregunta, $estado, $idCategoria, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC);
-                return ["guardado"];
+                return ["modificado"];
         } else {
             return $errores;
         }
@@ -202,7 +199,7 @@ class GestionPreguntasModel
         $stmt = $this->database->getConnection()->prepare($sql);
         $stmt->bind_param("sssssssss", $pregunta, $idCategoria, $estado, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC, $respuestaCorrecta, $idPregunta);
         $result = $stmt->execute();
-        var_dump($stmt->error);
+
         return $result;
     }
 

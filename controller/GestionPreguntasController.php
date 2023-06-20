@@ -19,9 +19,7 @@ class GestionPreguntasController
 
         $this->renderer->render('gestionpreguntas');
         if (isset($_GET['mensaje'])) {
-
             $mensaje = $_GET['mensaje'];
-
             // Mostrar la notificación utilizando SweetAlert2
             echo '<script>
         Swal.fire({
@@ -55,14 +53,31 @@ class GestionPreguntasController
 
     public function listarPreguntas()
     {
+        $ELEMENTOS_POR_PAGINA = 3;
         if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción'] =='editor'){
             header('Location:/');
             exit();
         }
+        $paginaActual = $_GET['page'] ?? 1;
 
+        $offset = ($paginaActual - 1) * $ELEMENTOS_POR_PAGINA;
         $result = $this->model->traerTodasLasPreguntas();
+        $elementos = count($result);
 
-        echo json_encode($result);
+        $preguntas["preguntas"] = array_slice($result, $offset, $ELEMENTOS_POR_PAGINA);
+
+        $preguntas["totalPages"] = ceil($elementos/$ELEMENTOS_POR_PAGINA);
+        $preguntas["currentPage"] = $paginaActual;
+
+        if($paginaActual != 1){
+            $preguntas["prevPage"] = $paginaActual - 1;
+        }
+
+        if(ceil(count($preguntas['preguntas'])/$ELEMENTOS_POR_PAGINA) >=  $paginaActual){
+            $preguntas["nextPage"] = $paginaActual + 1;
+        }
+
+        echo json_encode($preguntas);
     }
 
     public function listarCategorias()

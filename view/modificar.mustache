@@ -101,19 +101,9 @@
                             history.pushState(null, '', newUrl);
                         });
 
-                        if (response[0] === 'guardado') {
+                        if (response[0] === 'modificado') {
                             console.log("Se guardo");
-                           /* window.location.href = "/GestionPreguntas/gestion?mensaje=guardado";
-                            window.history.pushState(null, null, '/GestionPreguntas/gestion');*/
-
-                            console.log('La pregunta ha sido guardada');
-                        }
-                        if (response[0] === 'no') {
-                            console.log("No");
-                            /* window.location.href = "/GestionPreguntas/gestion?mensaje=guardado";
-                             window.history.pushState(null, null, '/GestionPreguntas/gestion');*/
-
-                            console.log('La pregunta no ha sido guardada');
+                            window.location.href = "/GestionPreguntas/gestion?mensaje=modificado";
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
