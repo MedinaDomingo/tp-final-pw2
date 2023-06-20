@@ -2,7 +2,7 @@ $(document).ready(function() {
     let selectModificar  = $("#categoria-modificar")
 
     $.ajax({
-        url: 'http://localhost:8080/GestionPreguntas/listarCategorias',
+        url: '/GestionPreguntas/listarCategorias',
         type: 'GET',
         dataType: 'json',
         success: function(response) {

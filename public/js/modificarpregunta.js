@@ -18,14 +18,20 @@ $(document).ready(function() {
             type: 'POST',
             data: datos,
             success: function(response) {
-                console.log(response);
+
                 $('#resultado').html(response);
             },
             error: function(xhr, status, error) {
                 console.error(error);
+                console.log('No se cargó:', errorThrown);
+                console.log('Estado:', textStatus);
+                console.log('Respuesta del servidor:', jqXHR.responseText);
+                console.log('No se cargo', errorThrown);
             }
         });
     });
+
+
 
 
 });

@@ -97,8 +97,9 @@ class GestionPreguntasController
         }
 
         $pregunta =  $this->model->buscarPregunta($_POST["pregunta"]);
-        $pregunta[0]['alta'] = $pregunta[0]['estado'] == 'Alta' ? true : false;
-        $pregunta[0]['baja'] = $pregunta[0]['estado'] == 'Baja' ? true : false;
+        $pregunta[0]['revision'] = $pregunta[0]['estado'] == 'en_revision' ? true : false;
+        $pregunta[0]['pendiente'] = $pregunta[0]['estado'] == 'pendiente_aprobacion' ? true : false;
+        $pregunta[0]['aprobada'] = $pregunta[0]['estado'] == 'aprobada' ? true : false;
         $this->renderer->render('modificar', $pregunta[0]);
     }
 
@@ -110,7 +111,7 @@ class GestionPreguntasController
         }
 
         $result =  $this->model->modificarPregunta(
-            $_POST['id_pregunta']??"",
+            $_POST['id-pregunta']??"",
             $_POST['pregunta']??"",
             $_POST['categoria']??"",
             $_POST['estado']??"",
@@ -121,6 +122,6 @@ class GestionPreguntasController
             $_POST['respuesta-incorrecta-b']??"",
             $_POST['respuesta-incorrecta-c']??"");
 
-        $this->renderer->render('gestionpreguntas');
+        echo json_encode($result);
     }
 }
