@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Partida</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Partida</h1>
+<h1>Partida</h1>
+
+<div id="perfil">
+    <!-- Mostrar la imagen de perfil, puntuación máxima y número en el ranking -->
+    <img src="{{imagenPerfil}}" alt="Imagen de perfil">
+    <p>Puntuación Máxima: {{puntuacionMaxima}}</p>
+    <p>Número en el Ranking: {{numeroRanking}}</p>
+
+    <!-- Botón para utilizar la trampita -->
+    <button id="utilizarTrampita">Utilizar Trampita</button>
+</div>
+
+<div id="pregunta">
+    <h2>Categoría: {{categoria}}</h2>
+    <h3>{{pregunta}}</h3>
+
+    <ul id="opciones">
+        <li><button class="opcion" id="opcionA">{{opcionA}}</button></li>
+        <li><button class="opcion" id="opcionB">{{opcionB}}</button></li>
+        <li><button class="opcion" id="opcionC">{{opcionC}}</button></li>
+        <li><button class="opcion" id="opcionD">{{opcionD}}</button></li>
+    </ul>
+
+    <button id="reportarPregunta">Reportar pregunta</button>
+</div>
+
+
+<div id="resultado-incorrecto">
+    <h2>Resultado</h2>
+    <p>Tu respuesta es: <span id="respuestaSeleccionada"></span></p>
+    <p>Respuesta correcta: <span id="respuestaCorrecta"></span></p>
+    <p>Tu puntaje fue de: <span id="puntaje"></span></p>
+
+
+    <button id="finalizarPartida">Finalizar partida</button>
+</div>
+
+<script>
+
+</script>
+</body>
+</html>
