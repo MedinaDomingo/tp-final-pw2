@@ -14,6 +14,15 @@ class PartidaController
         // Obtener una pregunta aleatoria de la base de datos
         $pregunta = $this->model->obtenerPreguntaAleatoria();
 
+        if (!$pregunta) {
+            // No se obtuvo ninguna pregunta
+            $data = [
+                'error' => 'No hay mas preguntas.'
+            ];
+            $this->renderer->render('partida', $data);
+            return;
+        }
+
         // Mostrar la vista de partida con la pregunta y opciones de respuesta
         $data = [
             'pregunta' => $pregunta[0]['descripción'],
@@ -22,21 +31,14 @@ class PartidaController
             'opcion_b' =>  $pregunta[0]['opcion_b'],
             'opcion_c' =>  $pregunta[0]['opcion_c'],
             'opcion_d' =>  $pregunta[0]['opcion_d']
-//            'opciones' => [
-//                $pregunta[0]['opcion_a'],
-//                $pregunta[0]['opcion_b'],
-//                $pregunta[0]['opcion_c'],
-//                $pregunta[0]['opcion_d']
-//            ]
         ];
-
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $idPregunta = $_POST['id_pregunta'];
             $opcionSeleccionada = $_POST['respuesta'];
 
             // Verificar la respuesta seleccionada
-            $respuestaCorrecta = $this->partidaModel->verificarRespuesta($idPregunta, $opcionSeleccionada);
+            $respuestaCorrecta = $this->model->verificarRespuesta($idPregunta, $opcionSeleccionada);
 
             if ($respuestaCorrecta) {
                 echo 'correcta';
@@ -48,44 +50,49 @@ class PartidaController
         }
 
         $this->renderer->render('partida', $data);
-
     }
 
-    public function verificarRespuesta() {
+    public function verificarRespuesta(){
         // Obtener la respuesta seleccionada por el usuario
         $respuestaUsuario = $_POST['respuesta'];
 
         // Obtener la pregunta actual
-        $pregunta = $this->partidaModel->obtenerPreguntaActual();
+        $pregunta = $this->model->obtenerPreguntaActual();
 
         // Verificar si la respuesta es correcta
         if ($respuestaUsuario === $pregunta['opcion_correcta']) {
+            // La respuesta es correcta
+
             // Actualizar el puntaje del usuario
-            $this->partidaModel->incrementarPuntaje($_SESSION['user_data']['id_usuario']);
+            $this->model->incrementarPuntaje($_SESSION['user_data']['id_usuario']);
 
             // Obtener una nueva pregunta aleatoria
-            $nuevaPregunta = $this->partidaModel->obtenerPreguntaAleatoria();
+            $nuevaPregunta = $this->model->obtenerPreguntaAleatoria();
 
             // Mostrar la vista de partida con la nueva pregunta
             $data = [
                 'pregunta' => $nuevaPregunta['descripción'],
                 'categoria' => $nuevaPregunta['id_categoria'],
-                'opciones' => [
-                    $nuevaPregunta['opcion_a'],
-                    $nuevaPregunta['opcion_b'],
-                    $nuevaPregunta['opcion_c'],
-                    $nuevaPregunta['opcion_d']
-                ]
+                'opcion_a' => $nuevaPregunta['opcion_a'],
+                'opcion_b' => $nuevaPregunta['opcion_b'],
+                'opcion_c' => $nuevaPregunta['opcion_c'],
+                'opcion_d' => $nuevaPregunta['opcion_d'],
+                'id_pregunta' => $nuevaPregunta['id_pregunta']
             ];
 
             $this->renderer->render('partida', $data);
         } else {
-            // La respuesta es incorrecta, finalizar la partida y mostrar el puntaje
-            $puntaje = $this->partidaModel->obtenerPuntaje($_SESSION['user_data']['id_usuario']);
+            // La respuesta es incorrecta, redirigir al lobby
+
+            // Obtener el puntaje del usuario
+            $puntaje = $this->model->obtenerPuntaje($_SESSION['user_data']['id_usuario']);
+
+            // Mostrar la vista de fin de partida con el puntaje
             $data = [
                 'puntaje' => $puntaje
             ];
-            $this->renderer->render('partida_finalizada', $data);
+
+            $this->renderer->render('fin_partida', $data);
         }
     }
 }

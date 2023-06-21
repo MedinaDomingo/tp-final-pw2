@@ -14,10 +14,6 @@ class PartidaModel
         $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
         $result = $this->database->query($query);
 
-//        if ($result) {
-//            return $result->fetch_assoc();
-//        }
-
         return $result;
     }
 
@@ -33,10 +29,37 @@ class PartidaModel
         // Obtener el valor de $opcionCorrecta
         $statement->fetch();
         $statement->close();
+        $statement->bindParam("i", $idPregunta);
 
         // Verificar si la opción seleccionada coincide con la respuesta correcta
         return $opcionSeleccionada === $opcionCorrecta;
     }
+
+    public function incrementarPuntaje($idUsuario)
+    {
+        $query = "UPDATE usuario SET puntaje = puntaje + 1 WHERE id_usuario = :id_usuario";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bindParam(':id_usuario', $idUsuario);
+        $stmt->execute();
+    }
+
+    public function obtenerPreguntaActual($idPartida)
+    {
+        $query = "SELECT p.* FROM pregunta p 
+                  INNER JOIN partida pa ON p.id_pregunta = pa.id_pregunta 
+                  WHERE pa.id_partida = :id_partida 
+                  ORDER BY p.id_pregunta DESC 
+                  LIMIT 1";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bindParam(':id_partida', $idPartida);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
 }
 
 
