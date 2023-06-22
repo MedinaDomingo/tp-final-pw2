@@ -4,21 +4,20 @@
 
         <div class="container">
             <div class="profile-container ">
-                <form action="/GestionPreguntas/modificarPregunta" method="post" class="p-3 ocultar-mostrar" id="form-modificar">
+                <form action="/GestionPreguntas/modificarPregunta" method="post" class="p-3 ocultar-mostrar">
 
-                        <input type="text" class="form-control col-12" hidden id="id_pregunta" name="id-pregunta" value="{{id_pregunta}}">
+                        <input type="text" class="form-control col-12" hidden id="id_pregunta" name="pregunta" value="{{id_pregunta}}">
 
-                    <div class="mb-3 text-start" id="pregunta-div-modificar">
+                    <div class="mb-3 text-start" id="pregunta-div">
                         <label for="pregunta" class="form-label text-white">Pregunta</label>
                         <input type="text" class="form-control col-12" id="pregunta" name="pregunta" value="{{pregunta}}">
                     </div>
-                    <div class="mb-3 text-start text-white" id="otra-categoria-div-modificar">
+                    <div class="mb-3 text-start text-white" id="otra-categoria-div">
                         <label class="form-label">Estado</label><br>
-                            <input type="radio" name="estado" value="en_revision"  {{#revision}}checked{{/revision}}> En revisión
-                            <input type="radio" name="estado" value="pendiente_aprobacion" {{#pendiente}}checked{{/pendiente}}> Pendiente de aprobación
-                            <input type="radio" name="estado" value="aprobada" {{#aprobada}}checked{{/aprobada}}> Aprobada
+                            <input type="radio" name="estado" value="alta"  {{#alta}}checked{{/alta}}> Alta
+                            <input type="radio" name="estado" value="baja" {{#baja}}checked{{/baja}}> Baja
                     </div>
-                    <div class="mb-3 text-start" id="categoria-div-modificar">
+                    <div class="mb-3 text-start" id="categoria-div">
                         <label for="categoria" class="form-label text-white">Categoria</label>
                         <select type="text" class="form-control col-12" id="categoria-modificar" name="categoria">
                             <option value="{{categoria}}">{{categoria}}</option>
@@ -26,26 +25,26 @@
 
 
                     </div>
-                    <div class="mb-3 text-start text-white" id="otra-categoria-div-modificar">
+                    <div class="mb-3 text-start text-white" id="otra-categoria-div">
                         <label for="otra_categoria" class="form-label">Otra Categoría</label>
                         <input type="checkbox" name="check-otra-categoria" id="habilitar-otra-categoria-modificar">
                         <input type="text" class="form-control col-12" name="otra_categoria" id="otra_categoria_modificar" disabled>
                     </div>
-                    <div class="mb-3 text-start" id="respuestaCorrecta-div-modificar">
+                    <div class="mb-3 text-start" id="respuestaCorrecta-div">
                         <label for="respuesta-correcta" class="form-label text-white">Respuesta Correcta</label>
-                        <input type="text" class="form-control col-12" id="respuesta-correcta" name="respuesta-correcta" value="{{opcion_correcta}}">
+                        <input type="text" class="form-control col-12" id="respuesta-correcta" name="respuesta-correcta" value="{{correcta}}">
                     </div>
-                    <div class="mb-3 text-start" id="respuestaIncorrectaA-div-modificar">
+                    <div class="mb-3 text-start" id="respuestaIncorrectaA-div">
                         <label for="respuesta-incorrecta-a" class="form-label text-white">Respuesta incorrecta A</label>
-                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-a" name="respuesta-incorrecta-a" value="{{opcion_b}}">
+                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-a" name="respuesta-incorrecta-a" value="{{incorrecta_a}}">
                     </div>
-                    <div class="mb-3 text-start" id="respuestaIncorrectaB-div-modificar">
+                    <div class="mb-3 text-start" id="respuestaIncorrectaB-div">
                         <label for="respuesta-incorrecta-b" class="form-label text-white">Respuesta incorrecta B</label>
-                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-b" name="respuesta-incorrecta-b" value="{{opcion_c}}">
+                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-b" name="respuesta-incorrecta-b" value="{{incorrecta_b}}">
                     </div>
-                    <div class="mb-3 text-start" id="respuestaIncorrectaC-div-modificar">
+                    <div class="mb-3 text-start" id="respuestaIncorrectaC-div">
                         <label for="respuesta-incorrecta-c" class="form-label text-white">Respuesta incorrecta C</label>
-                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-c" name="respuesta-incorrecta-c" value="{{opcion_d}}">
+                        <input type="text" class="form-control col-12" id="respuesta-incorrecta-c" name="respuesta-incorrecta-c" value="{{incorrecta_c}}">
                     </div>
                     <input type="submit" value="Modificar" id="modificar" class="btn fs-4 text-white fw-semibold col-5 rounded-4 m-3" style="background:#F39D00">
                     <input type="button" value="Cancelar" id="cancelar" class="btn fs-4 text-white fw-semibold col-5 rounded-4 m-3" style="background:#5bd958">
@@ -72,48 +71,8 @@
                     $('#categoria-modificar').prop('disabled', false);
                 }
             });
-
             $('#cancelar').click(function() {
                 $('#modificar-form').remove();
-            });
-
-            $('#form-modificar').submit(function (event) {
-                event.preventDefault(); //Esto evita que se envíe el formulario de forma perrito
-
-                var formData = $(this).serialize(); // Obtiene los datos del formulario
-                console.log(formData+"asdasdasd");
-                $.ajax({
-                    url: '/GestionPreguntas/modificarPregunta',
-                    type: 'POST',
-                    data: formData, // Datos del formulario
-                    dataType: 'json',
-                    success: function (response) {
-                        $('.error-modificar').remove(); // Eliminar mensajes de error existentes
-
-                        $.each(response, function (key, value) {
-                            let errorElement = $('#' + key + '-div-modificar').find('.error-modificar');
-                            if (errorElement.length) {
-                                errorElement.text(value);
-                            } else {
-                                $('#' + key + '-div-modificar').append('<p class="error-modificar">' + value + '</p>');
-                            }
-                            var newUrl = "/GestionPreguntas/gestion";
-                            history.pushState(null, '', newUrl);
-                        });
-
-                        if (response[0] === 'modificado') {
-                            console.log("Se guardo");
-                            window.location.href = "/GestionPreguntas/gestion?mensaje=modificado";
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-
-                        console.log('No se cargó:', errorThrown);
-                        console.log('Estado:', textStatus);
-                        console.log('Respuesta del servidor:', jqXHR.responseText);
-                        console.log('No se cargo', errorThrown);
-                    }
-                });
             });
         });
     </script>
