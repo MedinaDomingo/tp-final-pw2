@@ -60,7 +60,17 @@
         </div>
     </section>
 
+    <div class="d-flex justify-content-center gap-4">
+    {{#prevPage}}
+        <a class="text-primary text-decoration-none cursor-pointer" href="ranking?page={{prevPage}}">Anterior</a>
+     {{/prevPage}}
 
+     <p class="mx-2"> Pagina {{currentPage}}/{{totalPages}}</p>
+
+    {{#nextPage}}
+        <a class="text-primary text-decoration-none cursor-pointer" href="ranking?page={{nextPage}}">Siguiente</a>
+   {{/nextPage}}
+    </div>
 
 </main>
 
