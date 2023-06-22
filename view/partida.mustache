@@ -100,7 +100,12 @@
                     pregunta: pregunta
                 },
                 success: function(response) {
-                    console.log(response);
+                    console.log("RESPONSE: " +response + "\n");
+
+                    if(response == 'ERROR_NMQ'){
+                        redirigirAlLobby();
+                    }
+
                     if (response === 'correcta') {
                         // La respuesta es correcta, cargar una nueva pregunta
 
@@ -145,6 +150,21 @@
         function redirigirAlLobby() {
             window.location.href = '/lobby';
         }
+
+        $('#reportarPregunta').on('click', function(){
+        $.ajax({
+                        type: 'POST',
+                        url: '/Partida/reportarPregunta',
+                        success: function(data) {
+                        console.log(data);
+
+                        },
+                        error: function() {
+
+                        }
+                    });
+        });
+
 
         // Manejar el evento de clic en las opciones de respuesta
         $('#opcionA').on('click', function() {

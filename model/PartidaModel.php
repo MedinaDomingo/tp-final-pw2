@@ -9,9 +9,15 @@ class PartidaModel
     {
         $this->database = $database;
     }
-    public function obtenerPreguntaAleatoria() {
+    public function obtenerPreguntaAleatoria($preguntasRealizadas) {
         // Obtener una pregunta aleatoria de la base de datos
-        $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
+
+        if(count($preguntasRealizadas) > 0){
+            $query = "SELECT * FROM pregunta WHERE id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
+        }else{
+            $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
+        }
+
         $result = $this->database->query($query);
 
         return $result;
@@ -77,6 +83,27 @@ class PartidaModel
         $stmt = $this->database->query($query);
 
         return $stmt[0]['puntaje'];
+    }
+
+    public  function reportarPregunta($idPregunta){
+        $query = "SELECT reportes FROM pregunta where pregunta.id_pregunta = '$idPregunta'";
+        $stmt = $this->database->query($query);
+
+        $reportes = (int)$stmt[0]['reportes'] + 1;
+
+        $query = "UPDATE pregunta SET reportes = ? WHERE pregunta.id_pregunta = ?";
+        $sentencia = $this->database->getConnection()->prepare($query);
+        $sentencia->bind_param("ss", $reportes,$idPregunta);
+        $sentencia->execute();
+
+        if($reportes > 20){
+            $query = "UPDATE pregunta SET id_estado = 3 WHERE pregunta.id_pregunta = ?";
+            $sentencia = $this->database->getConnection()->prepare($query);
+            $sentencia->bind_param("s",$idPregunta);
+            $sentencia->execute();
+        }
+
+
     }
 
 

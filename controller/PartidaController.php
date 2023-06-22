@@ -4,19 +4,28 @@ class PartidaController
 {
     private $model;
     private $renderer;
+
     public function __construct($model, $renderer)
     {
         $this->renderer = $renderer;
         $this->model = $model;
     }
 
-    public function partida(){
-        if(!$_SESSION['valid']){
+    public function partida()
+    {
+        if (!$_SESSION['valid']) {
             header('Location:/');
             exit();
         }
+        unset($_SESSION['preguntasRealizadas']);
+        unset($_SESSION['idPreguntaActual']);
+
+        $_SESSION['preguntasRealizadas'] = [];
+
         // Obtener una pregunta aleatoria de la base de datos
-        $pregunta = $this->model->obtenerPreguntaAleatoria();
+        $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas']);
+        array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
+        $_SESSION['idPreguntaActual'] = $pregunta[0]['id_pregunta'];
 
         if (!$pregunta) {
             // No se obtuvo ninguna pregunta
@@ -31,10 +40,10 @@ class PartidaController
         $data = [
             'pregunta' => $pregunta[0]['descripción'],
             'categoria' => $pregunta[0]['id_categoria'],
-            'opcion_a' =>  $pregunta[0]['opcion_a'],
-            'opcion_b' =>  $pregunta[0]['opcion_b'],
-            'opcion_c' =>  $pregunta[0]['opcion_c'],
-            'opcion_d' =>  $pregunta[0]['opcion_d']
+            'opcion_a' => $pregunta[0]['opcion_a'],
+            'opcion_b' => $pregunta[0]['opcion_b'],
+            'opcion_c' => $pregunta[0]['opcion_c'],
+            'opcion_d' => $pregunta[0]['opcion_d']
         ];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -56,7 +65,8 @@ class PartidaController
         $this->renderer->render('partida', $data);
     }
 
-    public function verificarRespuesta(){
+    public function verificarRespuesta()
+    {
         // Obtener la respuesta seleccionada por el usuario
         $respuestaUsuario = $_POST['respuesta'];
 
@@ -72,20 +82,37 @@ class PartidaController
             $this->model->incrementarPuntaje($_SESSION['user_data']['id_usuario']);
 
             // Obtener una nueva pregunta aleatoria
-            $nuevaPregunta = $this->model->obtenerPreguntaAleatoria();
-
+            $nuevaPregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas']);
+            array_push($_SESSION['preguntasRealizadas'], $pregunta['id_pregunta']);
+            $_SESSION['idPreguntaActual'] = $pregunta[0]['id_pregunta'];
             // Mostrar la vista de partida con la nueva pregunta
-            $data = [
-                'pregunta' => $nuevaPregunta[0]['descripción'],
-                'categoria' => $nuevaPregunta[0]['id_categoria'],
-                'opcion_a' => $nuevaPregunta[0]['opcion_a'],
-                'opcion_b' => $nuevaPregunta[0]['opcion_b'],
-                'opcion_c' => $nuevaPregunta[0]['opcion_c'],
-                'opcion_d' => $nuevaPregunta[0]['opcion_d'],
-                'id_pregunta' => $nuevaPregunta[0]['id_pregunta']
-            ];
 
-            echo "correcta";
+            try {
+                $data = [
+                    'pregunta' => $nuevaPregunta[0]['descripción'] ?? null,
+                    'categoria' => $nuevaPregunta[0]['id_categoria'] ?? null,
+                    'opcion_a' => $nuevaPregunta[0]['opcion_a'] ?? null,
+                    'opcion_b' => $nuevaPregunta[0]['opcion_b'] ?? null,
+                    'opcion_c' => $nuevaPregunta[0]['opcion_c'] ?? null,
+                    'opcion_d' => $nuevaPregunta[0]['opcion_d'] ?? null,
+                    'id_pregunta' => $nuevaPregunta[0]['id_pregunta'] ?? null
+                ];
+
+                foreach ($data as $campo => $valor) {
+                    if ($valor == null) {
+                        throw  new Exception();
+                    }
+                }
+
+
+
+                echo "correcta";
+
+            } catch (Exception $e) {
+                echo 'ERROR_NMQ';
+            }
+
+
             /*$this->renderer->render('partida', $data);*/
         } else {
             // La respuesta es incorrecta, redirigir al lobby
@@ -102,16 +129,22 @@ class PartidaController
         }
     }
 
-    public function preguntaAleatoria(){
-        $pregunta = $this->model->obtenerPreguntaAleatoria();
+    public function preguntaAleatoria()
+    {
+        $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas']);
+        array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
         $data = [
             'pregunta' => $pregunta[0]['descripción'],
             'categoria' => $pregunta[0]['id_categoria'],
-            'opcion_a' =>  $pregunta[0]['opcion_a'],
-            'opcion_b' =>  $pregunta[0]['opcion_b'],
-            'opcion_c' =>  $pregunta[0]['opcion_c'],
-            'opcion_d' =>  $pregunta[0]['opcion_d']
+            'opcion_a' => $pregunta[0]['opcion_a'],
+            'opcion_b' => $pregunta[0]['opcion_b'],
+            'opcion_c' => $pregunta[0]['opcion_c'],
+            'opcion_d' => $pregunta[0]['opcion_d']
         ];
         echo json_encode($data);
+    }
+
+    public function reportarPregunta(){
+        $trest = $this->model->reportarPregunta($_SESSION['idPreguntaActual']);
     }
 }
