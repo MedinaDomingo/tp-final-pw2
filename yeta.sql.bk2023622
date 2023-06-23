@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-06-2023 a las 21:15:02
+-- Tiempo de generación: 19-06-2023 a las 22:59:43
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -126,19 +126,8 @@ CREATE TABLE `pregunta` (
   `opcion_b` varchar(32) NOT NULL,
   `opcion_c` varchar(32) NOT NULL,
   `opcion_d` varchar(32) NOT NULL,
-  `opcion_correcta` varchar(32) NOT NULL,
-  `reportes` int(11) NOT NULL DEFAULT 0,
-  `dificultad` int(11) NOT NULL
+  `opcion_correcta` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pregunta`
---
-
-INSERT INTO `pregunta` (`id_pregunta`, `descripción`, `id_categoria`, `id_estado`, `opcion_a`, `opcion_b`, `opcion_c`, `opcion_d`, `opcion_correcta`, `reportes`, `dificultad`) VALUES
-(30, '¿Cuál es el número atómico del oxígeno?', 10, 2, '6', '8', '10', '12', '8', 14, 0),
-(32, '¿Cuál es la fórmula química del agua?', 10, 2, 'H2O', 'CO2', 'NaCl', 'C6H12O6', 'H2O', 13, 0),
-(33, '¿Cuál es la ley de gravitación universal?', 10, 3, 'Ley de Ohm', 'Ley de Newton', 'Ley de Coulomb', 'Ley de Boyle-Mariotte', 'Ley de Newton', 23, 0);
 
 -- --------------------------------------------------------
 
@@ -208,7 +197,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `nombre_u`, `cod_verif`, `email`, `nombre`, `sexo`, `puntaje`, `fecha_nac`, `id_rol`, `id_resultado`, `id_partida`, `id_nivel`, `id_trampa`, `is_active`, `activation_hash`, `apellido`, `foto_perfil`, `pais`, `provincia`, `password`, `qr`, `rol`) VALUES
 (5, 'alf', 0, 'alanaumente@gmail.com', 'gordon', 'Masculino', 175, '2023-06-01', 1, NULL, NULL, NULL, NULL, b'1', '09050', 'alf', '/public/profilePictures/693633d4e21e801929d731c1608fd5ef (1).png', 'Argentina', 'Buenos Aires', '$2y$10$7U8wP2kOhuOyR9oKr9XSJeWEXPbvPXQBFcDNcliBMjVw2WgKDjdB2', 'alf_qr.png', 1),
-(6, 'Genti', 0, 'alanaumente@gmail.com', 'Genti', 'Masculino', 837, '2023-06-07', 2, NULL, NULL, NULL, NULL, b'1', '21667', 'Genti', '/public/profilePictures/693633d4e21e801929d731c1608fd5ef (1).png', 'Argentina', 'Buenos Aires', '$2y$10$/2wJBZ62jYS5aIrumi9ll.tqC/A1pWYQ5OJStuYdwOgnPK.IlG/M6', 'Genti_qr.png', 1),
+(6, 'Genti', 0, 'alanaumente@gmail.com', 'Genti', 'Masculino', 666, '2023-06-07', 1, NULL, NULL, NULL, NULL, b'1', '21667', 'Genti', '/public/profilePictures/693633d4e21e801929d731c1608fd5ef (1).png', 'Argentina', 'Buenos Aires', '$2y$10$/2wJBZ62jYS5aIrumi9ll.tqC/A1pWYQ5OJStuYdwOgnPK.IlG/M6', 'Genti_qr.png', 1),
 (7, 'Charmander', 0, 'asd@asd.com', 'Charmander', 'Masculino', 1300, '1997-11-13', 1, NULL, NULL, NULL, NULL, b'0', '90751', 'Char Char', '/public/profilePictures/pokemon-6895600_1280.webp', 'Argentina', 'Buenos Aires', '$2y$10$O8Eps7sPuekP4Lt2ux5eZ.8yq/1tOvtY/c5AJxs7hiLlUCSbVedjm', 'Charmander_qr.png', 1),
 (8, 'Bulbasaur', 0, 'asd@asd.com', 'Bulbasaur', 'Masculino', 900, '1998-12-03', 1, NULL, NULL, NULL, NULL, b'0', '07041', 'Bulbasaur', '/public/profilePictures/images.png', 'Argentina', 'Buenos Aires', '$2y$10$SKuvpQz0ni.4HvuXTE5AWuzQwB4Drez26yARgmfqyaYUc.RKF6CoK', 'Bulbasaur_qr.png', 1),
 (9, 'Squirtle', 0, 'asd@asd.com', 'Squirtle', 'Masculino', 1500, '1999-11-11', 1, NULL, NULL, NULL, NULL, b'0', '91680', 'Squirtle', '/public/profilePictures/afb9abe634d79fc11a43f909164006e8.jpg', 'Argentina', 'Buenos Aires', '$2y$10$.YaNnE9E7B6m3RUZckg7vOVPoX0xvrgyBt63EsqCHqSkJMXAiBB2u', 'Squirtle_qr.png', 1);
@@ -329,7 +318,7 @@ ALTER TABLE `partida`
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

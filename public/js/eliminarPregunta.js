@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 
         $.ajax({
-            url: '/GestionPreguntas/eliminarPreguntaRespuestas',
+            url: 'http://localhost:8080/GestionPreguntas/eliminarPreguntaRespuestas',
             type: 'POST',
             data: { pregunta: pregunta },
             success: function(response) {

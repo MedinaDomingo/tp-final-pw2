@@ -65,4 +65,3 @@ $(document).ready(function () {
         loadPreguntas(page);
     });
 });
-

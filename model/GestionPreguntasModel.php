@@ -187,7 +187,7 @@ class GestionPreguntasModel
             }
 
             $this->modificarPreguntaExistente($idPregunta,$pregunta, $estado, $idCategoria, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC);
-                return ["modificado"];
+            return ["modificado"];
         } else {
             return $errores;
         }
