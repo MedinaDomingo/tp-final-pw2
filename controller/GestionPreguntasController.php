@@ -73,7 +73,7 @@ class GestionPreguntasController
             $preguntas["prevPage"] = $paginaActual - 1;
         }
 
-        if(ceil(count($preguntas['preguntas'])/$ELEMENTOS_POR_PAGINA) >=  $paginaActual){
+        if($elementos > $paginaActual * $ELEMENTOS_POR_PAGINA){
             $preguntas["nextPage"] = $paginaActual + 1;
         }
 
