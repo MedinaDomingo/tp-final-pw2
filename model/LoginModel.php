@@ -40,8 +40,10 @@ class LoginModel
 
         return $usuario['is_active'] == 1 && $usuario['descripción'] == "cliente" ?
             ["lobby", $usuario] : ($usuario['is_active'] == 1 && $usuario['descripción'] == "editor" ?
-                ["editor", $usuario]  : ["login", ["mensaje" => "No te pases de gil tenes que validar la cuenta"]]);
-
+                ["editor", $usuario] : ($usuario['is_active'] == 1 && $usuario['descripción'] == "administrador" ?
+                    ["administrador", $usuario] : ["login", ["mensaje" => "No te pases de gil, tienes que validar la cuenta"]]
+                )
+            );
     }
 
 }

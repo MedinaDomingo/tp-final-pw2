@@ -12,6 +12,7 @@ class LoginController
 
     public function mostrarLogin() {
         if(isset($_SESSION['valid'])){
+
             switch ($_SESSION['user_data']['descripción']){
                 case 'editor':
                     header('Location: /Editor/editor');

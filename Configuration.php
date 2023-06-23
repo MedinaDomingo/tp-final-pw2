@@ -12,7 +12,7 @@ include_once ('controller/PartidaController.php');
 include_once ('controller/EditorController.php');
 include_once('controller/GestionPreguntasController.php');
 include_once ('controller/RankingController.php');
-
+include_once ('controller/AdministradorController.php');
 
 include_once ('model/RegistroModel.php');
 include_once ('model/LoginModel.php');
@@ -23,6 +23,7 @@ include_once ('model/LobbyModel.php');
 include_once ('model/EditorModel.php');
 include_once ('model/GestionPreguntasModel.php');
 include_once ('model/RankingModel.php');
+include_once ('model/AdministradorModel.php');
 
 
 
@@ -89,6 +90,12 @@ class Configuration
 
     public function getGestionPreguntasController(){
         return new GestionPreguntasController(new GestionPreguntasModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
+
+    public function getAdministradorController(){
+        return new AdministradorController(new AdministradorModel(
             $this->getDatabase()),
             $this->getRenderer());
     }
