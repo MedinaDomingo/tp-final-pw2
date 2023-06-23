@@ -97,7 +97,7 @@ class PartidaModel
         $sentencia->execute();
 
         if($reportes > 20){
-            $query = "UPDATE pregunta SET id_estado = 3 WHERE pregunta.id_pregunta = ?";
+            $query = "UPDATE pregunta SET id_estado = 1 WHERE pregunta.id_pregunta = ?";
             $sentencia = $this->database->getConnection()->prepare($query);
             $sentencia->bind_param("s",$idPregunta);
             $sentencia->execute();

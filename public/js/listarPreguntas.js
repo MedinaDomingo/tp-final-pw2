@@ -1,9 +1,17 @@
 
 $(document).ready(function () {
-    // Función para cargar las preguntas y la paginación
+    var urlParams = new URLSearchParams(window.location.search);
+    var estado = urlParams.get('estado');
     function loadPreguntas(page) {
+        var url = '/GestionPreguntas/listarPreguntas?page=' + page;
+        if (estado !== null) {
+            $('#alta').empty();
+            $('#alta').removeClass();
+
+            url += '&estado=' + estado;
+        }
         $.ajax({
-            url: '/GestionPreguntas/listarPreguntas?page=' + page,
+            url: url,
             type: 'POST',
             dataType: 'text',
             success: function (response) {

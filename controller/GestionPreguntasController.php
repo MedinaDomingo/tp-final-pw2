@@ -61,7 +61,7 @@ class GestionPreguntasController
         $paginaActual = $_GET['page'] ?? 1;
 
         $offset = ($paginaActual - 1) * $ELEMENTOS_POR_PAGINA;
-        $result = $this->model->traerTodasLasPreguntas();
+        $result = $this->model->traerTodasLasPreguntas($_GET['estado']??"");
         $elementos = count($result);
 
         $preguntas["preguntas"] = array_slice($result, $offset, $ELEMENTOS_POR_PAGINA);
@@ -126,7 +126,7 @@ class GestionPreguntasController
         }
 
         $result =  $this->model->modificarPregunta(
-            $_POST['id-pregunta']??"",
+            $_POST['preguntacod']??"",
             $_POST['pregunta']??"",
             $_POST['categoria']??"",
             $_POST['estado']??"",
