@@ -3,28 +3,56 @@
 class AdministradorModel
 {
     private $database;
+    private $pdf;
 
     public function __construct($database)
     {
         $this->database = $database;
     }
-    public function traerCantidadClientes()
+    public function traerCantidadClientes($fecha_inicial, $fecha_final)
     {
         $sql = "SELECT count(*) AS cantidad_clientes FROM usuario u WHERE u.id_rol = 1";
+
+        if ($fecha_inicial && $fecha_final) {
+            $sql .= " AND fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'";
+        } elseif ($fecha_inicial) {
+            $sql .= " AND fecha_registro >= '$fecha_inicial'";
+        } elseif ($fecha_final) {
+            $sql .= " AND fecha_registro <= '$fecha_final'";
+        }
+
         $result = $this->database->query($sql);
 
         return $result[0];
     }
-    public function cantidadPreguntasEnJuego()
+    public function cantidadPreguntasEnJuego($fecha_inicial, $fecha_final)
     {
         $sql = "SELECT count(*) AS cantidad_preguntas FROM pregunta p WHERE p.id_estado = 2";
+
+        if ($fecha_inicial && $fecha_final) {
+            $sql .= " AND fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'";
+        } elseif ($fecha_inicial) {
+            $sql .= " AND fecha_registro >= '$fecha_inicial'";
+        } elseif ($fecha_final) {
+            $sql .= " AND fecha_registro <= '$fecha_final'";
+        }
+
         $result = $this->database->query($sql);
 
         return $result[0];
     }
-    public function cantidadPreguntasCreadas()
+    public function cantidadPreguntasCreadas($fecha_inicial, $fecha_final)
     {
         $sql = "SELECT count(*) AS cantidad_preguntas_creadas FROM pregunta p WHERE p.id_estado = 3";
+
+        if ($fecha_inicial && $fecha_final) {
+            $sql .= " AND fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'";
+        } elseif ($fecha_inicial) {
+            $sql .= " AND fecha_registro >= '$fecha_inicial'";
+        } elseif ($fecha_final) {
+            $sql .= " AND fecha_registro <= '$fecha_final'";
+        }
+
         $result = $this->database->query($sql);
 
         return $result[0];
@@ -100,5 +128,7 @@ class AdministradorModel
 
         return json_encode($result);
     }
+
+
 
 }

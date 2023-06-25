@@ -26,7 +26,7 @@ function generateReports() {
             $('#tortachart_pais').empty();
             $('#chart_div_edades').empty();
 
-            /*drawBarChart(response);*/
+            drawBarChart(response);
             drawPieChartSexo(response);
             drawPieChartByPais(response);
             drawColumnChartEdades(response);

@@ -5,7 +5,7 @@ $(document).ready(function() {
         var formData = $(this).serialize(); // Obtiene los datos del formulario
 
         $.ajax({
-            url: 'http://localhost:8080/GestionPreguntas/guardarPregunta',
+            url: '/GestionPreguntas/guardarPregunta',
             type: 'POST',
             data: formData, // Datos del formulario
             dataType: 'json',
