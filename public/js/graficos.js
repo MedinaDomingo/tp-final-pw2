@@ -92,7 +92,7 @@ function drawPieChartSexo(response) {
     let options = {
         title: 'Usuarios por sexo',
         height: 500,
-        chartArea: { width: '80%', height: '70%' },
+        chartArea: { width: '50%', height: '70%' },
         responsive: true
     };
 

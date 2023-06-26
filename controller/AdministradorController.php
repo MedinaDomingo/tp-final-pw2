@@ -27,6 +27,7 @@ class AdministradorController
             header('Location:/');
             exit();
         }
+        $cantidadPartidas = $this->model->traerCantidadPartidas($_POST['fechaInicial'] ?? null, $_POST['fechaFinal'] ?? null);
         $cantidadClientes = $this->model->traerCantidadClientes($_POST['fechaInicial'] ?? null, $_POST['fechaFinal'] ?? null);
         $cantidadPreguntas = $this->model->cantidadPreguntasEnJuego($_POST['fechaInicial'] ?? null, $_POST['fechaFinal'] ?? null);
         $cantidadPreguntasCreadas = $this->model->cantidadPreguntasCreadas($_POST['fechaInicial'] ?? null, $_POST['fechaFinal'] ?? null);
@@ -35,6 +36,7 @@ class AdministradorController
         $cantidadUsuariosRangoEtario = $this->model->cantidadUsuariosRangoEtario($_POST['fechaInicial'] ?? null, $_POST['fechaFinal'] ?? null);
 
         $data = array(
+            "cantidad_partidas_jugadas" => $cantidadPartidas['cantidad_partidas'],
             "cantidad_clientes" => $cantidadClientes['cantidad_clientes'],
             "cantidad_preguntas" => $cantidadPreguntas['cantidad_preguntas'],
             "cantidad_preguntas_creadas" => $cantidadPreguntasCreadas['cantidad_preguntas_creadas'],

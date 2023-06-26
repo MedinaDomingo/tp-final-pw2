@@ -9,6 +9,23 @@ class AdministradorModel
     {
         $this->database = $database;
     }
+
+    public function traerCantidadPartidas($fecha_inicial, $fecha_final)
+    {
+        $sql = "SELECT count(*) AS cantidad_partidas FROM partida";
+
+        if ($fecha_inicial && $fecha_final) {
+            $sql .= " AND fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'";
+        } elseif ($fecha_inicial) {
+            $sql .= " AND fecha_registro >= '$fecha_inicial'";
+        } elseif ($fecha_final) {
+            $sql .= " AND fecha_registro <= '$fecha_final'";
+        }
+
+        $result = $this->database->query($sql);
+
+        return $result[0];
+    }
     public function traerCantidadClientes($fecha_inicial, $fecha_final)
     {
         $sql = "SELECT count(*) AS cantidad_clientes FROM usuario u WHERE u.id_rol = 1";
