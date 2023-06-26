@@ -1,112 +1,137 @@
 <?php
 
-class PartidaModel
-{
-    private $database;
-
-
-    public function __construct($database)
+    class PartidaModel
     {
-        $this->database = $database;
-    }
-    public function obtenerPreguntaAleatoria($preguntasRealizadas) {
-        // Obtener una pregunta aleatoria de la base de datos
+        private $database;
 
-        if(count($preguntasRealizadas) > 0){
-            $query = "SELECT * FROM pregunta WHERE id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
-        }else{
-            $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
+
+        public function __construct($database)
+        {
+            $this->database = $database;
         }
 
-        $result = $this->database->query($query);
+        public function obtenerPreguntaAleatoria($preguntasRealizadas)
+        {
+            // Obtener una pregunta aleatoria de la base de datos
 
-        return $result;
-    }
+            if (count($preguntasRealizadas) > 0) {
+                $query = "SELECT * FROM pregunta WHERE id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
+            } else {
+                $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
+            }
 
-    public function verificarRespuesta($idPregunta, $opcionSeleccionada) {
-        $opcionCorrecta = null;
-        // Obtener la respuesta correcta de la pregunta
-        $query = "SELECT opcion_correcta FROM pregunta WHERE id_pregunta = ?";
-        $statement = $this->database->prepare($query);
-        $statement->bind_param("i", $idPregunta);
-        $statement->execute();
-        $statement->bind_result($opcionCorrecta);
+            $result = $this->database->query($query);
 
-        // Obtener el valor de $opcionCorrecta
-        $statement->fetch();
-        $statement->close();
-        $statement->bindParam("i", $idPregunta);
+            return $result;
+        }
 
-        // Verificar si la opción seleccionada coincide con la respuesta correcta
-        return $opcionSeleccionada === $opcionCorrecta;
-    }
+        public function verificarRespuesta($idPregunta, $opcionSeleccionada)
+        {
+            $opcionCorrecta = null;
+            // Obtener la respuesta correcta de la pregunta
+            $query = "SELECT opcion_correcta FROM pregunta WHERE id_pregunta = ?";
+            $statement = $this->database->prepare($query);
+            $statement->bind_param("i", $idPregunta);
+            $statement->execute();
+            $statement->bind_result($opcionCorrecta);
 
-    public function incrementarPuntaje($idUsuario)
-    {
-        $query = "UPDATE usuario SET puntaje = puntaje + 1 WHERE id_usuario = ?";
+            // Obtener el valor de $opcionCorrecta
+            $statement->fetch();
+            $statement->close();
+            $statement->bindParam("i", $idPregunta);
 
-        $stmt = $this->database->getConnection()->prepare($query);
-        $stmt->bind_param('s', $idUsuario);
-        $stmt->execute();
-    }
+            // Verificar si la opción seleccionada coincide con la respuesta correcta
+            return $opcionSeleccionada === $opcionCorrecta;
+        }
 
-    public function obtenerPreguntaActual($idPartida)
-    {
-        $query = "SELECT p.* FROM pregunta p 
+        public function incrementarPuntaje($idUsuario)
+        {
+            $query = "UPDATE usuario SET puntaje = puntaje + 1 WHERE id_usuario = ?";
+
+            $stmt = $this->database->getConnection()->prepare($query);
+            $stmt->bind_param('i', $idUsuario);
+            $stmt->execute();
+
+        }
+
+
+        public function obtenerPreguntaActual($idPartida)
+        {
+            $query = "SELECT p.* FROM pregunta p 
                   INNER JOIN partida pa ON p.id_pregunta = pa.id_pregunta 
                   WHERE pa.id_partida = :id_partida 
                   ORDER BY p.id_pregunta DESC 
                   LIMIT 1";
 
-        $stmt = $this->database->prepare($query);
-        $stmt->bindParam(':id_partida', $idPartida);
-        $stmt->execute();
+            $stmt = $this->database->prepare($query);
+            $stmt->bindParam(':id_partida', $idPartida);
+            $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
 
-    public function obtenerPregunta($pregunta)
-    {
-        $query = "SELECT p.* FROM pregunta p 
+        public function obtenerPregunta($pregunta)
+        {
+            $query = "SELECT p.* FROM pregunta p 
               WHERE p.descripción = '$pregunta'";
 
-        $stmt = $this->database->query($query);
+            $stmt = $this->database->query($query);
 
-        return $stmt[0];
-    }
+            return $stmt[0];
+        }
 
-    public function obtenerPuntaje($idUsuario)
-    {
-        $query = "SELECT u.puntaje FROM usuario u 
+        public function obtenerPuntaje($idUsuario)
+        {
+            $query = "SELECT u.puntaje FROM usuario u 
               WHERE u.id_usuario = '$idUsuario'";
 
-        $stmt = $this->database->query($query);
+            $stmt = $this->database->query($query);
 
-        return $stmt[0]['puntaje'];
-    }
+            return $stmt[0]['puntaje'];
+        }
 
-    public  function reportarPregunta($idPregunta){
-        $query = "SELECT reportes FROM pregunta where pregunta.id_pregunta = '$idPregunta'";
-        $stmt = $this->database->query($query);
+        public function reportarPregunta($idPregunta)
+        {
+            $query = "SELECT reportes FROM pregunta where pregunta.id_pregunta = '$idPregunta'";
+            $stmt = $this->database->query($query);
 
-        $reportes = (int)$stmt[0]['reportes'] + 1;
+            $reportes = (int)$stmt[0]['reportes'] + 1;
 
-        $query = "UPDATE pregunta SET reportes = ? WHERE pregunta.id_pregunta = ?";
-        $sentencia = $this->database->getConnection()->prepare($query);
-        $sentencia->bind_param("ss", $reportes,$idPregunta);
-        $sentencia->execute();
-
-        if($reportes > 20){
-            $query = "UPDATE pregunta SET id_estado = 1 WHERE pregunta.id_pregunta = ?";
+            $query = "UPDATE pregunta SET reportes = ? WHERE pregunta.id_pregunta = ?";
             $sentencia = $this->database->getConnection()->prepare($query);
-            $sentencia->bind_param("s",$idPregunta);
+            $sentencia->bind_param("ss", $reportes, $idPregunta);
             $sentencia->execute();
+
+            if ($reportes > 20) {
+                $query = "UPDATE pregunta SET id_estado = 1 WHERE pregunta.id_pregunta = ?";
+                $sentencia = $this->database->getConnection()->prepare($query);
+                $sentencia->bind_param("s", $idPregunta);
+                $sentencia->execute();
+            }
+        }
+
+        public function actualizarPuntaje($idUsuario, $puntaje){
+            $query = "UPDATE usuario SET puntaje = ? WHERE usuario.id_usuario = ?";
+            $sentence = $this->database->getConnection()->prepare($query);
+            $sentence->bind_param("ss",$puntaje, $idUsuario);
+            $sentence->execute();
+
+        }
+
+        public function obtenerFotoPerfil($idUsuario)
+        {
+            $query = "SELECT foto_perfil FROM usuario WHERE id_usuario = ?";
+
+            $stmt = $this->database->getConnection()->prepare($query);
+            $stmt->bind_param('i', $idUsuario);
+            $stmt->execute();
+            $stmt->bind_result($fotoPerfil);
+            $stmt->fetch();
+            $stmt->close();
+
+            return $fotoPerfil;
         }
 
 
+
     }
-
-
-}
-
-
