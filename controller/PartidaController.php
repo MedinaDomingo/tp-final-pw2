@@ -25,7 +25,7 @@
             $_SESSION['puntajePartida'] = 0;
 
             // Obtener una pregunta aleatoria de la base de datos
-            $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas']);
+            $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
             array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
             $_SESSION['idPreguntaActual'] = $pregunta[0]['id_pregunta'];
 
@@ -55,21 +55,21 @@
 
             ];
 
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $idPregunta = $_POST['id_pregunta'];
-                $opcionSeleccionada = $_POST['respuesta'];
-
-                // Verificar la respuesta seleccionada
-                $respuestaCorrecta = $this->model->verificarRespuesta($idPregunta, $opcionSeleccionada);
-
-                if ($respuestaCorrecta) {
-                    echo 'correcta';
-                    exit();
-                } else {
-                    echo 'incorrecta';
-                    exit();
-                }
-            }
+//            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//                $idPregunta = $_POST['id_pregunta'];
+//                $opcionSeleccionada = $_POST['respuesta'];
+//
+//                // Verificar la respuesta seleccionada
+//                $respuestaCorrecta = $this->model->verificarRespuesta($idPregunta, $opcionSeleccionada);
+//
+//                if ($respuestaCorrecta) {
+//                    echo 'correcta';
+//                    exit();
+//                } else {
+//                    echo 'incorrecta';
+//                    exit();
+//                }
+//            }
 
             $this->renderer->render('partida', $data);
         }
@@ -93,7 +93,7 @@
 
 
                 // Obtener una nueva pregunta aleatoria
-                $nuevaPregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas']);
+                $nuevaPregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
                 array_push($_SESSION['preguntasRealizadas'], $pregunta['id_pregunta']);
                 $_SESSION['idPreguntaActual'] = $pregunta['id_pregunta'];
                 // Mostrar la vista de partida con la nueva pregunta
@@ -144,7 +144,7 @@
         public function preguntaAleatoria()
         {
             $puntaje = $this->model->obtenerPuntaje($_SESSION['user_data']['id_usuario']);
-            $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas']);
+            $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
             array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
             $data = [
                 'pregunta' => $pregunta[0]['descripción'],

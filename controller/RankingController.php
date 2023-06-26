@@ -11,7 +11,7 @@ class RankingController
     }
 
     public function ranking(){
-        $ELEMENTOS_POR_PAGINA = 2;
+        $ELEMENTOS_POR_PAGINA = 3;
         if(!$_SESSION['valid']){
             header('Location:/');
         }
