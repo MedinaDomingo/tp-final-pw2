@@ -2,161 +2,154 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/css/registrar.css">
+    <link rel="stylesheet" href="/public/css/nav.css">
 </head>
-
 <body>
-  <div class="container">
+<div class="container">
     {{> nav}}
     <main>
-      <h1 class="text-center">Registrate</h1>
-      <form enctype="multipart/form-data" class="row justify-content-center" method="POST"
-        action="/registro/validarRegistro">
-        <div class="col-md-5">
-          <div class="mb-3 text-center">
-            <input type="file" class="form-control-file" id="imagen" name="imagen" style="display: none;"
-              onchange="mostrarImagen(event)" value="{{# valido}}{{imagen}}{{/ valido}}">
-            <div onclick="document.getElementById('imagen').click()"
-              class="form-group rounded-circle overflow-hidden m-auto" style="width: 100px; height: 100px;">
-              <img id="vista-previa" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                alt="Vista previa de la imagen" style="max-width: 100px; cursor: pointer;">
-            </div>
-            {{# errores}}<span class="text-danger fs-6 text">{{Imagen}}</span>{{/ errores}}
+        <h2 class="text-center">Registrate</h2>
+        <form enctype="multipart/form-data" class="row justify-content-center" method="POST"
+              action="/registro/validarRegistro">
+            <div class="col-md-5">
+                <div class="mb-3 text-center">
+                    <input type="file" class="form-control-file" id="imagen" name="imagen" style="display: none;"
+                           onchange="mostrarImagen(event)" value="{{# valido}}{{imagen}}{{/ valido}}">
+                    <div onclick="document.getElementById('imagen').click()"
+                         class="form-group rounded-circle overflow-hidden m-auto" style="width: 100px; height: 100px;">
+                        <img id="vista-previa" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                             alt="Vista previa de la imagen" style="max-width: 100px; cursor: pointer;">
+                    </div>
+                    {{# errores}}<span class="text-danger fs-6 text">{{Imagen}}</span>{{/ errores}}
 
-          </div>
-          <div class="mb-3">
-            <label for="usuario" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="usuario" name="usuario"
-              value="{{# valido}}{{usuario}}{{/ valido}}">
-            {{# errores}}<span class="text-danger fs-6 text">{{Usuario}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre"
-              value="{{# valido}}{{nombre}}{{/ valido}}">
-            {{# errores}}<span class="text-danger">{{Nombre}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="apellido" name="apellido"
-              value="{{# valido}}{{apellido}}{{/ valido}}">
-            {{# errores}}<span class="text-danger">{{Apellido}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{# valido}}{{email}}{{/ valido}}">
-            {{# errores}}<span class="text-danger">{{email}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="">
-            {{# errores}}<span class="text-danger">{{password}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="repetir-password" class="form-label">Repetir Password</label>
-            <input type="password" class="form-control" id="repetir-password" name="repetir-password">
-            {{# errores}}<span class="text-danger">{{passwordDistinto}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="nacimiento" class="form-label">Nacimiento</label>
-            <input type="date" id="nacimiento" class="form-control" name="nacimiento"
-              value="{{# valido}}{{nacimiento}}{{/ valido}}">
-            {{# errores}}<span class="text-danger">{{Nacimiento}}</span>{{/ errores}}
-            {{# errores}}<span class="text-danger">{{nacimiento-rango}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <label for="sexo" class="form-label">Sexo</label>
-            <select class="form-select" name="sexo" id="sexo">
-              <option value="Masculino">Masculino</option>
-              <option value="Femenino">Femenino</option>
-              <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
-            </select>
-            {{# errores}}<span class="text-danger">{{sexo}}</span>{{/ errores}}
-          </div>
-          <div class="mb-3">
-            <div class="form-group">
-              <label for="pais">País:</label>
-              <input type="text" class="form-control" id="pais" name="pais" placeholder="Selecciona un país"
-                value="{{# valido}}{{pais}}{{/ valido}}">
-              {{# errores}}<span class="text-danger">{{País}}</span>{{/ errores}}<br>
-              <label for="provincia">Provincia:</label>
-              <input type="text" class="form-control" id="provincia" name="provincia"
-                placeholder="Selecciona una provincia" value="{{# valido}}{{provincia}}{{/ valido}}">
-              {{# errores}}<span class="text-danger">{{Provincia}}</span>{{/ errores}}<br>
-              <div id="map" style="height: 180px;"></div>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="usuario" name="usuario"
+                           value="{{# valido}}{{usuario}}{{/ valido}}" placeholder="Ingrese nombre usuario">
+                    {{# errores}}<span class="text-danger fs-6 text">{{Usuario}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="nombre" name="nombre"
+                           value="{{# valido}}{{nombre}}{{/ valido}}" placeholder="Ingrese nombre">
+                    {{# errores}}<span class="text-danger">{{Nombre}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="apellido" name="apellido"
+                           value="{{# valido}}{{apellido}}{{/ valido}}" placeholder="Ingrese apellido">
+                    {{# errores}}<span class="text-danger">{{Apellido}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="email" name="email" value="{{# valido}}{{email}}{{/ valido}}" placeholder="Ingrese email">
+                    {{# errores}}<span class="text-danger">{{email}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese contraseña">
+                    {{# errores}}<span class="text-danger">{{password}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="repetir-password" name="repetir-password" placeholder="Repita su contraseña">
+                    {{# errores}}<span class="text-danger">{{passwordDistinto}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <input type="date" id="nacimiento" class="form-control" name="nacimiento"
+                           value="{{# valido}}{{nacimiento}}{{/ valido}}" placeholder="Ingrese su fecha de nacimiento">
+                    {{# errores}}<span class="text-danger">{{Nacimiento}}</span>{{/ errores}}
+                    {{# errores}}<span class="text-danger">{{nacimiento-rango}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <select class="form-select" name="sexo" id="sexo">
+                        <option>Ingrese su sexo</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
+                    </select>
+                    {{# errores}}<span class="text-danger">{{sexo}}</span>{{/ errores}}
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="pais" name="pais" placeholder="Selecciona un país"
+                               value="{{# valido}}{{pais}}{{/ valido}}">
+                        {{# errores}}<span class="text-danger">{{País}}</span>{{/ errores}}<br><br>
+                        <input type="text" class="form-control" id="provincia" name="provincia"
+                               placeholder="Selecciona una provincia" value="{{# valido}}{{provincia}}{{/ valido}}">
+                        {{# errores}}<span class="text-danger">{{Provincia}}</span>{{/ errores}}<br><br>
+                        <div id="map" style="height: 100px;"></div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Registrarse">
+                <p class="mb-3">¿Ya tenes una cuenta?</p>
+                <a class="button" href="/">Ir a inicio de sesion</a>
             </div>
-          </div>
-          <input type="submit" class="btn btn-primary" value="Registrarse">
-          <p class="mb-3">¿Ya tenes una cuenta? <a class="link-success " href="/">Login</a></p>
-        </div>
-      </form>
+        </form>
     </main>
 
-  </div>
-  <!--Input imagen usuario-->
-  <script>
+</div>
+<!--Input imagen usuario-->
+<script>
     function mostrarImagen(event) {
-      let archivo = event.target.files[0];
-      let vistaPrevia = document.getElementById("vista-previa")
+        let archivo = event.target.files[0];
+        let vistaPrevia = document.getElementById("vista-previa")
 
-      let lector = new FileReader()
-      lector.onload = function (e) {
-        vistaPrevia.src = e.target.result
-      };
+        let lector = new FileReader()
+        lector.onload = function (e) {
+            vistaPrevia.src = e.target.result
+        };
 
-      lector.readAsDataURL(archivo)
+        lector.readAsDataURL(archivo)
     }
-  </script>
-  <!-- Make sure you put this AFTER Leaflet's CSS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
-    </script>
+</script>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+</script>
 
-  <script>
+<script>
     let paisInput = document.getElementById('pais');
     let provinciaInput = document.getElementById('provincia');
     let map = L.map('map').setView([51.505, -0.09], 13)
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map)
 
 
-
     function onMapClick(e) {
-      let lat = e.latlng.lat
-      let lng = e.latlng.lng
+        let lat = e.latlng.lat
+        let lng = e.latlng.lng
 
-      // Realizar solicitud de geocodificación inversa a la API de Nominatim
-      let url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng
+        // Realizar solicitud de geocodificación inversa a la API de Nominatim
+        let url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          var country = data.address.country
-          var province = data.address.state
+        fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var country = data.address.country
+                    var province = data.address.state
 
-          paisInput.value = country
-          provinciaInput.value = province
+                    paisInput.value = country
+                    provinciaInput.value = province
 
 
-        })
-        .catch(error => {
-          console.log('Error al obtener la información del país y provincia:', error)
-        })
+                })
+                .catch(error => {
+                    console.log('Error al obtener la información del país y provincia:', error)
+                })
     }
+
     map.on('click', onMapClick)
-  </script>
+</script>
 </body>
 
 </html>

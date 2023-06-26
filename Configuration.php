@@ -9,16 +9,19 @@ include_once ('controller/RegistroController.php');
 include_once ('controller/PerfilUsuarioController.php');
 include_once ('controller/LobbyController.php');
 include_once ('controller/PartidaController.php');
+include_once('controller/PartidaFinalizadaController.php');
 include_once ('controller/EditorController.php');
-include_once('controller/GestionPreguntasController.php');
+include_once ('controller/GestionPreguntasController.php');
 include_once ('controller/RankingController.php');
 include_once ('controller/AdministradorController.php');
+
 
 include_once ('model/RegistroModel.php');
 include_once ('model/LoginModel.php');
 include_once ('model/EmailModel.php');
 include_once ('model/PerfilUsuarioModel.php');
 include_once ('model/PartidaModel.php');
+include_once('model/PartidaFinalizadaModel.php');
 include_once ('model/LobbyModel.php');
 include_once ('model/EditorModel.php');
 include_once ('model/GestionPreguntasModel.php');
@@ -84,6 +87,12 @@ class Configuration
 
     public function getEditorController(){
         return new EditorController(new EditorModel(
+            $this->getDatabase()),
+            $this->getRenderer());
+    }
+
+    public function getPartidaFinalizadaController(){
+        return new partidaFinalizadaController(new partidaFinalizadaModel(
             $this->getDatabase()),
             $this->getRenderer());
     }
