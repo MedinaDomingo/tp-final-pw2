@@ -23,7 +23,11 @@ class LoginModel
 
         $usuarioQuery = $this->database->query($sql);
 
-        if (password_verify($password, $usuarioQuery[0]['password'])) {
+        if(!$usuarioQuery){
+            return ["login", ["mensaje" => "Usuario o contraseña incorrecta"]];
+        }
+
+        if (password_verify($password, $usuarioQuery[0]['password'])&&$usuarioQuery) {
             return $this->validarActivo($usuarioQuery[0]);
         } else {
             return ["login", ["mensaje" => "Usuario o contraseña incorrecta"]];

@@ -41,7 +41,7 @@ class LoginController
             header("Location: /$controller/$method");
             exit();
         }else{
-            $this->renderer->render($aDondeVamosMono[0]);
+            $this->renderer->render($aDondeVamosMono[0],$aDondeVamosMono[1]);
         }
     }
 
