@@ -25,15 +25,11 @@
             <div id="perfil">
                 <!-- Mostrar la imagen de perfil, puntuación máxima y número en el ranking -->
 
-                <img src="{{usuario.foto_perfil}}" alt="Imagen de perfil">
-                <p>Puntuación Máxima: {{puntuacionMaxima}}</p>
-                <p>Número en el Ranking: {{numeroRanking}}</p>
-
-                <!-- Botón para utilizar la trampita -->
-                <div class="button-group  mt-3 mb-3 pl-2">
-                    <a class="btn fs-2 text-white fw-semibold col-12 rounded-4" style="background-color: #d5d048"
-                       id="utilizarTrampita">Utilizar Trampita</a>
+                <div class="">
+                    <img class="profile-image rounded-circle img-fluid mx-auto d-block" src="{{foto_perfil}}" alt="">
+                    <h2 class="text-center">{{nombre_u}}</h2>
                 </div>
+
 
             </div>
         </section>
@@ -47,22 +43,22 @@
 
                     <!--Opcion A-->
                     <div class="button-group  mt-3 mb-3">
-                        <a class="btn fs-2 text-white fw-semibold col-12 rounded-4" style="background:#6742FA"
+                        <a class="btn fs-2 text-white  col-12 rounded-4" style="background:#6742FA"
                            id="opcionA">{{opcion_a}}</a>
                     </div>
                     <!--Opcion B-->
                     <div class="button-group  mt-3 mb-3">
-                        <a class="btn fs-2 text-white fw-semibold col-12 rounded-4" style="background:#6742FA"
+                        <a class="btn fs-2 text-white  col-12 rounded-4" style="background:#6742FA"
                            id="opcionB">{{opcion_b}}</a>
                     </div>
                     <!--Opcion C-->
                     <div class="button-group  mt-3 mb-3">
-                        <a class="btn fs-2 text-white fw-semibold col-12 rounded-4" style="background:#6742FA"
+                        <a class="btn fs-2 text-white  col-12 rounded-4" style="background:#6742FA"
                            id="opcionC">{{opcion_c}}</a>
                     </div>
                     <!--Opcion D-->
                     <div class="button-group mt-3 mb-3">
-                        <a class="btn fs-2 text-white fw-semibold col-12 rounded-4" style="background:#6742FA"
+                        <a class="btn fs-2 text-white  col-12 rounded-4" style="background:#6742FA"
                            id="opcionD">{{opcion_d}}</a>
                     </div>
                 </ul>
@@ -75,11 +71,17 @@
 
         </section>
         <section class="col-md-2 d-flex align-items-center text-center">
-            <div id="resultado-incorrecto">
+            <div id="resultado">
+
+                <section class="col-md-2 d-flex align-items-center text-center">
+                    <div id="puntaje-partida">
+                        <h2>Puntaje: {{puntajePartida}}</h2>
+                    </div>
+                </section>
+
 
                 <div class="button-group  mt-2 mb-2 pr-2">
-                    <a class="btn fs-2 text-white fw-semibold col-12 rounded-4" style="background-color: #d54050"
-                       id="finalizarPartida">Finalizar partida</a>
+                    <a class="btn fs-2 text-white col-12 rounded-4" style="background-color: #d54050" href="/PartidaFinalizada/gameover">Finalizar partida</a>
                 </div>
 
             </div>
@@ -107,9 +109,11 @@
                     }
 
                     if (response === 'correcta') {
+
                         // La respuesta es correcta, cargar una nueva pregunta
 
                         cargarNuevaPregunta();
+
                     } else if (response === 'incorrecta') {
                         // La respuesta es incorrecta, redirigir al lobby
                         console.log("false");
@@ -139,6 +143,12 @@
                     $('#opcionB').text(data.opcion_b);
                     $('#opcionC').text(data.opcion_c);
                     $('#opcionD').text(data.opcion_d);
+
+
+                    // Incrementar el puntaje de partida en 1
+                    puntajePartida = data.puntajePartida;
+                    $('#puntaje-partida').find('h2').html('Puntaje: ' + puntajePartida);
+
                 },
                 error: function() {
                     console.log('Error al obtener una nueva pregunta.');
@@ -148,7 +158,8 @@
 
         // Función para redirigir al usuario al lobby
         function redirigirAlLobby() {
-            window.location.href = '/lobby';
+
+            window.location.href = '/PartidaFinalizada/gameover';
         }
 
         $('#reportarPregunta').on('click', function(){
@@ -164,7 +175,6 @@
                         }
                     });
         });
-
 
         // Manejar el evento de clic en las opciones de respuesta
         $('#opcionA').on('click', function() {

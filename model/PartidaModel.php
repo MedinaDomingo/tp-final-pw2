@@ -9,21 +9,24 @@ class PartidaModel
     {
         $this->database = $database;
     }
-    public function obtenerPreguntaAleatoria($preguntasRealizadas) {
-        // Obtener una pregunta aleatoria de la base de datos
 
-        if(count($preguntasRealizadas) > 0){
-            $query = "SELECT * FROM pregunta WHERE id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
-        }else{
-            $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
+    // Obtener una pregunta aleatoria de la base de datos
+    public function obtenerPreguntaAleatoria($preguntasRealizadas, $u_id)
+    {
+        $query = "SELECT id_nivel FROM usuario WHERE usuario.id_usuario = '$u_id'";
+        $dif = $this->database->query($query)[0]['id_nivel'];
+
+        if (count($preguntasRealizadas) > 0) {
+            $query = "SELECT * FROM pregunta WHERE dificultad = $dif AND id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
+        } else {
+            $query = "SELECT * FROM pregunta WHERE dificultad = $dif ORDER BY RAND() LIMIT 1";
         }
-
         $result = $this->database->query($query);
-
         return $result;
     }
 
-    public function verificarRespuesta($idPregunta, $opcionSeleccionada) {
+    public function verificarRespuesta($idPregunta, $opcionSeleccionada)
+    {
         $opcionCorrecta = null;
         // Obtener la respuesta correcta de la pregunta
         $query = "SELECT opcion_correcta FROM pregunta WHERE id_pregunta = ?";
@@ -46,8 +49,9 @@ class PartidaModel
         $query = "UPDATE usuario SET puntaje = puntaje + 1 WHERE id_usuario = ?";
 
         $stmt = $this->database->getConnection()->prepare($query);
-        $stmt->bind_param('s', $idUsuario);
+        $stmt->bind_param('i', $idUsuario);
         $stmt->execute();
+
     }
 
     public function obtenerPreguntaActual($idPartida)
@@ -85,7 +89,8 @@ class PartidaModel
         return $stmt[0]['puntaje'];
     }
 
-    public  function reportarPregunta($idPregunta){
+    public function reportarPregunta($idPregunta)
+    {
         $query = "SELECT reportes FROM pregunta where pregunta.id_pregunta = '$idPregunta'";
         $stmt = $this->database->query($query);
 
@@ -93,20 +98,50 @@ class PartidaModel
 
         $query = "UPDATE pregunta SET reportes = ? WHERE pregunta.id_pregunta = ?";
         $sentencia = $this->database->getConnection()->prepare($query);
-        $sentencia->bind_param("ss", $reportes,$idPregunta);
+        $sentencia->bind_param("ss", $reportes, $idPregunta);
         $sentencia->execute();
 
-        if($reportes > 20){
+        if ($reportes > 20) {
             $query = "UPDATE pregunta SET id_estado = 1 WHERE pregunta.id_pregunta = ?";
             $sentencia = $this->database->getConnection()->prepare($query);
-            $sentencia->bind_param("s",$idPregunta);
+            $sentencia->bind_param("s", $idPregunta);
             $sentencia->execute();
         }
+    }
 
+    public function actualizarPuntaje($idUsuario, $puntaje)
+    {
+        $query = "UPDATE usuario SET puntaje = ? WHERE usuario.id_usuario = ?";
+        $sentence = $this->database->getConnection()->prepare($query);
+        $sentence->bind_param("ss", $puntaje, $idUsuario);
+        $sentence->execute();
 
+        if ($puntaje > 30 && $puntaje < 60) {
+            $query = "UPDATE usuario SET id_nivel = 2 WHERE usuario.id_usuario = ?";
+        } elseif ($puntaje > 60) {
+            $query = "UPDATE usuario SET id_nivel = 3 WHERE usuario.id_usuario = ?";
+        } else {
+            $query = "UPDATE usuario SET id_nivel = 1 WHERE usuario.id_usuario = ?";
+        }
+
+        $sentence = $this->database->getConnection()->prepare($query);
+        $sentence->bind_param("s", $idUsuario);
+        $sentence->execute();
+    }
+
+    public function obtenerFotoPerfil($idUsuario)
+    {
+        $query = "SELECT foto_perfil FROM usuario WHERE id_usuario = ?";
+
+        $stmt = $this->database->getConnection()->prepare($query);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        $stmt->bind_result($fotoPerfil);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $fotoPerfil;
     }
 
 
 }
-
-
