@@ -12,7 +12,7 @@ class AdministradorModel
 
     public function traerCantidadPartidas($fecha_inicial, $fecha_final)
     {
-        $sql = "SELECT count(*) AS cantidad_partidas FROM partida";
+        $sql = "SELECT count(*) AS cantidad_partidas FROM partida WHERE 1=1";
 
         if ($fecha_inicial && $fecha_final) {
             $sql .= " AND fecha_registro BETWEEN '$fecha_inicial' AND '$fecha_final'";

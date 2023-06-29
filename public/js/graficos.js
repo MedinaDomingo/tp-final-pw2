@@ -30,13 +30,10 @@ function generateReports() {
             drawPieChartSexo(response);
             drawPieChartByPais(response);
             drawColumnChartEdades(response);
-
-
-
         },
         error: function(xhr, status, error) {
             // Manejo del error de la solicitud
-            console.error(error,xhr);
+            console.error(error,xhr, status);
         }
     });
 }
@@ -92,7 +89,7 @@ function drawPieChartSexo(response) {
     let options = {
         title: 'Usuarios por sexo',
         height: 500,
-        chartArea: { width: '50%', height: '70%' },
+        chartArea: { width: '80%', height: '70%' },
         responsive: true
     };
 
@@ -145,7 +142,7 @@ function drawColumnChartEdades(response) {
         title: 'Cantidad de usuarios por rango etario',
         height: 500,
         legend: { position: 'none' },
-        chartArea: { width: '50%', height: '70%' },
+        chartArea: { width: '80%', height: '70%' },
         responsive: true
     };
 
