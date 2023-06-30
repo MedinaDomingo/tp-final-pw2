@@ -2,14 +2,14 @@ $(document).ready(function() {
     let selectModificar  = $("#categoria-modificar")
 
     $.ajax({
-        url: '/GestionPreguntas/listarCategorias',
+        url: '/GestionPreguntas/listarCategorias?paginacion=no',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
 
             $.each(response, function(index, obj) {
-                var valor = obj["0"];
-                var descripcion = obj["descripción"];
+                let valor = obj.categoria;
+                let descripcion = obj.categoria;
 
                 if (selectModificar.find('option[value="' + valor + '"]').length === 0) {
                     var option = $("<option>").val(valor).text(descripcion);
@@ -17,8 +17,8 @@ $(document).ready(function() {
                 }
             });
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('Error en la segunda consulta:', errorThrown);
+        error: function(xhr, status, error) {
+            console.error(error,xhr, status);
         }
     });
 });

@@ -4,12 +4,12 @@ $(document).ready(function() {
 
 
         var fila = $(this).closest('tr');
-        var pregunta = fila.find('td:nth-child(1)').text();
+        var categoria = fila.find('td:nth-child(1)').text();
 
 
 
         var datos = {
-            pregunta: pregunta,
+            categoria: categoria,
         };
 
 
@@ -22,7 +22,7 @@ $(document).ready(function() {
                 $('#resultado').html(response);
             },
             error: function(xhr, status, error) {
-                console.error(error);
+                console.error(error,xhr, status);
             }
         });
     });

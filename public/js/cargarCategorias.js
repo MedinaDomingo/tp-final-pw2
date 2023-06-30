@@ -5,7 +5,7 @@ $(document).ready(function() {
         var formData = $(this).serialize(); // Obtiene los datos del formulario
 
         $.ajax({
-            url: '/GestionPreguntas/guardarPregunta',
+            url: '/GestionPreguntas/guardarCategoria',
             type: 'POST',
             data: formData, // Datos del formulario
             dataType: 'json',
@@ -19,20 +19,21 @@ $(document).ready(function() {
                     } else {
                         $('#' + key + '-div').append('<p class="error">' + value + '</p>');
                     }
-                    var newUrl = "/GestionPreguntas/gestion";
+                    var newUrl = "/GestionPreguntas/categorias";
                     history.pushState(null, '', newUrl);
                 });
 
-                if (response[0] == "guardado") {
+                if (response[0] == true) {
                     console.log("Se guardo");
-                    window.location.href = "/GestionPreguntas/gestion?mensaje=guardado";
-                    window.history.pushState(null, null, '/GestionPreguntas/gestion');
+                    window.location.href = "/GestionPreguntas/categorias?mensaje=guardado";
+                    window.history.pushState(null, null, '/GestionPreguntas/categorias');
 
                     console.log('La pregunta ha sido guardada');
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('No se cargo', errorThrown);
+            error: function(xhr, status, error) {
+                // Manejo del error de la solicitud
+                console.error(error,xhr, status);
             }
         });
     });
