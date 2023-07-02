@@ -99,7 +99,8 @@ class PartidaModel
         $query = "UPDATE pregunta SET reportes = ? WHERE pregunta.id_pregunta = ?";
         $sentencia = $this->database->getConnection()->prepare($query);
         $sentencia->bind_param("ss", $reportes, $idPregunta);
-        $sentencia->execute();
+        $result = $sentencia->execute();
+
 
         if ($reportes > 20) {
             $query = "UPDATE pregunta SET id_estado = 1 WHERE pregunta.id_pregunta = ?";
@@ -107,6 +108,8 @@ class PartidaModel
             $sentencia->bind_param("s", $idPregunta);
             $sentencia->execute();
         }
+
+        return $result;
     }
 
     public function actualizarPuntaje($idUsuario, $puntaje)
