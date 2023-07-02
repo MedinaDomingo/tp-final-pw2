@@ -49,8 +49,8 @@ function cargarNuevaPregunta() {
         type: 'GET',
         url: '/Partida/preguntaAleatoria',
         success: function (data) {
-            console.log(data)
             data = $.parseJSON(data)
+            console.log(data)
             // Actualizar la vista con la nueva pregunta y opciones de respuesta
             $('#pregunta-enviar').text(data.pregunta);
             $('#categoria').text('Categoría: ' + data.categoria);
@@ -58,6 +58,12 @@ function cargarNuevaPregunta() {
             $('#opcionB').text(data.opcion_b);
             $('#opcionC').text(data.opcion_c);
             $('#opcionD').text(data.opcion_d);
+
+            $(".cat-container").removeClass(function(index, className){
+                return (className.match(/(^|\s)cat-color-[^-\s]+/g) || []).join(' ');
+            });
+
+            $(".cat-container").addClass("cat-color-" + data.categoria);
 
 
             // Incrementar el puntaje de partida en 1

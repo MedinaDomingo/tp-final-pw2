@@ -6,17 +6,13 @@
         {
             $this->database = $database;
         }
-        public function obtenerDatosFinalizacion($id_usuario){
+        public function incrementarPuntaje($idUsuario, $puntaje)
+        {
+            $query = "UPDATE usuario SET puntaje = puntaje + '$puntaje' WHERE id_usuario = ?";
 
+            $stmt = $this->database->getConnection()->prepare($query);
+            $stmt->bind_param('i', $idUsuario);
+            $stmt->execute();
 
-            //  $query = "SELECT puntaje FROM usuario WHERE id_usuario = ? ";
-
-
-            $statement = $this->database->getConnection()->prepare($query);
-            $statement->bind_param("s", $id_usuario);
-            $statement->execute();
-            $statement->bind_result($id_usuario);
-
-            return ['puntaje'=>$id_usuario];
         }
     }
