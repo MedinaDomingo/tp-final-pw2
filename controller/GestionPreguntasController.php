@@ -10,6 +10,27 @@ class GestionPreguntasController
         $this->model = $model;
     }
 
+    public function sugerir()
+    {
+        if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción']){
+            header('Location:/');
+            exit();
+        }
+
+        $this->renderer->render('sugerirPregunta');
+        if (isset($_GET['mensaje'])) {
+            $mensaje = $_GET['mensaje'];
+            // Mostrar la notificación utilizando SweetAlert2
+            echo '<script>
+        Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "La pregunta ha sido sugerida correctamente."
+        });
+     </script>';
+        }
+    }
+
     public function gestion()
     {
         if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción'] =='editor'){
