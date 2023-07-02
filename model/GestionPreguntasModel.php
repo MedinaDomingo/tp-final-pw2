@@ -87,9 +87,12 @@ class GestionPreguntasModel
         return $result;
     }
 
-    public function traerTodasLasCategorias()
+    public function traerTodasLasCategorias($estado=null)
     {
         $sql = "SELECT c.descripción AS categoria, e.descripción AS estado FROM categoria  c LEFT JOIN estado e ON e.id_estado = c.id_estado";
+        if($estado!=null){
+            $sql .= " WHERE c.id_estado = $estado";
+        }
         $result = $this->database->query($sql);
         return $result;
     }

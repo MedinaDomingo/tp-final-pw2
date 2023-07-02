@@ -84,7 +84,7 @@ class GestionPreguntasController
     {
         if(!empty($_GET["paginacion"] )){
             if($_GET["paginacion"] == "no"){
-                $categorias = $this->model->traerTodasLasCategorias();
+                $categorias = $this->model->traerTodasLasCategorias(2);
                 echo json_encode($categorias);
                 exit();
             }
