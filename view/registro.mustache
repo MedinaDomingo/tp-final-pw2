@@ -22,7 +22,7 @@
         <form enctype="multipart/form-data" class="row justify-content-center" method="POST"
               action="/registro/validarRegistro">
             <div class="col-md-5">
-                <div class="mb-3 text-center">
+                <div class="mb-3 text-center text-center">
                     <input type="file" class="form-control-file" id="imagen" name="imagen" style="display: none;"
                            onchange="mostrarImagen(event)" value="{{# valido}}{{imagen}}{{/ valido}}">
                     <div onclick="document.getElementById('imagen').click()"
@@ -33,40 +33,40 @@
                     {{# errores}}<span class="text-danger fs-6 text">{{Imagen}}</span>{{/ errores}}
 
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="text" class="form-control" id="usuario" name="usuario"
                            value="{{# valido}}{{usuario}}{{/ valido}}" placeholder="Ingrese nombre usuario">
                     {{# errores}}<span class="text-danger fs-6 text">{{Usuario}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="text" class="form-control" id="nombre" name="nombre"
                            value="{{# valido}}{{nombre}}{{/ valido}}" placeholder="Ingrese nombre">
                     {{# errores}}<span class="text-danger">{{Nombre}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="text" class="form-control" id="apellido" name="apellido"
                            value="{{# valido}}{{apellido}}{{/ valido}}" placeholder="Ingrese apellido">
                     {{# errores}}<span class="text-danger">{{Apellido}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="email" class="form-control" id="email" name="email" value="{{# valido}}{{email}}{{/ valido}}" placeholder="Ingrese email">
                     {{# errores}}<span class="text-danger">{{email}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese contraseña">
                     {{# errores}}<span class="text-danger">{{password}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="password" class="form-control" id="repetir-password" name="repetir-password" placeholder="Repita su contraseña">
                     {{# errores}}<span class="text-danger">{{passwordDistinto}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <input type="date" id="nacimiento" class="form-control" name="nacimiento"
                            value="{{# valido}}{{nacimiento}}{{/ valido}}" placeholder="Ingrese su fecha de nacimiento">
                     {{# errores}}<span class="text-danger">{{Nacimiento}}</span>{{/ errores}}
                     {{# errores}}<span class="text-danger">{{nacimiento-rango}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <select class="form-select" name="sexo" id="sexo">
                         <option>Ingrese su sexo</option>
                         <option value="Masculino">Masculino</option>
@@ -75,7 +75,7 @@
                     </select>
                     {{# errores}}<span class="text-danger">{{sexo}}</span>{{/ errores}}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <div class="form-group">
                         <input type="text" class="form-control" id="pais" name="pais" placeholder="Selecciona un país"
                                value="{{# valido}}{{pais}}{{/ valido}}">

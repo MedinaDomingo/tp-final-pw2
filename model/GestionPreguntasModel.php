@@ -112,9 +112,11 @@ class GestionPreguntasModel
             return $errores;
         }
 
-        $sql = "INSERT INTO `categoria`(`descripción`) VALUES (?)";
+        $cat = 3;
+
+        $sql = "INSERT INTO `categoria`(`descripción`, `id_estado`) VALUES (?, ?)";
         $stmt = $this->database->getConnection()->prepare($sql);
-        $stmt->bind_param("s", $categoria);
+        $stmt->bind_param("si", $categoria, $cat);
         return [$stmt->execute()];
 
 

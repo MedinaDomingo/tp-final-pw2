@@ -1,3 +1,7 @@
 .btn-primary:hover {
     background-color: #928dfa; /* Define el color de fondo en hover */
 }
+
+.partida-cd{
+   font-size: 2rem
+}

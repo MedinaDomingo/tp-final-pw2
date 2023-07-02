@@ -143,5 +143,19 @@ class PartidaModel
         return $fotoPerfil;
     }
 
+    public function checkTimer(){
+        if(!isset($_SESSION["GameTimer"])){
+            $_SESSION["GameTimer"] = $_POST['time'];
+            return true;
+        }
+
+        $_SESSION["GameTimer"] -= 1;
+
+        if($_SESSION["GameTimer"] <= 0){
+            return false;
+        }
+
+        return true;
+    }
 
 }
