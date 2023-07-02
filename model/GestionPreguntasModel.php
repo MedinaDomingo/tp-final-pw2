@@ -16,9 +16,9 @@ class GestionPreguntasModel
 
         if (empty($pregunta)) {
             $errores['pregunta'] = "La pregunta no puede estar vacía.";
-        }else{
+        } else {
             $result = $this->buscarPregunta($pregunta);
-            if(!empty($result)){
+            if (!empty($result)) {
                 $errores['pregunta'] = "La pregunta ya existe";
             }
         }
@@ -38,7 +38,7 @@ class GestionPreguntasModel
         if (empty($respuestaIncorrectaC)) {
             $errores['respuestaIncorrectaC'] = "La respuesta incorrecta C no puede estar vacía.";
         }
-        if(empty($check)){
+        if (empty($check)) {
             try {
                 $idCategoria = $this->idCategoria($categoria);
 
@@ -47,16 +47,8 @@ class GestionPreguntasModel
             }
         }
 
-        if (!empty($check) && empty($otraCategoria)) {
-            $errores["otra-categoria"] = "La nueva categoria no puede estar vacía";
-            $errores["categoria"] = "";
-        }
 
         if (empty($errores)) {
-            if (!empty($check) && !empty($otraCategoria)) {
-                $idCategoria = $this->guardarCategoria($otraCategoria);
-            }
-
             $this->crearPregunta($pregunta, $idCategoria, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC);
             return ["guardado"];
         } else {
@@ -95,21 +87,37 @@ class GestionPreguntasModel
         return $result;
     }
 
-    public function traerTodasLasCategorias()
+    public function traerTodasLasCategorias($estado=null)
     {
-        $sql = "SELECT descripción FROM categoria";
+        $sql = "SELECT c.descripción AS categoria, e.descripción AS estado FROM categoria  c LEFT JOIN estado e ON e.id_estado = c.id_estado";
+        if($estado!=null){
+            $sql .= " WHERE c.id_estado = $estado";
+        }
         $result = $this->database->query($sql);
         return $result;
     }
 
-    private function guardarCategoria($otraCategoria)
+    public function guardarCategoria($categoria)
     {
+        $errores = [];
+
+        if (empty($categoria)) {
+            $errores['categoria'] = "La categoría no puede estar vacía.";
+            return $errores;
+        }
+
+        $result = $this->buscarCategoria($categoria);
+        if (!empty($result)) {
+            $errores['categoria'] = "La categoría ya existe";
+            return $errores;
+        }
+
         $sql = "INSERT INTO `categoria`(`descripción`) VALUES (?)";
         $stmt = $this->database->getConnection()->prepare($sql);
-        $stmt->bind_param("s", $otraCategoria);
-        $stmt->execute();
-        $idCategoria = $stmt->insert_id;
-        return $idCategoria;
+        $stmt->bind_param("s", $categoria);
+        return [$stmt->execute()];
+
+
     }
 
     public function eliminarPreguntaRespuestas($pregunta)
@@ -134,16 +142,7 @@ class GestionPreguntasModel
     {
         if (empty($pregunta)) {
             $errores['pregunta'] = "La pregunta no puede estar vacía.";
-        }/*else{
-            $preguntaOriginal = $this->buscarPreguntaPorId($idPregunta);
-            if(!empty($preguntaOriginal)) {
-                $result = $this->buscarPregunta($pregunta);
-                if(!empty($result)){
-                    $errores['pregunta'] = "La pregunta ya existe";
-                }
-            }
-        }*/
-
+        }
 
         if (empty($respuestaCorrecta)) {
             $errores['respuestaCorrecta'] = "La respuesta correcta no puede estar vacía.";
@@ -160,37 +159,23 @@ class GestionPreguntasModel
         if (empty($respuestaIncorrectaC)) {
             $errores['respuestaIncorrectaC'] = "La respuesta incorrecta C no puede estar vacía.";
         }
-        if(empty($check)){
-            try {
-                $idCategoria = $this->idCategoria($categoria);
 
-            } catch (CategoriaNoExisteExeptions $e) {
-                $errores['categoria'] = $e->getMessage();
-            }
-        }
-
-        if (!empty($check) && empty($otraCategoria)) {
-            $errores["otra-categoria"] = "La nueva categoria no puede estar vacía";
-            $errores["categoria"] = "";
-        }
-
-        if(empty("estado")){
+        if (empty("estado")) {
             $errores['estado'] = "El estado no puede estar vacio";
-        }else{
+        } else {
+            $result = $this->buscaEstado($estado);
+            $estado = $result;
+        }
+        try {
+            $idCategoria = $this->idCategoria($categoria);
 
-
-                $result= $this->buscaEstado($estado);
-                $estado = $result;
-
+        } catch (CategoriaNoExisteExeptions $e) {
+            $errores['categoria'] = $e->getMessage();
         }
 
         if (empty($errores)) {
-            if (!empty($check) && !empty($otraCategoria)) {
-                $idCategoria = $this->guardarCategoria($otraCategoria);
-            }
-
-            $result = $this->modificarPreguntaExistente($idPregunta,$pregunta, $estado, $idCategoria, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC);
-            return $result?["modificado"]:["no se modifico"];
+            $result = $this->modificarPreguntaExistente($idPregunta, $pregunta, $estado, $idCategoria, $respuestaCorrecta, $respuestaIncorrectaA, $respuestaIncorrectaB, $respuestaIncorrectaC);
+            return $result ? ["modificado"] : ["no se modifico"];
         } else {
             return $errores;
         }
@@ -225,5 +210,32 @@ class GestionPreguntasModel
         $sql = "SELECT * FROM estado WHERE descripción = '$estado'";
         $result = $this->database->query($sql);
         return $result[0];
+    }
+
+    public function buscarCategoria($categoria)
+    {
+        $sql = "SELECT c.id_categoria, c.descripción AS categoria, e.descripción AS estado FROM categoria  c LEFT JOIN estado e ON e.id_estado = c.id_estado WHERE c.descripción = '$categoria'";
+        return $this->database->query($sql);;
+    }
+    public function eliminarCategoria($categoria)
+    {
+        $sql = "DELETE FROM `categoria` WHERE descripción = ?";
+        $stmt = $this->database->getConnection()->prepare($sql);
+        $stmt->bind_param("s", $categoria);
+        $result = $stmt->execute();
+        return $result;
+    }
+
+    public function modificarCategoria($idCategoria, $categoria, $estado)
+    {
+        $estado = $this->buscaEstado($estado);
+
+        $sql = "UPDATE categoria SET `descripción`=?, `id_estado`=? WHERE id_categoria = ?";
+        $stmt = $this->database->getConnection()->prepare($sql);
+
+        $stmt->bind_param("sss", $categoria, $estado['id_estado'], $idCategoria);
+        $result = $stmt->execute();
+
+        return ["modificado"];
     }
 }

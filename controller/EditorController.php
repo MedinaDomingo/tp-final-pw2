@@ -18,4 +18,5 @@ class EditorController
         }
         $this->renderer->render('perfilEditor', $_SESSION["user_data"]);
     }
+
 }

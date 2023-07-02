@@ -1,0 +1,77 @@
+
+    <section class="profile-section card col-xl-6 col-sm-10 m-auto mb-3 bg-card pb-2 mt-4" id="modificar-form">
+        <h3 class="text-white fw-medium m-2 ">Modificar </h3>
+
+        <div class="container">
+            <div class="profile-container ">
+                <form action="/GestionPreguntas/modificarCategoria" method="post" class="p-3 ocultar-mostrar" id="form-modificar">
+
+                    <input type="text" class="form-control col-12" hidden id="id_categoria" name="categoriacod" value="{{id_categoria}}">
+
+                    <div class="mb-3 text-start" id="pregunta-div-modificar">
+                        <label for="pregunta" class="form-label text-white">Categoria</label>
+                        <input type="text" class="form-control col-12" id="pregunta" name="categoria" value="{{categoria}}">
+                    </div>
+                    <div class="mb-3 text-start text-white" id="otra-categoria-div-modificar">
+                        <label class="form-label">Estado</label><br>
+                            <input type="radio" name="estado" value="aprobada"  {{#aprobada}}checked{{/aprobada}}> Aprobada
+                            <input type="radio" name="estado" value="en_revision" {{#revision}}checked{{/revision}}> En Revision
+                        <input type="radio" name="estado" value="pendiente_aprobacion" {{#pendiente}}checked{{/pendiente}}> Pendiente de Aprobación
+                    </div>
+
+                    <input type="submit" value="Modificar" id="modificar" class="btn fs-4 text-white fw-semibold col-5 rounded-4 m-3" style="background:#F39D00">
+                    <input type="button" value="Cancelar" id="cancelar" class="btn fs-4 text-white fw-semibold col-5 rounded-4 m-3" style="background:#5bd958">
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        $(document).ready(function() {
+
+            $('#form-modificar').submit(function(event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '/GestionPreguntas/modificarCategoria',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        $('.error').remove();
+
+                        $.each(response, function(key, value) {
+
+
+                            let errorElement = $('#' + key + '-div-modificar').find('.error');
+                            if (errorElement.length) {
+                                errorElement.text(value);
+                            } else {
+                                $('#' + key + '-div-modificar').append('<p class="error">' + value + '</p>');
+                            }
+
+                            var newUrl = "/GestionPreguntas/gestion";
+                            history.pushState(null, '', newUrl);
+                        });
+
+                        if (response[0] === 'modificado') {
+                            console.log("Se guardó");
+                            window.location.href = "/GestionPreguntas/categorias?mensaje=guardado";
+                            window.history.pushState(null, null, '/GestionPreguntas/categorias');
+                            console.log('La pregunta ha sido guardada');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+
+                        console.error(error,xhr, status);
+                    }
+                });
+            });
+
+        });
+    </script>
+   <script src="../public/js/listarCategorias-modificar.js"></script>
+

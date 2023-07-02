@@ -26,11 +26,7 @@
 
 
                     </div>
-                    <div class="mb-3 text-start text-white" id="otra-categoria-div-modificar">
-                        <label for="otra_categoria" class="form-label">Otra Categoría</label>
-                        <input type="checkbox" name="check-otra-categoria" id="habilitar-otra-categoria-modificar">
-                        <input type="text" class="form-control col-12" name="otra_categoria" id="otra_categoria_modificar" disabled>
-                    </div>
+
                     <div class="mb-3 text-start" id="respuestaCorrecta-div-modificar">
                         <label for="respuesta-correcta" class="form-label text-white">Respuesta Correcta</label>
                         <input type="text" class="form-control col-12" id="respuesta-correcta" name="respuesta-correcta" value="{{opcion_correcta}}">
@@ -92,33 +88,13 @@
                             console.log('La pregunta ha sido guardada');
                         }
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('No se cargó', errorThrown);
+                    error: function(xhr, status, error) {
+                        // Manejo del error de la solicitud
+                        console.error(error,xhr, status);
                     }
                 });
             });
 
-
-            $('#categoria-modificar').change(function() {
-                if ($(this).val() === 'otra_categoria') {
-                    $('#otra_categoria_modificar').prop('disabled', false);
-                } else {
-                    $('#otra_categoria_modificar').prop('disabled', true);
-                }
-            });
-
-            $('#habilitar-otra-categoria-modificar').click(function() {
-                if ($(this).is(':checked')) {
-                    $('#otra_categoria_modificar').prop('disabled', false);
-                    $('#categoria-modificar').prop('disabled', true);
-                } else {
-                    $('#otra_categoria_modificar').prop('disabled', true);
-                    $('#categoria-modificar').prop('disabled', false);
-                }
-            });
-            $('#cancelar').click(function() {
-                $('#modificar-form').remove();
-            });
         });
     </script>
     <script src="../public/js/listarCategorias-modificar.js"></script>

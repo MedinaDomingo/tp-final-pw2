@@ -49,11 +49,6 @@
                             <option value="opcion3">Opción 3</option>
                         </select>
                     </div>
-                    <div class="mb-3 text-start" id="otra-categoria-div">
-                        <label for="otra_categoria" class="form-label text-white">Otra Categoría</label>
-                        <input type="checkbox" name="check-otra-categoria" id="habilitar-otra-categoria">
-                        <input type="text" class="form-control col-12" name="otra_categoria" id="otra_categoria" disabled>
-                    </div>
                     <div class="mb-3 text-start" id="respuestaCorrecta-div">
                         <label for="respuesta-correcta" class="form-label text-white">Respuesta Correcta</label>
                         <input type="text" class="form-control col-12" id="respuesta-correcta" name="respuesta-correcta">
@@ -109,27 +104,7 @@
     </section>
     <section id="resultado"></section>
 </main>
-<script>
-    $(document).ready(function() {
-        $('#categoria').change(function() {
-            if ($(this).val() === 'otra_categoria') {
-                $('#otra_categoria').prop('disabled', false);
-            } else {
-                $('#otra_categoria').prop('disabled', true);
-            }
-        });
 
-        $('#habilitar-otra-categoria').click(function() {
-            if ($(this).is(':checked')) {
-                $('#otra_categoria').prop('disabled', false);
-                $('#categoria').prop('disabled', true);
-            } else {
-                $('#otra_categoria').prop('disabled', true);
-                $('#categoria').prop('disabled', false);
-            }
-        });
-    });
-</script>
 
 <script src="../public/js/cargarPreguntaAjax.js"></script>
 <script src="../public/js/ocultarMostrarseccion.js"></script>
