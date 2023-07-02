@@ -5,3 +5,21 @@
 .partida-cd{
    font-size: 2rem
 }
+
+.cat-container{
+    background-color: #8486d9
+}
+
+section.cat-color-Ciencia{
+    background-color: #00746a;
+}
+
+section.cat-color-Geografia{
+    background-color: #0000FF;
+}
+
+section.cat-color-Deporte{
+    background-color: #f39d00;
+}
+
+

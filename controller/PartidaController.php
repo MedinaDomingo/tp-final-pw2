@@ -45,7 +45,7 @@ class PartidaController
 
         $data = [
             'pregunta' => $pregunta[0]['descripción'],
-            'categoria' => $pregunta[0]['id_categoria'],
+            'categoria' => $pregunta[1]['descripción'],
             'opcion_a' => $pregunta[0]['opcion_a'],
             'opcion_b' => $pregunta[0]['opcion_b'],
             'opcion_c' => $pregunta[0]['opcion_c'],
@@ -152,13 +152,13 @@ class PartidaController
         array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
         $data = [
             'pregunta' => $pregunta[0]['descripción'],
-            'categoria' => $pregunta[0]['id_categoria'],
+            'categoria' => $pregunta[1]['descripción'],
             'opcion_a' => $pregunta[0]['opcion_a'],
             'opcion_b' => $pregunta[0]['opcion_b'],
             'opcion_c' => $pregunta[0]['opcion_c'],
             'opcion_d' => $pregunta[0]['opcion_d'],
             'puntajePartida' => $_SESSION['puntajePartida'],
-            'puntaje' => $puntaje,
+            'puntaje' => $puntaje
         ];
         echo json_encode($data);
     }

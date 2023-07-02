@@ -21,7 +21,19 @@ class PartidaModel
         } else {
             $query = "SELECT * FROM pregunta WHERE dificultad = $dif ORDER BY RAND() LIMIT 1";
         }
+
         $result = $this->database->query($query);
+
+        $result[0]['id_categoria'] ?? null;
+
+        if (array_key_exists(0, $result)) {
+            $id_cat = $result[0]['id_categoria'];
+
+            $query = "SELECT descripción FROM categoria WHERE categoria.id_categoria = $id_cat";
+
+            array_push($result, $this->database->query($query)[0]);
+        }
+
         return $result;
     }
 
@@ -42,16 +54,6 @@ class PartidaModel
 
         // Verificar si la opción seleccionada coincide con la respuesta correcta
         return $opcionSeleccionada === $opcionCorrecta;
-    }
-
-    public function incrementarPuntaje($idUsuario)
-    {
-        $query = "UPDATE usuario SET puntaje = puntaje + 1 WHERE id_usuario = ?";
-
-        $stmt = $this->database->getConnection()->prepare($query);
-        $stmt->bind_param('i', $idUsuario);
-        $stmt->execute();
-
     }
 
     public function obtenerPreguntaActual($idPartida)
@@ -94,7 +96,7 @@ class PartidaModel
         $query = "SELECT reportes FROM pregunta where pregunta.id_pregunta = '$idPregunta'";
         $stmt = $this->database->query($query);
 
-        $reportes = (int)$stmt[0]['reportes'] + 1;
+        $reportes = (int) $stmt[0]['reportes'] + 1;
 
         $query = "UPDATE pregunta SET reportes = ? WHERE pregunta.id_pregunta = ?";
         $sentencia = $this->database->getConnection()->prepare($query);
@@ -146,15 +148,16 @@ class PartidaModel
         return $fotoPerfil;
     }
 
-    public function checkTimer(){
-        if(!isset($_SESSION["GameTimer"])){
+    public function checkTimer()
+    {
+        if (!isset($_SESSION["GameTimer"])) {
             $_SESSION["GameTimer"] = $_POST['time'];
             return true;
         }
 
         $_SESSION["GameTimer"] -= 1;
 
-        if($_SESSION["GameTimer"] <= 0){
+        if ($_SESSION["GameTimer"] <= 0) {
             return false;
         }
 

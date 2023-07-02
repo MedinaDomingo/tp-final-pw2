@@ -21,7 +21,7 @@
 <body>
     <h1 class="text-center">Partida en curso...</h1>
     <section class="container">
-        <section class="row rounded-5" style="background-color: #8486d9">
+        <section class="row rounded-5 cat-color-{{categoria}} cat-container" >
             <section class="col-md-2 d-flex align-items-center text-center">
                 <div id="perfil">
                     <!-- Mostrar la imagen de perfil, puntuación máxima y número en el ranking -->
@@ -40,7 +40,7 @@
 
 
                 <div class="p-5" id="pregunta">
-                    <h2 class="text-center">Categoria: {{categoria}}</h2>
+                    <h2 class="text-center" id="categoria">Categoria: {{categoria}}</h2>
                     <h3 class="text-center" id="pregunta-enviar">{{pregunta}}</h3>
 
                     <ul id="opciones">
