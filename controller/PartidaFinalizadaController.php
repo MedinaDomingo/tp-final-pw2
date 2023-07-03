@@ -19,8 +19,6 @@
 
             ];
 
-            var_dump($_SESSION['user_data']['id_usuario']);
-
             $this->model->incrementarPuntaje($_SESSION['user_data']['id_usuario'], $_SESSION['puntajePartida']);
 
             $this->renderer->render('partidaFinalizada',$data);

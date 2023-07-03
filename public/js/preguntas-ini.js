@@ -49,30 +49,36 @@ function cargarNuevaPregunta() {
         type: 'GET',
         url: '/Partida/preguntaAleatoria',
         success: function (data) {
-            data = $.parseJSON(data)
-            console.log(data)
-            // Actualizar la vista con la nueva pregunta y opciones de respuesta
-            $('#pregunta-enviar').text(data.pregunta);
-            $('#categoria').text('Categoría: ' + data.categoria);
-            $('#opcionA').text(data.opcion_a);
-            $('#opcionB').text(data.opcion_b);
-            $('#opcionC').text(data.opcion_c);
-            $('#opcionD').text(data.opcion_d);
+            if(data === "ERROR_NMQ"){
+                redirigirAlLobby();
+            }else{
+                data = $.parseJSON(data)
 
-            $(".cat-container").removeClass(function(index, className){
-                return (className.match(/(^|\s)cat-color-[^-\s]+/g) || []).join(' ');
-            });
+                // Actualizar la vista con la nueva pregunta y opciones de respuesta
+                $('#pregunta-enviar').text(data.pregunta);
+                $('#categoria').text('Categoría: ' + data.categoria);
+                $('#opcionA').text(data.opcion_a);
+                $('#opcionB').text(data.opcion_b);
+                $('#opcionC').text(data.opcion_c);
+                $('#opcionD').text(data.opcion_d);
 
-            $(".cat-container").addClass("cat-color-" + data.categoria);
+                $(".cat-container").removeClass(function(index, className){
+                    return (className.match(/(^|\s)cat-color-[^-\s]+/g) || []).join(' ');
+                });
+
+                $(".cat-container").addClass("cat-color-" + data.categoria);
 
 
-            // Incrementar el puntaje de partida en 1
-            puntajePartida = data.puntajePartida;
-            $('#puntaje-partida').find('h2').html('Puntaje: ' + puntajePartida);
+                // Incrementar el puntaje de partida en 1
+                puntajePartida = data.puntajePartida;
+                $('#puntaje-partida').find('h2').html('Puntaje: ' + puntajePartida);
+            }
+
 
         },
-        error: function () {
-            console.log('Error al obtener una nueva pregunta.');
+        error: function(xhr, status, error) {
+            // Manejo del error de la solicitud
+            console.error(error,xhr, status);
         }
     });
 }
@@ -88,11 +94,22 @@ $('#reportarPregunta').on('click', function () {
         type: 'POST',
         url: '/Partida/reportarPregunta',
         success: function (data) {
-            console.log(data);
+            clearTimeout(currentTimer);
+            if(data == 1){
+                Swal.fire({
+                    title: '¡Tu pregunta ha sido reportada!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    cargarNuevaPregunta();
+                });
+            }
 
         },
-        error: function () {
+        error: function(xhr, status, error) {
 
+            console.error(error,xhr, status);
         }
     });
 });
@@ -126,7 +143,7 @@ $('#opcionD').on('click', function () {
 
 function startTimer(time = 10) {
     currentTimer = setTimeout(updateTimer, TIMER, time);
-};
+}
 
 function updateTimer(time) {
 

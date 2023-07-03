@@ -149,6 +149,10 @@ class PartidaController
 
         $puntaje = $this->model->obtenerPuntaje($_SESSION['user_data']['id_usuario']);
         $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
+        if(empty($pregunta)){
+            echo 'ERROR_NMQ';
+            exit();
+        }
         array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
         $data = [
             'pregunta' => $pregunta[0]['descripción'],
@@ -160,12 +164,14 @@ class PartidaController
             'puntajePartida' => $_SESSION['puntajePartida'],
             'puntaje' => $puntaje
         ];
+
         echo json_encode($data);
     }
 
     public function reportarPregunta()
     {
         $trest = $this->model->reportarPregunta($_SESSION['idPreguntaActual']);
+        echo $trest;
     }
 
     public function timer()
