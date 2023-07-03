@@ -27,8 +27,19 @@ class PartidaController
 
         // Obtener una pregunta aleatoria de la base de datos
         $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
+
+        if($pregunta == null){
+            $data = array(
+                "error" => "No se pudieron encontrar preguntas"
+            );
+
+            $this->renderer->render('partidaFinalizada', $data);
+            return;
+        }
         array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
         $_SESSION['idPreguntaActual'] = $pregunta[0]['id_pregunta'];
+
+
 
         if (!$pregunta) {
             // No se obtuvo ninguna pregunta
@@ -164,6 +175,7 @@ class PartidaController
             'puntajePartida' => $_SESSION['puntajePartida'],
             'puntaje' => $puntaje
         ];
+        $_SESSION['idPreguntaActual'] = $pregunta[0]['id_pregunta'];
 
         echo json_encode($data);
     }

@@ -147,7 +147,7 @@ function startTimer(time = 10) {
 
 function updateTimer(time) {
 
-    console.log(currentTimer);
+
 
     $.ajax({
         type: 'POST',
@@ -155,7 +155,7 @@ function updateTimer(time) {
         data: { time: time },
         success: function (data) {
             data = $.parseJSON(data);
-            console.log(data)
+
 
             if (time === 0) {
 
