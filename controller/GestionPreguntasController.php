@@ -110,6 +110,7 @@ class GestionPreguntasController
                 exit();
             }
         }
+
         $ELEMENTOS_POR_PAGINA = 3;
         if(!$_SESSION['valid'] || !$_SESSION['user_data']['descripción'] =='editor'){
             header('Location:/');
@@ -126,6 +127,8 @@ class GestionPreguntasController
         $categorias["totalPages"] = ceil($elementos/$ELEMENTOS_POR_PAGINA);
         $categorias["currentPage"] = $paginaActual;
 
+        var_dump($categorias);
+
         if($paginaActual != 1){
             $categorias["prevPage"] = $paginaActual - 1;
         }
@@ -133,6 +136,7 @@ class GestionPreguntasController
         if($elementos > $paginaActual * $ELEMENTOS_POR_PAGINA){
             $categorias["nextPage"] = $paginaActual + 1;
         }
+
 
         echo json_encode($categorias);
     }

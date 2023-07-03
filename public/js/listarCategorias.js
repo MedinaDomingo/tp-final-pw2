@@ -15,6 +15,7 @@ $(document).ready(function() {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
+            console.log(response)
             selectCategoria.empty();
             categorias = response
             $.each(categorias, function(index, obj) {
@@ -26,6 +27,7 @@ $(document).ready(function() {
             });
         },
         error: function(xhr, status, error) {
+            console.log("ERROR")
             // Manejo del error de la solicitud
             console.error(error,xhr, status);
         }
