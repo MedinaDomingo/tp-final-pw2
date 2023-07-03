@@ -6,6 +6,9 @@ $(document).ready(function() {
     if (window.location.pathname.includes('/gestion')) {
         url += '?paginacion=no';
     }
+    if (window.location.pathname.includes('/sugerir')){
+        url += '?paginacion=no';
+    }
 
     $.ajax({
         url: url,
