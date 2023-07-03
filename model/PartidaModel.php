@@ -17,9 +17,9 @@ class PartidaModel
         $dif = $this->database->query($query)[0]['id_nivel'];
 
         if (count($preguntasRealizadas) > 0) {
-            $query = "SELECT * FROM pregunta WHERE dificultad = $dif AND id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
+            $query = "SELECT * FROM pregunta WHERE dificultad = $dif AND id_estado = 2 AND id_pregunta NOT IN (" . implode(",", $preguntasRealizadas) . ") ORDER BY RAND() LIMIT 1";
         } else {
-            $query = "SELECT * FROM pregunta WHERE dificultad = $dif ORDER BY RAND() LIMIT 1";
+            $query = "SELECT * FROM pregunta WHERE dificultad = $dif AND id_estado = 2 ORDER BY RAND() LIMIT 1";
         }
 
         $result = $this->database->query($query);
