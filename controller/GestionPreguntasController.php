@@ -127,8 +127,6 @@ class GestionPreguntasController
         $categorias["totalPages"] = ceil($elementos/$ELEMENTOS_POR_PAGINA);
         $categorias["currentPage"] = $paginaActual;
 
-        var_dump($categorias);
-
         if($paginaActual != 1){
             $categorias["prevPage"] = $paginaActual - 1;
         }

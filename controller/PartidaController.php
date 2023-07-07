@@ -17,6 +17,15 @@ class PartidaController
             header('Location:/');
             exit();
         }
+        if(isset($_SESSION["antiF5"])){
+            if($_SESSION["antiF5"]==true){
+                header("location: /PartidaFinalizada/gameover ");
+                unset($_SESSION["antiF5"]);
+                exit();
+            }
+        }
+
+        $_SESSION["antiF5"] = true;
         unset($_SESSION['preguntasRealizadas']);
         unset($_SESSION['idPreguntaActual']);
         unset($_SESSION['puntajePartida']);
