@@ -20,7 +20,6 @@ class PartidaController
         if(isset($_SESSION["antiF5"])){
             if($_SESSION["antiF5"]==true){
                 header("location: /PartidaFinalizada/gameover ");
-                unset($_SESSION["antiF5"]);
                 exit();
             }
         }

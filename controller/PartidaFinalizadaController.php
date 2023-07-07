@@ -11,7 +11,7 @@
         }
 
         public function gameover(){
-
+            unset($_SESSION["antiF5"]);
             $data = [
                 'puntaje' => $_SESSION['puntajePartida'],
                 'nombre_u' => $_SESSION['user_data']['nombre_u'],
