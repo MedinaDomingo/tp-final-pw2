@@ -1,4 +1,4 @@
-const TIMER = 1000;
+const TIMER = 100002;
 const TIME_IN_SECONDS = TIMER / 100;
 const SERVER_TIMER = TIMER * 4;
 let currentTimer;
@@ -14,9 +14,9 @@ function seleccionarRespuesta(respuesta, pregunta) {
             pregunta: pregunta
         },
         success: function (response) {
-            console.log("RESPONSE: " + response + "\n");
+            //console.log("RESPONSE: " + response + "\n");
 
-            if (response == 'ERROR_NMQ') {
+            if (response == 'ERROR_NMQ' || response == 'timeout') {
                 redirigirAlLobby();
             }
 
@@ -49,9 +49,9 @@ function cargarNuevaPregunta() {
         type: 'GET',
         url: '/Partida/preguntaAleatoria',
         success: function (data) {
-            if(data === "ERROR_NMQ"){
+            if (data === "ERROR_NMQ") {
                 redirigirAlLobby();
-            }else{
+            } else {
                 data = $.parseJSON(data)
 
                 // Actualizar la vista con la nueva pregunta y opciones de respuesta
@@ -62,7 +62,7 @@ function cargarNuevaPregunta() {
                 $('#opcionC').text(data.opcion_c);
                 $('#opcionD').text(data.opcion_d);
 
-                $(".cat-container").removeClass(function(index, className){
+                $(".cat-container").removeClass(function (index, className) {
                     return (className.match(/(^|\s)cat-color-[^-\s]+/g) || []).join(' ');
                 });
 
@@ -76,9 +76,9 @@ function cargarNuevaPregunta() {
 
 
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             // Manejo del error de la solicitud
-            console.error(error,xhr, status);
+            console.error(error, xhr, status);
         }
     });
 }
@@ -89,13 +89,14 @@ function redirigirAlLobby() {
     window.location.href = '/PartidaFinalizada/gameover';
 }
 
+
 $('#reportarPregunta').on('click', function () {
     $.ajax({
         type: 'POST',
         url: '/Partida/reportarPregunta',
         success: function (data) {
             clearTimeout(currentTimer);
-            if(data == 1){
+            if (data == 1) {
                 Swal.fire({
                     title: '¡Tu pregunta ha sido reportada!',
                     icon: 'success',
@@ -107,9 +108,9 @@ $('#reportarPregunta').on('click', function () {
             }
 
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
 
-            console.error(error,xhr, status);
+            console.error(error, xhr, status);
         }
     });
 });
@@ -145,9 +146,8 @@ function startTimer(time = 10) {
     currentTimer = setTimeout(updateTimer, TIMER, time);
 }
 
+/*OLD
 function updateTimer(time) {
-
-
 
     $.ajax({
         type: 'POST',
@@ -175,6 +175,21 @@ function updateTimer(time) {
         }
     });
 
+
+
+}*/
+
+function updateTimer(time) {
+
+    console.log("TIMER: " + time);
+
+    if (time === 0) {
+        redirigirAlLobby();
+    } else {
+        currentTimer = setTimeout(updateTimer, TIMER, time - 1);
+    }
+
+    $("#time").html(time);
 
 
 }

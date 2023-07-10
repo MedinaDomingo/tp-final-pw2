@@ -13,41 +13,40 @@ class PartidaController
 
     public function partida()
     {
+
+
         if (!$_SESSION['valid']) {
             header('Location:/');
             exit();
         }
-        if(isset($_SESSION["antiF5"])){
-            if($_SESSION["antiF5"]==true){
+
+        if (isset($_SESSION["antiF5"])) {
+            if ($_SESSION["antiF5"] == true) {
                 header("location: /PartidaFinalizada/gameover ");
                 exit();
             }
         }
 
-        $_SESSION["antiF5"] = true;
-        unset($_SESSION['preguntasRealizadas']);
-        unset($_SESSION['idPreguntaActual']);
         unset($_SESSION['puntajePartida']);
-        unset($_SESSION["GameTimer"]);
-
+        
+        $_SESSION["antiF5"] = true;
         $_SESSION['preguntasRealizadas'] = [];
         $_SESSION['puntajePartida'] = 0;
+        $_SESSION['gameStart'] = strtotime(date('Y-m-d H:i:s'));
 
         // Obtener una pregunta aleatoria de la base de datos
         $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
 
-        if($pregunta == null){
+        if ($pregunta == null) {
             $data = array(
                 "error" => "No se pudieron encontrar preguntas"
             );
 
             $this->renderer->render('partidaFinalizada', $data);
-            return;
+            exit();
         }
         array_push($_SESSION['preguntasRealizadas'], $pregunta[0]['id_pregunta']);
         $_SESSION['idPreguntaActual'] = $pregunta[0]['id_pregunta'];
-
-
 
         if (!$pregunta) {
             // No se obtuvo ninguna pregunta
@@ -55,7 +54,7 @@ class PartidaController
                 'error' => 'No hay mas preguntas.'
             ];
             $this->renderer->render('partida', $data);
-            return;
+            exit();
         }
 
         $puntaje = $this->model->obtenerPuntaje($_SESSION['user_data']['id_usuario']);
@@ -96,6 +95,11 @@ class PartidaController
 
     public function verificarRespuesta()
     {
+        if (strtotime(date('Y-m-d H:i:s')) - $_SESSION['gameStart'] > 12) {
+           echo("timeout");
+            exit();
+        }
+
         // Obtener la respuesta seleccionada por el usuario
         $respuestaUsuario = $_POST['respuesta'];
 
@@ -163,12 +167,11 @@ class PartidaController
 
     public function preguntaAleatoria()
     {
-
         unset($_SESSION["GameTimer"]);
 
         $puntaje = $this->model->obtenerPuntaje($_SESSION['user_data']['id_usuario']);
         $pregunta = $this->model->obtenerPreguntaAleatoria($_SESSION['preguntasRealizadas'], $_SESSION['user_data']['id_usuario']);
-        if(empty($pregunta)){
+        if (empty($pregunta)) {
             echo 'ERROR_NMQ';
             exit();
         }
@@ -199,10 +202,7 @@ class PartidaController
         $data = [
             'GameStatus' => $this->model->checkTimer()
         ];
- 
-       echo json_encode($data);
+
+        echo json_encode($data);
     }
-
-
-
 }

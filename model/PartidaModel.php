@@ -24,6 +24,7 @@ class PartidaModel
 
         $result = $this->database->query($query);
 
+
         $result[0]['id_categoria'] ?? null;
 
         if (array_key_exists(0, $result)) {
